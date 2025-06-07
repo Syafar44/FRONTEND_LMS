@@ -1,0 +1,74 @@
+import {
+  CiBookmark,
+  CiShoppingTag,
+  CiViewList,
+  CiWallet,
+} from "react-icons/ci";
+
+const SIDEBAR_ADMIN = [
+  {
+    key: "kajian online",
+    label: "Kajian Online",
+    href: "/admin/kajian-online",
+    icon: <CiBookmark />,
+  },
+  {
+    key: "aktivitas",
+    label: "Aktivitas",
+    href: "/admin/aktivitas",
+    icon: <CiWallet />,
+  },
+];
+
+const SIDEBAR_MEMBER = [
+  {
+    key: "kajian online",
+    label: "Kajian Online",
+    href: "/member/kajian-online",
+    icon: <CiBookmark />,
+  },
+];
+
+const SUB_SIDBAR_MEMBER = [
+  {
+    key: "core kompetensi",
+    label: "Core Competency",
+    href: "/member/kelas-kompetensi/core",
+    icon: <CiViewList size={20} />,
+  },
+  {
+    key: "functional kompetensi",
+    label: "Functional Competency",
+    href: "/member/kelas-kompetensi/functional",
+    icon: <CiViewList size={20}/>,
+  },
+  {
+    key: "managerial kompetensi",
+    label: "Managerial Competency",
+    href: "/member/kelas-kompetensi/managerial",
+    icon: <CiViewList size={20}/>,
+  },
+]
+
+const SUB_SIDBAR_ADMIN = [
+  {
+    key: "core kompetensi",
+    label: "Core Competency",
+    href: "/admin/kelas-kompetensi/core",
+    icon: <CiViewList size={20} />,
+  },
+  {
+    key: "functional kompetensi",
+    label: "Functional Competency",
+    href: "/admin/kelas-kompetensi/functional",
+    icon: <CiViewList size={20}/>,
+  },
+  {
+    key: "managerial kompetensi",
+    label: "Managerial Competency",
+    href: "/admin/kelas-kompetensi/managerial",
+    icon: <CiViewList size={20}/>,
+  },
+]
+
+export { SIDEBAR_ADMIN, SIDEBAR_MEMBER, SUB_SIDBAR_ADMIN, SUB_SIDBAR_MEMBER };

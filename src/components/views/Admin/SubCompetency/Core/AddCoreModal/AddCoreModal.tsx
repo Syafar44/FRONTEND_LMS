@@ -32,14 +32,6 @@ const AddCoreModal = (props: PropTypes) => {
     isPendingMutateAddCore,
     isSuccessMutateAddCore,
 
-    preview,
-    handleUpload,
-    isPendingMutateUploadFile,
-    handleDelete,
-    isPendingMutateDeleteFile,
-    handleOnClose,
-
-    uploadProgress
   } = useAddCoreModal(competencyId);
 
   useEffect(() => {
@@ -49,37 +41,8 @@ const AddCoreModal = (props: PropTypes) => {
     }
   }, [isSuccessMutateAddCore]);
 
-  const disabledSubmit =
-    isPendingMutateAddCore ||
-    isPendingMutateUploadFile ||
-    isPendingMutateDeleteFile;
+  const disabledSubmit = isPendingMutateAddCore
 
-  const list_access = [
-    {
-      key: "all-team",
-      value: "All Team",
-    },
-    {
-      key: "outlet",
-      value: "Outlet",
-    },
-    {
-      key: "gerai",
-      value: "Gerai",
-    },
-    {
-      key: "produksi",
-      value: "Produksi",
-    },
-    {
-      key: "office",
-      value: "Office",
-    },
-    {
-      key: "manager",
-      value: "Manager",
-    },
-  ]
 
   return (
     <Modal
@@ -87,9 +50,6 @@ const AddCoreModal = (props: PropTypes) => {
       isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
-      onClose={() => {
-        handleOnClose(onClose)
-      }}
     >
       <form onSubmit={handleSubmitForm(handleAddCore)}>
         <ModalContent className="m-4">
@@ -127,23 +87,19 @@ const AddCoreModal = (props: PropTypes) => {
                   />
                 )}
               />
-              <p className="text-sm font-bold">Unggah Video</p>
               <Controller
                 name="video"
                 control={control}
-                render={({ field: { onChange, value, ...field } }) => (
-                  <InputFile
+                render={({ field }) => (
+                  <Input
                     {...field}
-                    onDelete={() => handleDelete(onChange)}
-                    onUpload={(files) => handleUpload(files, onChange)}
-                    isUploading={isPendingMutateUploadFile}
-                    isDeleting={isPendingMutateDeleteFile}
-                    isInvalid={errors.image !== undefined}
-                    errorMessage={errors.image?.message}
-                    isDropable
-                    isVideo={true}
-                    uploadProgress={uploadProgress}
-                    preview={typeof preview === "string" ? preview : ""}
+                    autoFocus
+                    label="Link Video"
+                    variant="bordered"
+                    type="text"
+                    isInvalid={errors.video !== undefined}
+                    errorMessage={errors.video?.message}
+                    className="mb-2"
                   />
                 )}
               />
@@ -155,7 +111,7 @@ const AddCoreModal = (props: PropTypes) => {
               className="text-black"
               variant="flat"
               onPress={() => {
-                handleOnClose(onClose)
+                onClose()
               }}
               disabled={disabledSubmit}
             >

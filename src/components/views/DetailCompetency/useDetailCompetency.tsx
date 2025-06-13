@@ -1,0 +1,80 @@
+import useChangeUrl from "@/hooks/useChangeUrl"
+import competencyServices from "@/services/competency.service"
+import subCompetencyServices from "@/services/subCompetency.service"
+import { useQuery } from "@tanstack/react-query"
+import { useRouter } from "next/router"
+import { useState } from "react"
+
+const useDetailCompetency = () => {
+    const { query } = useRouter()
+    const { currentLimit, currentPage, currentSearch } = useChangeUrl();
+    const [ subCompetency, setSubCompetency ] = useState("")
+
+    const getCompetencyById = async () => {
+        const res = await competencyServices.getCompetencyById(`${query.id}`)
+        const { data } = res
+        return data.data
+    }
+
+    const { 
+        data: dataCompetency, 
+        isPending: isPendingDataCompetency 
+    } = useQuery({
+        queryKey: ["getCompetencyById", query.id],
+        queryFn: getCompetencyById,
+        enabled: !!query.id,
+    })
+
+    const getSubCompetencyByCompetency = async () => {
+        let params = `limit=${currentLimit}&page=${currentPage}`;
+        if (currentSearch) {
+            params += `&search=${currentSearch}`;
+        }
+        const res = await subCompetencyServices.getSubCompetencyByCompetency(`${query.id}`, params)
+        const { data } = res
+        const sortedData = data.data.sort((a: { createdAt: string }, b: { createdAt: string }) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        return sortedData;
+    }
+
+    const {
+        data: competency,
+        isPending: isPendingCompetency, 
+    } = useQuery({
+        queryKey: ["getSubCompetencyByCompetency", query.id],
+        queryFn: getSubCompetencyByCompetency,
+        enabled:!!query.id 
+    })
+
+    const firstId = competency?.[0]?._id
+
+    const getSubCompetencyById = async () => {
+        const res = await subCompetencyServices.getSubCompetencyById(
+            subCompetency ? `${subCompetency}` : `${firstId}`
+        );
+        const { data } = res
+        return data.data
+    }
+
+    const {
+        data: subCompetencyById,
+        isPending: isPendingSubCompetencyById,
+    } = useQuery({
+        queryKey: ["getSubCompetencyById", subCompetency, firstId],
+        queryFn: getSubCompetencyById,
+        enabled: !!subCompetency || !!firstId,
+    })
+
+    return {
+        competency,
+        isPendingCompetency,
+        dataCompetency,
+        isPendingDataCompetency,
+
+        subCompetencyById,
+        isPendingSubCompetencyById,
+
+        setSubCompetency,
+    }
+}
+
+export default useDetailCompetency

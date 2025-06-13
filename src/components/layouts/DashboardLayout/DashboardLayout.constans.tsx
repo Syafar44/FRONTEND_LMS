@@ -1,6 +1,5 @@
 import {
   CiBookmark,
-  CiShoppingTag,
   CiViewList,
   CiWallet,
 } from "react-icons/ci";
@@ -18,13 +17,19 @@ const SIDEBAR_ADMIN = [
     href: "/admin/aktivitas",
     icon: <CiWallet />,
   },
+  {
+    key: "administrasi",
+    label: "Administrasi",
+    href: "/admin/administrasi",
+    icon: <CiWallet />,
+  },
 ];
 
 const SIDEBAR_MEMBER = [
   {
     key: "kajian online",
     label: "Kajian Online",
-    href: "/member/kajian-online",
+    href: "/kajian-online",
     icon: <CiBookmark />,
   },
 ];
@@ -33,19 +38,19 @@ const SUB_SIDBAR_MEMBER = [
   {
     key: "core kompetensi",
     label: "Core Competency",
-    href: "/member/kelas-kompetensi/core",
+    href: "/kelas-kompetensi/core",
     icon: <CiViewList size={20} />,
   },
   {
     key: "functional kompetensi",
     label: "Functional Competency",
-    href: "/member/kelas-kompetensi/functional",
+    href: "/kelas-kompetensi/functional",
     icon: <CiViewList size={20}/>,
   },
   {
     key: "managerial kompetensi",
     label: "Managerial Competency",
-    href: "/member/kelas-kompetensi/managerial",
+    href: "/kelas-kompetensi/managerial",
     icon: <CiViewList size={20}/>,
   },
 ]

@@ -1,6 +1,4 @@
 import { ToasterContext } from "@/contexts/ToasterContext";
-import useMediaHandling from "@/hooks/useMediaHandling";
-import competencyServices from "@/services/competency.service";
 import subCompetencyServices from "@/services/subCompetency.service";
 import { ISubCompetency } from "@/types/Competency";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,57 +11,24 @@ const schema = yup.object().shape({
   byCompetency: yup.string(),
   title: yup.string().required("Please input title"),
   description: yup.string().required("Please input description"),
-  video: yup.mixed<FileList | string>().required("Please input video"),
-  image: yup.mixed<FileList | string>().required("Please input image"),
+  video: yup.string(),
 });
 
 const useAddCoreModal = (competencyId: string) => {
   const { setToaster } = useContext(ToasterContext);
-  const {
-    handleUploadFile,
-    isPendingMutateUploadFile,
-    handleDeleteFile,
-    isPendingMutateDeleteFile,
-    uploadProgress
-  } = useMediaHandling();
 
   const {
     control,
     handleSubmit: handleSubmitForm,
     formState: { errors },
     reset,
-    watch,
-    getValues,
-    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const preview= watch("image");
-  const fileUrl= getValues("image");
-
-  const handleUpload= (
-    files: FileList,
-    onChange: (files: FileList | undefined) => void,
-  ) => {
-    handleUploadFile(files, onChange, (fileUrl: string | undefined) => {
-      if (fileUrl) {
-        setValue("image", fileUrl);
-      }
-    });
-  };
-
-  const handleDelete= (
-    onChange: (files: FileList | undefined) => void,
-  ) => {
-    handleDeleteFile(fileUrl, () => onChange(undefined));
-  };
-
-  const handleOnClose= (onClose: () => void) => {
-    handleDeleteFile(fileUrl, () => {
-      reset();
-      onClose();
-    });
+   const extractDriveId = (url: string): string | null => {
+    const match = url.match(/(?:drive\.google\.com\/.*?\/d\/)([^\/?]+)/);
+    return match ? match[1] : null;
   };
 
   const addCore = async (payload: ISubCompetency) => {
@@ -95,8 +60,11 @@ const useAddCoreModal = (competencyId: string) => {
   });
 
   const handleAddCore = (data: ISubCompetency) => {
+    const videoId = extractDriveId(`${data.video}`);
+
     const payload = {
       ...data, 
+      video: `https://drive.google.com/file/d/${videoId}/preview`,
       byCompetency: competencyId,
     }
     mutateAddCore(payload)
@@ -112,15 +80,6 @@ const useAddCoreModal = (competencyId: string) => {
     handleAddCore,
     isPendingMutateAddCore,
     isSuccessMutateAddCore,
-
-    preview,
-    handleUpload,
-    isPendingMutateUploadFile,
-    handleDelete,
-    isPendingMutateDeleteFile,
-    handleOnClose,
-
-    uploadProgress,
   };
 };
 

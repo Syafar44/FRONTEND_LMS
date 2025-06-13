@@ -7,6 +7,14 @@ const nextConfig = {
         hostname: "drive.google.com",
         protocol: "https",
       },
+      {
+        hostname: "ui-avatars.com",
+        protocol: "https",
+      },
+      {
+        hostname: "jmp.sh",
+        protocol: "https",
+      },
     ],
   },
 };

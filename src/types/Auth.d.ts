@@ -3,7 +3,7 @@ import { JWT } from "next-auth/jwt";
 
 interface IRegister {
   fullName: string;
-  username: string;
+  access: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -33,11 +33,14 @@ interface JWTExtended extends JWT {
 
 interface IProfile {
   _id?: string;
-  email?: string;
   fullName?: string;
-  profilePicture?: string | FileList;
+  email?: string;
+  access?: string;
   role?: string;
-  username?: string;
+}
+
+interface IUpdatePasswordByAdmin {
+  newPassword: string;
 }
 
 interface IUpdatePassword {
@@ -55,4 +58,5 @@ export type {
   ILogin,
   IProfile,
   IUpdatePassword,
+  IUpdatePasswordByAdmin,
 };

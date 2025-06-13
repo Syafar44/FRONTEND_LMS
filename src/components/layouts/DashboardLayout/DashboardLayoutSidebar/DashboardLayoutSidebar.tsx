@@ -15,14 +15,16 @@ interface SidebarItem {
 }
 
 interface PropTypes {
+  type: string
   sidebarItems: SidebarItem[];
   subSidebarItems?: SidebarItem[];
   isOpen: boolean;
 }
 
 const DashboardLayoutSidebar = (props: PropTypes) => {
-  const { sidebarItems, subSidebarItems, isOpen } = props;
+  const { sidebarItems, subSidebarItems, isOpen, type } = props;
   const router = useRouter();
+  console.log("isopen", isOpen)
   return (
     <div
       className={cn(
@@ -45,14 +47,14 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
           <ListboxItem
             key={"dashboard"}
             className={cn("my-1 h-12 text-2xl", {
-              "bg-primary ": router.pathname.startsWith("/admin/dashboard"),
+              "bg-primary ": router.pathname.startsWith(type === "admin" ? "/admin/dashboard" : "/"),
             })}
             startContent={<CiViewList />}
             textValue={"Dashboard"}
             aria-labelledby={"Dashboard"}
             aria-describedby={"Dashboard"}
             as={Link}
-            href={"/admin/dashboard"}
+            href={type === "admin" ? "/admin/dashboard" : "/"}
           >
             <p className="text-small">{"Dashboard"}</p>
           </ListboxItem>
@@ -75,7 +77,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
                   key={item.key}
                   fullWidth
                   variant="light"
-                  onClick={() => router.push(`${item.href}`)}
+                  onPress={() => router.push(`${item.href}`)}
                   className={cn("w-full rounded-md flex justify-start mb-2", {
                     "bg-primary ": router.pathname.startsWith(`${item.href}`),
                   })}
@@ -110,10 +112,10 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
       </div>
       <div className="flex items-center p-1">
         <Button
-          color="danger"
+          color="primary"
           fullWidth
           variant="light"
-          className="flex justify-start rounded-lg px-2 py-1.5"
+          className="flex justify-start rounded-lg px-2 py-1.5 text-black"
           size="lg"
           onPress={() => signOut()}
         >

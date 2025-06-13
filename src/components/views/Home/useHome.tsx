@@ -1,56 +1,47 @@
-// import {
-//   LIMIT_BANNER,
-//   LIMIT_CATEGORY,
-//   LIMIT_EVENT,
-//   PAGE_DEFAULT,
-// } from "@/constants/list.constants";
-// import categoryServices from "@/services/category.service";
-// import { useQuery } from "@tanstack/react-query";
+import authServices from "@/services/auth.service";
+import kajianServices from "@/services/kajian.service";
+import { useQuery } from "@tanstack/react-query";
 
-// const useHome = () => {
-//   const getCategories = async () => {
-//     let params = `limit=${LIMIT_CATEGORY}&page=${PAGE_DEFAULT}`;
-//     const res = await categoryServices.getCategories(params);
-//     const { data } = res;
-//     return data;
-//   };
+const useHome = () => {
 
-//   const { data: dataCategories, isLoading: isLoadingCategories } = useQuery({
-//     queryKey: ["Categories"],
-//     queryFn: getCategories,
-//   });
+  const getUser = async () => {
+    const res = await authServices.getProfile()
+    const { data } = res;
+    return data;
+  }
 
-//   const getEvents = async (params: string) => {
-//     const res = await eventServices.getEvents(params);
-//     const { data } = res;
-//     return data;
-//   };
+  const {
+    data: dataUser,
+    isPending: isPendingUser,
+  } = useQuery({
+    queryKey: ["User"],
+    queryFn: () => getUser(),
+    enabled: true,
+  })
 
-//   const currentEventQuery = `limit=${LIMIT_EVENT}&page=${PAGE_DEFAULT}&isPublish=true`;
+  const getKajian = async () => {
+    const res = await kajianServices.getKajian()
+    const { data } = res;
+    const selectedData = data?.data[0]
+    return selectedData;
+  }
 
-//   const { data: dataFeaturedEvents, isLoading: isLoadingFeaturedEvents } =
-//     useQuery({
-//       queryKey: ["FeaturedEvents"],
-//       queryFn: () => getEvents(`${currentEventQuery}&isFeatured=true`),
-//     });
+  const {
+    data: dataKajian,
+    isPending: isPendingKajian,
+  } = useQuery({
+    queryKey: ["Kajian"],
+    queryFn: () => getKajian(),
+    enabled: true,
+  })
 
-//   const { data: dataLatestEvents, isLoading: isLoadingLatestEvents } = useQuery(
-//     {
-//       queryKey: ["LatestEvents"],
-//       queryFn: () => getEvents(currentEventQuery),
-//     },
-//   );
+  return {
+    dataUser,
+    isPendingUser,
 
-//   return {
-//     dataBanners,
-//     isLoadingBanners,
-//     dataFeaturedEvents,
-//     isLoadingFeaturedEvents,
-//     dataLatestEvents,
-//     isLoadingLatestEvents,
-//     dataCategories,
-//     isLoadingCategories,
-//   };
-// };
+    dataKajian,
+    isPendingKajian,
+  };
+};
 
-// export default useHome;
+export default useHome;

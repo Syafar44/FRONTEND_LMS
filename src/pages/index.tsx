@@ -1,9 +1,11 @@
+import DashboardLayout from "@/components/layouts/DashboardLayout";
+import Home from "@/components/views/Home";
+
 const HomePage = () => {
   return (
-    <div>
-      {/* <Home /> */}
-      <div>HomePage</div>
-    </div>
+    <DashboardLayout type="user" title="Dashabord">
+      <Home />
+    </DashboardLayout>
   );
 };
 

@@ -1,5 +1,5 @@
 import { cn } from "@/utils/cn";
-import { Button, Progress, Spinner } from "@heroui/react";
+import { Button, Spinner } from "@heroui/react";
 import Image from "next/image";
 import {
   ChangeEvent,
@@ -41,7 +41,6 @@ const InputFile = (props: PropTypes) => {
     preview,
 
     isVideo = false,
-    uploadProgress,
   } = props;
   const drop = useRef<HTMLLabelElement>(null);
   const dropzoneId = useId();
@@ -80,8 +79,6 @@ const InputFile = (props: PropTypes) => {
       onUpload(files);
     }
   };
-
-  console.log("progress", uploadProgress);
 
   return (
     <div>
@@ -137,23 +134,14 @@ const InputFile = (props: PropTypes) => {
         )}
         {isUploading && (
           <div className="flex flex-col items-center justify-center p-5 w-full">
-            {uploadProgress !== null && (
-              <Progress
-                aria-label="Downloading..."
-                className="w-full"
-                color="warning"
-                showValueLabel={true}
-                size="md"
-                value={uploadProgress}
-              />
-            )}
+            <Spinner size="md" color="primary" />
           </div>
         )}
         <input
           name={name}
           type="file"
           className="hidden"
-          accept="file/*"
+          accept="image/*"
           id={`dropzone-file-${dropzoneId}`}
           onChange={handleOnUpload}
           disabled={preview !== ""}

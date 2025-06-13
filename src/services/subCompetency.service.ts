@@ -10,6 +10,7 @@ const subCompetencyServices = {
   updateSubCompetency: (id: string, payload: ICompetency) =>
     instance.put(`${endpoint.SUB_COMPETENCY}/${id}`, payload),
   getSubCompetencyByCompetency: (byCompetencyId: string, params: string) => instance.get(`${endpoint.SUB_COMPETENCY}/${byCompetencyId}/competencyId?${params}`),
+  getSubCompetencyBySlug: (slug: string) => instance.get(`${endpoint.SUB_COMPETENCY}/${slug}/slug`),
 };
 
 export default subCompetencyServices;

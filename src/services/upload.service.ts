@@ -8,7 +8,7 @@ const uploadServices = {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-      timeout: 600000,
+      timeout: 30000,
       onUploadProgress: (progressEvent) => {
           if (onUploadProgress && progressEvent.total) {
             const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);

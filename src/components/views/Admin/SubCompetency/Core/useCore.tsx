@@ -64,6 +64,8 @@ const useCore = () => {
 
     selectedId,
     setSelectedId,
+
+    slug,
   };
 };
 

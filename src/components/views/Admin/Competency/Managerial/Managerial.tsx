@@ -69,7 +69,7 @@ const Managerial = () => {
         <DataTable
           buttonTopContentLabel="Create Managerial"
           columns={COLUMN_LISTS_MANAGERIAL}
-          data={dataManagerial?.data?.data || []}
+          data={dataManagerial?.data || []}
           emptyContent="Managerial is empty"
           isLoading={isLoadingManagerial || isRefetchingManagerial}
           onClickButtonTopContent={addManagerialModal.onOpen}

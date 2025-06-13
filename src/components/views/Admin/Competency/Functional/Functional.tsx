@@ -37,10 +37,6 @@ const Functional = () => {
       const cellValue = functional[columnKey as keyof typeof functional];
 
       switch (columnKey) {
-        case "icon":
-          return (
-            <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
-          );
         case "actions":
           return (
             <DropdownAction
@@ -69,7 +65,7 @@ const Functional = () => {
         <DataTable
           buttonTopContentLabel="Create Functional"
           columns={COLUMN_LISTS_FUNCTIONAL}
-          data={dataFunctional?.data?.data || []}
+          data={dataFunctional?.data|| []}
           emptyContent="Functional is empty"
           isLoading={isLoadingFunctional || isRefetchingFunctional}
           onClickButtonTopContent={addFunctionalModal.onOpen}

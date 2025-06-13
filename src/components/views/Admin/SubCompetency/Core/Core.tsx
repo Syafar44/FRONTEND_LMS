@@ -21,6 +21,8 @@ const Core = () => {
 
     selectedId,
     setSelectedId,
+
+    slug,
   } = useCore()
 
   const addCoreModal = useDisclosure();
@@ -38,18 +40,14 @@ const Core = () => {
       const cellValue = core[columnKey as keyof typeof core];
 
       switch (columnKey) {
-        case "icon":
-          return (
-            <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
-          );
         case "actions":
           return (
             <DropdownAction
               onPressButtonDetail={() =>
-                push(`/admin/kelas-kompetensi/core/${core.slug}`)
+                push(`/admin/kelas-kompetensi/core/kuis/${core._id}`)
               }
               onPressButtonUpdate={() =>
-                push(`/admin/kelas-kompetensi/core/${core._id}`)
+                push(`/admin/kelas-kompetensi/core/update/${core._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${core._id}`);
@@ -63,8 +61,6 @@ const Core = () => {
     },
     [push],
   );
-
-  console.log(dataSubCore)
 
   return (
     <section>

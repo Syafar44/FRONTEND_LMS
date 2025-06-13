@@ -12,8 +12,18 @@ interface ISubCompetency {
   byCompetency?: string;
   title?: string;
   description?: string;
-  video?: string | FileList;
-  image?: string | FileList;
+  video?: string 
 }
 
-export type { ICompetency, ISubCompetency };
+interface IKuisCompetency {
+  _id?: string;
+  bySubCompetency?: string;
+  question?: string;
+  option1?: string;
+  option2?: string;
+  option3?: string;
+  option4?: string;
+  optionValid?: number
+}
+
+export type { ICompetency, ISubCompetency, IKuisCompetency };

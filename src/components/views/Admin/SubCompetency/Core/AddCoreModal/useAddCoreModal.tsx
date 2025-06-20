@@ -26,8 +26,10 @@ const useAddCoreModal = (competencyId: string) => {
     resolver: yupResolver(schema),
   });
 
-   const extractDriveId = (url: string): string | null => {
-    const match = url.match(/(?:drive\.google\.com\/.*?\/d\/)([^\/?]+)/);
+  const extractYouTubeId = (url: string): string | null => {
+    const match = url.match(
+      /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&#?/]+)/,
+    );
     return match ? match[1] : null;
   };
 
@@ -60,17 +62,15 @@ const useAddCoreModal = (competencyId: string) => {
   });
 
   const handleAddCore = (data: ISubCompetency) => {
-    const videoId = extractDriveId(`${data.video}`);
+    const videoId = extractYouTubeId(`${data.video}`);
 
     const payload = {
       ...data, 
-      video: `https://drive.google.com/file/d/${videoId}/preview`,
+      video: `${videoId}`,
       byCompetency: competencyId,
     }
     mutateAddCore(payload)
   };
-
-  console.log(errors)
 
   return {
     control,

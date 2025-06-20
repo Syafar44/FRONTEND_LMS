@@ -46,9 +46,9 @@ const useCore = () => {
     isRefetching: isRefetchingSubCore,
     refetch: refetchSubCore,
   } = useQuery({
-    queryKey: ["SubCompetency"],
+    queryKey: ["SubCompetency", dataCore?._id],
     queryFn: () => getAllSubCompetencyByCompetency(),
-    enabled: router.isReady && !!dataCore?._id,
+    enabled: !!dataCore?._id,
   });
 
   return {

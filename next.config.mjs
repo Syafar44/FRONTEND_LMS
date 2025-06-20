@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "drive.google.com",
+        hostname: "img.youtube.com",
         protocol: "https",
       },
       {
@@ -12,7 +12,7 @@ const nextConfig = {
         protocol: "https",
       },
       {
-        hostname: "jmp.sh",
+        hostname: "drive.google.com",
         protocol: "https",
       },
     ],

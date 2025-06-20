@@ -11,7 +11,6 @@ import {
 } from "@heroui/react";
 import useAddCoreModal from "./useAddCoreModal";
 import { Controller } from "react-hook-form";
-import InputFile from "@/components/ui/InputFile";
 import { useEffect } from "react";
 
 interface PropTypes {

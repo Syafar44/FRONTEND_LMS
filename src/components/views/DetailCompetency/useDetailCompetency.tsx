@@ -1,14 +1,19 @@
 import useChangeUrl from "@/hooks/useChangeUrl"
 import competencyServices from "@/services/competency.service"
+import kuisCompetencyServices from "@/services/kuisCompetency.service"
+import scoreServices from "@/services/score.service"
 import subCompetencyServices from "@/services/subCompetency.service"
+import videoServices from "@/services/video.service"
+import { IScore } from "@/types/Score"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const useDetailCompetency = () => {
     const { query } = useRouter()
     const { currentLimit, currentPage, currentSearch } = useChangeUrl();
     const [ subCompetency, setSubCompetency ] = useState("")
+    const [isView, setIsView] = useState(false)
 
     const getCompetencyById = async () => {
         const res = await competencyServices.getCompetencyById(`${query.id}`)
@@ -46,6 +51,7 @@ const useDetailCompetency = () => {
     })
 
     const firstId = competency?.[0]?._id
+    console.log(subCompetency)
 
     const getSubCompetencyById = async () => {
         const res = await subCompetencyServices.getSubCompetencyById(
@@ -64,6 +70,43 @@ const useDetailCompetency = () => {
         enabled: !!subCompetency || !!firstId,
     })
 
+    const getHistoryKuis = async () => {
+        const res = await scoreServices.getScoreAll()
+        const { data } = res
+        const filterLulus = data.data.filter((item: IScore) => item.isPass === true )
+        return filterLulus[0]
+    }
+
+    const {
+        data: historyKuis,
+        isPending: isPendingHistoryKuis,
+    } = useQuery({
+        queryKey: ["getHistoryKuis", subCompetencyById?._id, subCompetency],
+        queryFn: getHistoryKuis,
+        enabled: !!subCompetencyById?._id,
+    })
+
+    const getVideoView = async ({ queryKey }: { queryKey: any }) => {
+        const [, subId] = queryKey;
+        const res = await videoServices.getVideoBySubCompetency(subId);
+        const { data } = res;
+        return data.data;
+    };
+
+    const activeSubId = subCompetency || firstId;
+
+    const { data: dataVideo, isPending: isPendingVideo, refetch: refetchVideo } = useQuery({
+        queryKey: ["getVideoView", activeSubId],
+        queryFn: getVideoView,
+        enabled: !!activeSubId,
+    });
+
+    useEffect(()=> {
+        if(subCompetency) {
+            refetchVideo()
+        }
+    }, [subCompetency])
+
     return {
         competency,
         isPendingCompetency,
@@ -73,7 +116,17 @@ const useDetailCompetency = () => {
         subCompetencyById,
         isPendingSubCompetencyById,
 
+        historyKuis,
+        isPendingHistoryKuis,
+
+        subCompetency,
         setSubCompetency,
+
+        isView,
+        setIsView,
+
+        dataVideo,
+        isPendingVideo,
     }
 }
 

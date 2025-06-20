@@ -75,6 +75,26 @@ const Home = () => {
                     </SelectItem>
                 ))}
             </Select>
+            <section className="grid grid-cols-3 gap-2">
+                <div className="border py-5 rounded-xl flex flex-col items-center gap-2">
+                    <h3 className="text-xs">
+                        Kompetensi Wajib
+                    </h3>
+                    <p className="text-3xl text-primary">3</p>
+                </div>
+                <div className="border py-5 rounded-xl flex flex-col items-center gap-2">
+                    <h3 className="text-xs">
+                        Sedang Berjalan
+                    </h3>   
+                    <p className="text-3xl text-primary">3</p>
+                </div>
+                <div className="border py-5 rounded-xl flex flex-col items-center gap-2">
+                    <h3 className="text-xs">
+                        Sertifikat
+                    </h3>
+                    <p className="text-3xl text-primary">3</p>
+                </div>
+            </section>
             <section className="grid gap-3">
                 <h3 className="font-bold text-lg">Lanjutkan Belajar</h3>
                 <div className="flex justify-center items-center h-[200px]">

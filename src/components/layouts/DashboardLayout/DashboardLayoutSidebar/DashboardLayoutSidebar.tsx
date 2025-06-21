@@ -77,7 +77,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
                   key={item.key}
                   fullWidth
                   variant="light"
-                  onPress={() => router.push(`${item.href}`)}
+                  onPress={() => window.location.href = item.href}
                   className={cn("w-full rounded-md flex justify-start mb-2", {
                     "bg-primary ": router.pathname.startsWith(`${item.href}`),
                   })}

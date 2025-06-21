@@ -1,6 +1,5 @@
 import useChangeUrl from "@/hooks/useChangeUrl"
 import competencyServices from "@/services/competency.service"
-import kuisCompetencyServices from "@/services/kuisCompetency.service"
 import scoreServices from "@/services/score.service"
 import subCompetencyServices from "@/services/subCompetency.service"
 import videoServices from "@/services/video.service"
@@ -51,7 +50,6 @@ const useDetailCompetency = () => {
     })
 
     const firstId = competency?.[0]?._id
-    console.log(subCompetency)
 
     const getSubCompetencyById = async () => {
         const res = await subCompetencyServices.getSubCompetencyById(
@@ -86,26 +84,30 @@ const useDetailCompetency = () => {
         enabled: !!subCompetencyById?._id,
     })
 
-    const getVideoView = async ({ queryKey }: { queryKey: any }) => {
-        const [, subId] = queryKey;
-        const res = await videoServices.getVideoBySubCompetency(subId);
-        const { data } = res;
-        return data.data;
-    };
+    const getVideo = async() => {
+        const id = subCompetency || firstId
+        const res = await videoServices.getVideoBySubCompetency(`${id}`)
+        const { data } = res
+        return data.data
+    }
 
-    const activeSubId = subCompetency || firstId;
-
-    const { data: dataVideo, isPending: isPendingVideo, refetch: refetchVideo } = useQuery({
-        queryKey: ["getVideoView", activeSubId],
-        queryFn: getVideoView,
-        enabled: !!activeSubId,
-    });
+    const {
+        data: dataVideo,
+        isPending: isPendingVideo,
+        refetch: refetchVideo,
+    } = useQuery({
+        queryKey: ["getVideo", subCompetencyById?._id, subCompetency],
+        queryFn: getVideo,
+        enabled: !!subCompetencyById?._id,
+    })
 
     useEffect(()=> {
-        if(subCompetency) {
-            refetchVideo()
-        }
-    }, [subCompetency])
+        if(dataVideo !== null) {
+            setIsView(true)
+        } else (
+            setIsView(false)
+        )
+    }, [dataVideo])
 
     return {
         competency,

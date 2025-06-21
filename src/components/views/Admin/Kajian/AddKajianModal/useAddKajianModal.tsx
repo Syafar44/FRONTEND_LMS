@@ -1,8 +1,6 @@
 import { ToasterContext } from "@/contexts/ToasterContext";
 import useMediaHandling from "@/hooks/useMediaHandling";
-import competencyServices from "@/services/competency.service";
 import kajianServices from "@/services/kajian.service";
-import { ICompetency } from "@/types/Competency";
 import { IKajian } from "@/types/Kajian";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
@@ -25,6 +23,13 @@ const useAddKajianModal = () => {
     handleDeleteFile,
     isPendingMutateDeleteFile,
   } = useMediaHandling();
+
+  const extractYouTubeId = (url: string): string | null => {
+    const match = url.match(
+      /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&#?/]+)/,
+    );
+    return match ? match[1] : null;
+  };
 
   const {
     control,
@@ -93,7 +98,14 @@ const useAddKajianModal = () => {
     },
   });
 
-  const handleAddKajian = (data: IKajian) => mutateAddKajian(data);
+  const handleAddKajian = (data: IKajian) => {
+    const videoId = extractYouTubeId(`${data.video}`);
+    const payload = {
+      ...data,
+      video: `${videoId}`
+    }
+    mutateAddKajian(payload)
+  };
 
   return {
     control,

@@ -27,7 +27,6 @@ const YouTubeWithControls = (props: PropTypes) => {
         setIsPlay,
         hasWatchedToEnd,
         containerRef,
-
     } = useYouTubeWithControls(selectionId)
 
     return (
@@ -74,7 +73,7 @@ const YouTubeWithControls = (props: PropTypes) => {
                 {isPlay && (
                     <Button onPress={handleFullscreen} variant="ghost" className="shadow-lg"><GoScreenFull size={20} /></Button>
                 )}
-                {(hasWatchedToEnd || isView) && (
+                {(isView) && (
                     <Button 
                         className="text-primary bg-gray-700" 
                         isDisabled={isPending}

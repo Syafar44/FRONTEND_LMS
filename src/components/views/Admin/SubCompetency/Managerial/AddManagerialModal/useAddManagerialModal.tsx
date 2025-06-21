@@ -26,10 +26,12 @@ const useAddManagerialModal = (competencyId: string) => {
     resolver: yupResolver(schema),
   });
 
-   const extractDriveId = (url: string): string | null => {
-    const match = url.match(/(?:drive\.google\.com\/.*?\/d\/)([^\/?]+)/);
-    return match ? match[1] : null;
-  };
+    const extractYouTubeId = (url: string): string | null => {
+      const match = url.match(
+        /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&#?/]+)/,
+      );
+      return match ? match[1] : null;
+    };
 
   const addManagerial = async (payload: ISubCompetency) => {
     const res = await subCompetencyServices.addSubCompetency({
@@ -60,11 +62,11 @@ const useAddManagerialModal = (competencyId: string) => {
   });
 
   const handleAddManagerial = (data: ISubCompetency) => {
-    const videoId = extractDriveId(`${data.video}`);
+    const videoId = extractYouTubeId(`${data.video}`);
 
     const payload = {
       ...data, 
-      video: `https://drive.google.com/file/d/${videoId}/preview`,
+      video: `${videoId}`,
       byCompetency: competencyId,
     }
     mutateAddManagerial(payload)

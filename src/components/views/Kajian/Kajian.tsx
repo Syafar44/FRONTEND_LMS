@@ -1,31 +1,41 @@
-import CardCourse from "@/components/ui/CardCourse"
+
 import { Input, Pagination, Skeleton } from "@heroui/react"
 import { CiSearch } from "react-icons/ci"
-import useCore from "./useCore"
+import useKajian from "./useKajian"
 import { ICompetency } from "@/types/Competency"
+import CardCourse from "@/components/ui/CardCourse"
 import useChangeUrl from "@/hooks/useChangeUrl"
-import { useEffect } from "react"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
+import { IKajian } from "@/types/Kajian"
+import { IResume } from "@/types/Resume"
+import resumeServices from "@/services/resume.service"
 
-const Core = () => {
+const Kajian = () => {
     const {
-        dataCourse,
-        isPendingCourse,
-    } = useCore()
+        dataKajian,
+        isPendingKajian,
+        dataResume,
+        isPendingResume,
+    } = useKajian()
 
     const {
-    currentPage,
-    handleChangePage,
+        setUrl,
+        currentPage,
+        handleChangePage,
   } = useChangeUrl();
 
     const { isReady } = useRouter();
-    const { setUrl } = useChangeUrl()
 
     useEffect(() => {
         if (isReady) {
           setUrl();
         }
       }, [isReady]);
+
+    const isPending =  isPendingKajian || isPendingResume
+
+    console.log("dataResume", dataResume?.data)
 
     return (
         <div className="grid gap-5">
@@ -37,26 +47,28 @@ const Core = () => {
                 />
             </section>
             <section>
-                {!isPendingCourse ? (
+                {!isPending ? (
                     <div className="grid gap-5 md:grid-cols-3">
-                        {dataCourse?.data.map((course: ICompetency) => {
+                        {dataKajian?.data.map((kajian: IKajian) => {
+                            const resume = dataResume?.data.some((item: IResume) => item.kajian === kajian._id)
+                            console.log("resume", resume)
                             return (
                             <CardCourse
-                                key={course._id}
-                                data={course}
-                                competency="core"
-                                progress={true}
+                                key={kajian._id}
+                                data={kajian}
+                                type="kajian"
+                                isPass={resume}
                             />)
                         })}
                         <div className="flex justify-center md:justify-end">
-                            {dataCourse?.pagination?.totalPages > 1 && (
+                            {dataKajian?.pagination?.totalPages > 1 && (
                                 <Pagination
                                     isCompact
                                     showControls
                                     className="text-black"
                                     color="primary"
                                     page={Number(currentPage)}
-                                    total={dataCourse?.pagination?.totalPages}
+                                    total={dataKajian?.pagination?.totalPages}
                                     onChange={handleChangePage}
                                     loop
                                 />
@@ -71,4 +83,4 @@ const Core = () => {
     )
 }
 
-export default Core
+export default Kajian

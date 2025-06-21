@@ -7,7 +7,8 @@ const endpoint = {
   KUIS_COMPETENCY: "/kuiscompetency",
   KAJIAN: "/kajian",
   SCORE: "/score",
-  VIDEO: "/video"
+  VIDEO: "/video",
+  RESUME: "/resume"
 };
 
 export default endpoint;

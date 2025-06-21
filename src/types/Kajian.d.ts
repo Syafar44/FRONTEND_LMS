@@ -5,6 +5,7 @@ interface IKajian {
   description?: string;
   video?: string 
   image?: string | FileList;
+  isPass?: boolean
 }
 
 export type { IKajian };

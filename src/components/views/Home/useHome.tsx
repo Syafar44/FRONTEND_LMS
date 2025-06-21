@@ -1,5 +1,6 @@
 import authServices from "@/services/auth.service";
 import kajianServices from "@/services/kajian.service";
+import resumeServices from "@/services/resume.service";
 import { useQuery } from "@tanstack/react-query";
 
 const useHome = () => {
@@ -35,12 +36,30 @@ const useHome = () => {
     enabled: true,
   })
 
+  const getResume = async() => {
+    const res = await resumeServices.getResumeByKajian(`${dataKajian?._id}`)
+    const { data } = res 
+    return data.data
+  }
+
+  const {
+    data: dataResume,
+    isPending: isPendingResume,
+  } = useQuery({
+    queryKey: ["Resume"],
+    queryFn: () => getResume(),
+    enabled: !!dataKajian?._id,
+  })
+
   return {
     dataUser,
     isPendingUser,
 
     dataKajian,
     isPendingKajian,
+
+    dataResume,
+    isPendingResume,
   };
 };
 

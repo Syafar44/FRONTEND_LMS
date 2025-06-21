@@ -121,28 +121,16 @@ const AddKajianModal = (props: PropTypes) => {
               <Controller
                 name="video"
                 control={control}
-                render={({ field: { onChange, value, ...field } }) => (
-                  <Input 
+                render={({ field }) => (
+                  <Input
                     {...field}
-                    value={value}
-                    onChange={(e) => {
-                      const url = e.target.value;
-                      const driveId = url.match(/(?:drive\.google\.com\/.*?\/d\/)([^\/?]+)/);
-                      if (driveId) {
-                        onChange(`https://drive.google.com/file/d/${driveId[1]}/preview`);
-                      } else {
-                        onChange(url);
-                      }
-                    }}
-                    placeholder="Input link video"
-                    labelPlacement="outside"
-                    size="lg"
-                    className="w-full pt-5"
-                    errorMessage={errors?.video?.message}
-                    isInvalid={!!errors?.video}
+                    autoFocus
                     label="Link Video"
                     variant="bordered"
                     type="text"
+                    isInvalid={errors.video !== undefined}
+                    errorMessage={errors.video?.message}
+                    className="mb-2"
                   />
                 )}
               />

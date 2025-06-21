@@ -13,7 +13,15 @@ const Home = () => {
 
         dataKajian,
         isPendingKajian,
+
+        dataResume,
+        isPendingResume,
     } = useHome()
+
+    console.log(dataResume)
+
+    const isPass = dataResume?.isPass
+    console.log(isPass)
     
     const competency = [
         {
@@ -71,7 +79,7 @@ const Home = () => {
                 >
                 {competency.map((item) => (
                     <SelectItem key={item.label} value={item.label}>
-                    {item.label}
+                        {item.label}
                     </SelectItem>
                 ))}
             </Select>
@@ -104,7 +112,7 @@ const Home = () => {
             <section className="grid gap-3">
                 <h3 className="font-bold text-lg">Kajian Minggu Ini</h3>
                 {!isPendingKajian ? (
-                    <CardCourse type="kajian" data={dataKajian} />
+                    <CardCourse type="kajian" data={dataKajian} isPass={isPass}/>
                 ): (
                     <Skeleton className="w-full h-[200px] rounded-lg" />
                 )}

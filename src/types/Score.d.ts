@@ -4,6 +4,7 @@ interface IScore {
     isPass: boolean;
     total_question: number;
     total_score: number
+    createdBy?: string
     createdAt?: string | DateValue;
 }
 

@@ -3,6 +3,7 @@ import endpoint from "./endpoint.constant";
 import { ICompetency } from "@/types/Competency";
 
 const competencyServices = {
+  getAllCompetency: () => instance.get(`${endpoint.COMPETENCY}`),
   getCompetencyById: (id: string) => instance.get(`${endpoint.COMPETENCY}/${id}`),
   addCompetency: (payload: ICompetency) =>
     instance.post(endpoint.COMPETENCY, payload),

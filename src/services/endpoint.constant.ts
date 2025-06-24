@@ -8,7 +8,8 @@ const endpoint = {
   KAJIAN: "/kajian",
   SCORE: "/score",
   VIDEO: "/video",
-  RESUME: "/resume"
+  RESUME: "/resume",
+  SAVE: "/save",
 };
 
 export default endpoint;

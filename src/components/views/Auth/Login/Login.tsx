@@ -1,7 +1,6 @@
 import { Button, Card, CardBody, Input, Spinner } from "@heroui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import Image from "next/image";
-import Link from "next/link";
 import useLogin from "./useLogin";
 import { Controller } from "react-hook-form";
 import { cn } from "@/utils/cn";
@@ -17,34 +16,19 @@ const Login = () => {
     errors,
   } = useLogin();
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-10 lg:flex-row lg:gap-20">
+    <div className="flex w-full flex-col items-center justify-center gap-10 lg:gap-20">
       <div className="flex w-full flex-col items-center justify-center gap-10 lg:w-1/3">
         <Image
-          src="/images/general/logo.svg"
+          src="/images/general/logo.png"
           alt="logo"
           width={180}
           height={180}
-        />
-        <Image
-          src="/images/illustrations/login.svg"
-          alt="login"
-          className="w-2/3 lg:w-full"
-          width={1024}
-          height={1024}
+          className="rounded-lg"
         />
       </div>
       <Card>
         <CardBody className="p-8">
-          <h2 className="text-2xl font-bold text-danger-500">Login</h2>
-          <p className="mb-4 mt-2 text-small">
-            Don{"'"}t have an account?&nbsp;
-            <Link
-              href="/auth/register"
-              className="font-semibold text-danger-400"
-            >
-              Register here
-            </Link>
-          </p>
+          <h2 className="text-2xl font-bold text-primary mb-2">Login</h2>
           {errors.root && (
             <p className="mb-2 font-medium text-danger">
               {errors?.root?.message}
@@ -63,7 +47,7 @@ const Login = () => {
               render={({ field }) => (
                 <Input
                   {...field}
-                  type="text"
+                  type="email"
                   label="Email"
                   variant="bordered"
                   autoComplete="off"
@@ -101,8 +85,8 @@ const Login = () => {
               )}
             />
 
-            <Button color="danger" size="lg" type="submit">
-              {isPendingLogin ? <Spinner color="white" size="sm" /> : "Login"}
+            <Button color="primary" className="text-black disabled:bg-gray-700" size="lg" type="submit" disabled={isPendingLogin}>
+              {isPendingLogin ? <Spinner size="sm" /> : "Login"}
             </Button>
           </form>
         </CardBody>

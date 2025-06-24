@@ -11,9 +11,6 @@ const Administrasi = () => {
       <Tab key="Daftar User" title="Daftar User">
         <TabUser/>
       </Tab>
-      <Tab key="Penilaian" title="Penilaian">
-        <h1>Penilaian Tab</h1>
-      </Tab>
     </Tabs>
   );
 };

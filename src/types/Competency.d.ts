@@ -1,3 +1,5 @@
+import { DateValue } from "@heroui/react";
+
 interface ICompetency {
   _id?: string;
   main_competency?: string;
@@ -5,6 +7,7 @@ interface ICompetency {
   description?: string;
   access?: array;
   image?: string | FileList;
+  createdAt?: string | DateValue
 }
 
 interface ISubCompetency {

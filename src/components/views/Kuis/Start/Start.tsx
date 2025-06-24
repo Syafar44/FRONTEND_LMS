@@ -14,15 +14,24 @@ const Start = () => {
         router,
         score,
 
-        handleRecap
+        handleRecap,
+        remainingTime,
+        formattedTime,
+
+        subCompetency,
     } = useStart()
 
     return (
         <div className="grid gap-5">
             <section className="grid gap-5">
-                <div>
-                    <h2 className="font-bold">Kompetensi Soal:</h2>
-                    <p>Teknik Up-Selling & Cross-Selling</p>
+                <div className="flex justify-between">
+                    <div>
+                        <h2 className="font-bold">Kompetensi Soal:</h2>
+                        <p>{subCompetency?.title}</p>
+                    </div>
+                    <h1 className={remainingTime <= 60 ? 'text-red-500' : ''}>
+                        {formattedTime}
+                    </h1>
                 </div>
                 <div className="border-y p-5 grid grid-cols-5 px-14 gap-y-2">
                 {Array.from({ length: jumlahSoal ?? 0 }, (_, index) => {

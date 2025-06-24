@@ -94,7 +94,6 @@ const useDetailCompetency = () => {
     const {
         data: dataVideo,
         isPending: isPendingVideo,
-        refetch: refetchVideo,
     } = useQuery({
         queryKey: ["getVideo", subCompetencyById?._id, subCompetency],
         queryFn: getVideo,

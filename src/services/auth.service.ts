@@ -22,7 +22,7 @@ const authServices = {
       },
     }),
   getProfile: () => instance.get(`${endpoint.AUTH}/me`),
-  getAllUsers: (params: string) => instance.get(`${endpoint.AUTH}/user?${params}`),
+  getAllUsers: (params?: string) => instance.get(`${endpoint.AUTH}/user?${params}`),
   getUserById: (id: string) => instance.get(`${endpoint.AUTH}/user/${id}`),
   updatePassword: (payload: IUpdatePassword) => instance.put(`${endpoint.AUTH}/password`, payload),
   updatePasswordByAdmin: (id: string, payload: IUpdatePasswordByAdmin) => instance.put(`${endpoint.AUTH}/password/${id}`, payload),

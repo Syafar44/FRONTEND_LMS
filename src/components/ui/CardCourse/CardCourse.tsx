@@ -1,13 +1,15 @@
 import { IKajian } from "@/types/Kajian"
 import { CardBody, Card, Progress, Link } from "@heroui/react"
 import Image from "next/image"
+import { BiSolidLock } from "react-icons/bi";
 
 interface PropTypes {
     type?: string
     data: IKajian
     competency?: string
     isPass?: boolean
-    progress?: boolean
+    progress?: number
+    isLock?: boolean
 }
 
 const CardCourse = (props: PropTypes) => {
@@ -17,12 +19,18 @@ const CardCourse = (props: PropTypes) => {
         competency,     
         isPass,
         progress,
+        isLock,
     } = props
 
   return (
     <Card>
-        <CardBody className="p-3">
-            <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}` : `/kajian-online/${data?._id}`} className="grid gap-3">
+        <CardBody className="relative p-0">
+            {isLock && (
+                <div className="bg-white/30 absolute h-full w-full top-0 border z-40 flex justify-center items-center">
+                    <BiSolidLock size={100} className="font-bold text-primary"/>
+                </div>
+            )}
+            <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}` : `/kajian-online/${data?._id}`} className="grid gap-3 p-3">
                 <Image src={`${data?.image}`} alt={data?.title || "Course Image"} className="w-full h-auto rounded-lg" width={1000} height={1000} />
                 <div>
                     <h4 className="text-lg font-bold text-black">
@@ -32,7 +40,7 @@ const CardCourse = (props: PropTypes) => {
                         {type === "course" ? "Functional Competency" : data?.description}
                     </p>
                 </div>
-                {progress && (
+                {(progress ?? 0) > 0 && (
                     <Progress
                         classNames={{
                             base: "max-w-md mb-2",
@@ -45,7 +53,7 @@ const CardCourse = (props: PropTypes) => {
                         radius="sm"
                         showValueLabel={true}
                         size="sm"
-                        value={65}
+                        value={progress}
                     />
                 )}
                 {type === "kajian" && (

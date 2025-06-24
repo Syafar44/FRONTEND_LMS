@@ -10,7 +10,7 @@ import { signIn } from "next-auth/react";
 import { ToasterContext } from "@/contexts/ToasterContext";
 
 const loginSchema = yup.object().shape({
-  email: yup.string().required("Please input your email or password"),
+  email: yup.string().required("Please input your email"),
   password: yup.string().required("Please input your password"),
 });
 
@@ -62,6 +62,8 @@ const useLogin = () => {
   });
 
   const handleLogin = (data: ILogin) => mutateLogin(data);
+
+  console.log(errors)
 
   return {
     isVisible,

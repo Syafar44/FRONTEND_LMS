@@ -20,7 +20,7 @@ const Kuis = () => {
                     <p>Terdapat 5 pertanyaan yang harus dikerjakan dalam ujian. Beberapa ketentuan yang harus diperhatikan sebagai berikut:</p>
                     <ul className="list-disc list-inside pl-5">
                         <li>Syarat nilai kelulusan : 80%</li>
-                        <li>Durasi ujian : 10 menit</li>
+                        <li>Durasi ujian: 5 menit</li>
                     </ul>
                     <p>Apabila tidak memenuhi syarat kelulusan, maka Anda harus menonton ulang video untuk mengulang pengerjaan kuis kembali. Manfaatkan waktu tersebut untuk mempelajari kembali kompetensi sebelumnya, ya.</p>
                     <h3>Selamat Mengerjakan!</h3>
@@ -35,6 +35,10 @@ const Kuis = () => {
                 </h2>
                 {isPendingScore ? (
                     <div className="flex justify-center items-center h-[100px]">
+                        <p>Sedang di muat....</p>
+                    </div>
+                ): (!dataScore) ? (
+                    <div className="flex justify-center items-center h-[100px]">
                         <p>Kerjakan Kuis Sekarang</p>
                     </div>
                 ): (    
@@ -42,7 +46,7 @@ const Kuis = () => {
                         {dataScore.map((score: IScore) => {
                             const totalScore = score.total_score / score.total_question * 100
                             return(
-                            <div key={score._id} className="bg-yellow-50 py-3 px-5 grid gap-2 rounded-lg">
+                            <div key={score._id} className="bg-yellow-50 py-3 px-5 grid gap-2 rounded-lg h-[130px]">
                                 <span className="flex gap-3 ">
                                     <h1 className="font-bold">Tanggal:</h1>
                                     <p>{convertTime(score?.createdAt)}</p>

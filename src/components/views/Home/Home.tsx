@@ -1,8 +1,9 @@
 import CardCourse from "@/components/ui/CardCourse";
-import { Card, CardBody, Select, SelectItem, Skeleton } from "@heroui/react";
+import { Card, CardBody, Select, SelectItem, Skeleton, Spinner } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useHome from "./useHome";
+import { preconnect } from "react-dom";
 
 const Home = () => {
     const router = useRouter()
@@ -16,6 +17,15 @@ const Home = () => {
 
         dataResume,
         isPendingResume,
+
+        dataSave,
+        isPendingSave,
+
+        dataCompetency,
+        isPendingCompetency,
+
+        dataSubCompetency,
+        isPendingSubCompetency,
     } = useHome()
 
     console.log(dataResume)
@@ -46,6 +56,10 @@ const Home = () => {
     };
     const profile = dataUser?.data
     const avatarUrl = `https://ui-avatars.com/api/background=F8BD1B&color=000000?name=${encodeURIComponent(profile?.fullName)}&bold=true&uppercase=true`
+
+    const isPending = isPendingCompetency || isPendingKajian || isPendingResume || isPendingSubCompetency
+
+    const progress = dataSave?.progress / dataSubCompetency?.length * 100
 
     return (
         <div className="grid gap-5">
@@ -94,20 +108,28 @@ const Home = () => {
                     <h3 className="text-xs">
                         Sedang Berjalan
                     </h3>   
-                    <p className="text-3xl text-primary">3</p>
+                    <p className="text-3xl text-primary">1</p>
                 </div>
                 <div className="border py-5 rounded-xl flex flex-col items-center gap-2">
                     <h3 className="text-xs">
                         Sertifikat
                     </h3>
-                    <p className="text-3xl text-primary">3</p>
+                    <p className="text-3xl text-primary">0</p>
                 </div>
             </section>
             <section className="grid gap-3">
                 <h3 className="font-bold text-lg">Lanjutkan Belajar</h3>
-                <div className="flex justify-center items-center h-[200px]">
-                    <p>Belum ada kelas yang di ambil</p>
-                </div>
+                    <>
+                        {dataSave ? (
+                            <div>
+                                <CardCourse competency={dataCompetency?.main_competency} data={dataCompetency} progress={progress}/>
+                            </div>
+                        ): (
+                            <div className="flex justify-center items-center h-[200px]">
+                                <p>Belum ada kelas yang di ambil</p>
+                            </div>
+                        )}
+                    </>
             </section>
             <section className="grid gap-3">
                 <h3 className="font-bold text-lg">Kajian Minggu Ini</h3>

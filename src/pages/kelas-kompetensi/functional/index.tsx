@@ -1,10 +1,10 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout"
-import Functional from "@/components/views/Competency/Functional"
+import Competency from "@/components/views/Competency"
 
 const FunctionalPage = () => {
     return (
         <DashboardLayout title="Functional Competency" type="user">
-            <Functional />
+            <Competency />
         </DashboardLayout>
     )
 }

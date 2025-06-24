@@ -1,10 +1,10 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout"
-import Managerial from "@/components/views/Competency/Managerial"
+import Competency from "@/components/views/Competency"
 
 const ManagerialPage = () => {
     return (
         <DashboardLayout title="Managerial Competency" type="user">
-            <Managerial />
+            <Competency />
         </DashboardLayout>
     )
 }

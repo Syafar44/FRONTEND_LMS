@@ -34,15 +34,11 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith("/member")) {
+  if (pathname.startsWith("/")) {
     if (!token) {
       const url = new URL("/auth/login", request.url);
       url.searchParams.set("callbackUrl", encodeURI(request.url));
       return NextResponse.redirect(url);
-    }
-
-    if (pathname === "/member") {
-      return NextResponse.redirect(new URL("/member/profile", request.url));
     }
   }
 }

@@ -1,17 +1,28 @@
 import CardCourse from "@/components/ui/CardCourse"
 import { Input, Pagination, Skeleton } from "@heroui/react"
 import { CiSearch } from "react-icons/ci"
-import useCore from "./useCore"
+import useCompetency from "./useCompetency"
 import { ICompetency } from "@/types/Competency"
 import useChangeUrl from "@/hooks/useChangeUrl"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 
-const Core = () => {
+const Competency = () => {
     const {
         dataCourse,
         isPendingCourse,
-    } = useCore()
+        
+        dataSave,
+        isPendingSave,
+
+        dataSubCompetency,
+        isPendingSubCompetency,
+
+        pathSegments,
+
+        dataUser,
+        isPendingUser
+    } = useCompetency()
 
     const {
     currentPage,
@@ -27,6 +38,10 @@ const Core = () => {
         }
       }, [isReady]);
 
+    const isPending = isPendingCourse
+
+    console.log(dataUser)
+
     return (
         <div className="grid gap-5">
             <section>
@@ -37,15 +52,18 @@ const Core = () => {
                 />
             </section>
             <section>
-                {!isPendingCourse ? (
+                {!isPending ? (
                     <div className="grid gap-5 md:grid-cols-3">
                         {dataCourse?.data.map((course: ICompetency) => {
+                            const  isProgress = dataSave?.competency === course?._id
+                            const progress = dataSave?.progress / dataSubCompetency?.length * 100
                             return (
                             <CardCourse
                                 key={course._id}
                                 data={course}
-                                competency="core"
-                                progress={true}
+                                competency={`${pathSegments[2]}`}
+                                progress={isProgress ? progress : 0}
+                                isLock={isProgress ? false : true}
                             />)
                         })}
                         <div className="flex justify-center md:justify-end">
@@ -64,11 +82,14 @@ const Core = () => {
                         </div>
                     </div>
                 ): (
-                    <Skeleton />
+                    <div className="grid gap-5">
+                        <Skeleton className="h-[240px] rounded-lg" />
+                        <Skeleton className="h-[240px] rounded-lg" />
+                    </div>
                 )}
             </section>
         </div>
     )
 }
 
-export default Core
+export default Competency

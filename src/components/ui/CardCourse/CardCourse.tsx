@@ -10,6 +10,7 @@ interface PropTypes {
     isPass?: boolean
     progress?: number
     isLock?: boolean
+    isAccess?: boolean
 }
 
 const CardCourse = (props: PropTypes) => {
@@ -20,14 +21,15 @@ const CardCourse = (props: PropTypes) => {
         isPass,
         progress,
         isLock,
+        isAccess
     } = props
 
   return (
     <Card>
         <CardBody className="relative p-0">
-            {isLock && (
+             {(isLock || isAccess === false) && (
                 <div className="bg-white/30 absolute h-full w-full top-0 border z-40 flex justify-center items-center">
-                    <BiSolidLock size={100} className="font-bold text-primary"/>
+                    <BiSolidLock size={100} className="font-bold text-primary "/>
                 </div>
             )}
             <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}` : `/kajian-online/${data?._id}`} className="grid gap-3 p-3">

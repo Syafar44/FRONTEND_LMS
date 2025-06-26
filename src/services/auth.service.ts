@@ -27,6 +27,7 @@ const authServices = {
   updatePassword: (payload: IUpdatePassword) => instance.put(`${endpoint.AUTH}/password`, payload),
   updatePasswordByAdmin: (id: string, payload: IUpdatePasswordByAdmin) => instance.put(`${endpoint.AUTH}/password/${id}`, payload),
   updateUser: (id: string, payload: IProfile) => instance.put(`${endpoint.AUTH}/user/${id}`, payload),
+  updateRole: (id: string, payload: IProfile) => instance.put(`${endpoint.AUTH}/role/${id}`, payload),
   deleteUser: (id: string) => instance.delete(`${endpoint.AUTH}/user/${id}`),
   uploadFileRegister: (file: File) => {
     const formData = new FormData();

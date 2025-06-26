@@ -6,8 +6,6 @@ import { HeroUIProvider } from "@heroui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {

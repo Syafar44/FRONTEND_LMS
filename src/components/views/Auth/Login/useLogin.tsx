@@ -3,7 +3,6 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ILogin } from "@/types/Auth";
-import authServices from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
@@ -20,8 +19,6 @@ const useLogin = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
   const { setToaster } = useContext(ToasterContext);
 
-  const callbackUrl: string = (router.query.callbackUrl as string) || "/";
-
   const {
     control,
     handleSubmit,
@@ -36,7 +33,6 @@ const useLogin = () => {
     const result = await signIn("credentials", {
       ...payload,
       redirect: false,
-      callbackUrl,
     });
     if (result?.error && result?.status === 401) {
       throw new Error("Login Failed");
@@ -57,14 +53,12 @@ const useLogin = () => {
         type: "success",
         message: "Login success",
       });
-      router.push(callbackUrl);
+      router.push("/");
     },
   });
 
   const handleLogin = (data: ILogin) => mutateLogin(data);
-
-  console.log(errors)
-
+  
   return {
     isVisible,
     toggleVisibility,

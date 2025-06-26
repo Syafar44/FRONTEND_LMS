@@ -24,6 +24,8 @@ const Competency = () => {
         isPendingUser
     } = useCompetency()
 
+    console.log(dataCourse)
+
     const {
     currentPage,
     handleChangePage,
@@ -38,9 +40,7 @@ const Competency = () => {
         }
       }, [isReady]);
 
-    const isPending = isPendingCourse
-
-    console.log(dataUser)
+    const isPending = isPendingCourse || isPendingUser 
 
     return (
         <div className="grid gap-5">
@@ -55,15 +55,22 @@ const Competency = () => {
                 {!isPending ? (
                     <div className="grid gap-5 md:grid-cols-3">
                         {dataCourse?.data.map((course: ICompetency) => {
-                            const  isProgress = dataSave?.competency === course?._id
-                            const progress = dataSave?.progress / dataSubCompetency?.length * 100
+                            const isProgress = dataSave?.competency === course?._id;
+                            const progress = (dataSave?.progress ?? 0) / (dataSubCompetency?.length ?? 1) * 100;
+                            const lock = dataSave ? (isProgress ? false : true) : false
+                            const accessUser = dataUser?.access;
+                            const accessCourse = course?.access || [];
+                            const access = accessCourse.includes(accessUser); 
+                            const isAccess = dataSave ? false : access
+                            const allAccess = course?.access?.includes('all-team')
                             return (
                             <CardCourse
                                 key={course._id}
                                 data={course}
                                 competency={`${pathSegments[2]}`}
                                 progress={isProgress ? progress : 0}
-                                isLock={isProgress ? false : true}
+                                isLock={lock}
+                                isAccess={allAccess ? true : isAccess}
                             />)
                         })}
                         <div className="flex justify-center md:justify-end">

@@ -94,7 +94,7 @@ const TabResume = () => {
         </div>
         <Button
           onPress={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
-          className="border px-4 py-1 rounded bg-primary"
+          className="bg-primary"
         >
           Sort: {sortOrder === "asc" ? "Terlama" : "Terbaru"}
         </Button>

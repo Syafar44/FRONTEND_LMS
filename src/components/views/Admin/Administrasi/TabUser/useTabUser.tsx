@@ -32,22 +32,22 @@ const useTabUser = () => {
   });
 
   const handleDownloadExcel = async () => {
-  try {
-    const res = await authServices.getAllUsers("limit=10000&page=1");
-    const data = res.data?.data || [];
+    try {
+      const res = await authServices.getAllUsers("limit=10000&page=1");
+      const data = res.data?.data || [];
 
-    const formatted = data.map((user: any) => ({
-      Nama: user.fullName,
-      Email: user.email,
-      Access: user.access,
-      Role: user.role,
-    }));
+      const formatted = data.map((user: any) => ({
+        Nama: user.fullName,
+        Email: user.email,
+        Access: user.access,
+        Role: user.role,
+      }));
 
-    exportToExcel(formatted, "Data-User");
-  } catch (error) {
-    console.error("Gagal download:", error);
-  }
-};
+      exportToExcel(formatted, "Data-User");
+    } catch (error) {
+      console.error("Gagal download:", error);
+    }
+  };
 
   return {
     dataTabUser,

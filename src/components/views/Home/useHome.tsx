@@ -4,6 +4,7 @@ import kajianServices from "@/services/kajian.service";
 import resumeServices from "@/services/resume.service";
 import saveServices from "@/services/save.service";
 import subCompetencyServices from "@/services/subCompetency.service";
+import { ICompetency } from "@/types/Competency";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
@@ -100,7 +101,28 @@ const useHome = () => {
     enabled: !!dataSave?.competency
   })
 
-  
+  const getAllCompetency = async() => {
+    const res = await competencyServices.getAllCompetency()
+    const { data } = res
+    return data
+  } 
+
+  const {
+    data: dataAllCompetency,
+    isPending: isPendingAllCompetency,
+  } = useQuery({
+    queryKey: ["AllCompetency"],
+    queryFn: () => getAllCompetency(),
+    enabled: !!router.isReady || !!dataUser
+  })
+
+  const access = dataUser?.data?.access;
+
+  const required = Array.isArray(dataAllCompetency?.data)
+    ? dataAllCompetency.data.filter(
+        (item: ICompetency) => item.access?.includes(access)
+      )
+    : [];
 
   return {
     dataUser,
@@ -119,7 +141,9 @@ const useHome = () => {
     isPendingCompetency,
 
     dataSubCompetency,
-    isPendingSubCompetency
+    isPendingSubCompetency,
+
+    required
   };
 };
 

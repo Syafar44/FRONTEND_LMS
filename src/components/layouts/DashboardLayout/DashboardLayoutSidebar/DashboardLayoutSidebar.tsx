@@ -47,7 +47,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
           <ListboxItem
             key={"dashboard"}
             className={cn("my-1 h-12 text-2xl", {
-              "bg-primary ": router.pathname.startsWith(type === "admin" ? "/admin/dashboard" : "/"),
+              "bg-primary ": router.pathname.startsWith(type === "admin" ? "/admin/dashboard" : "/home"),
             })}
             startContent={<CiViewList />}
             textValue={"Dashboard"}

@@ -2,6 +2,7 @@ import { Tab, Tabs } from "@heroui/react";
 import InfoTab from "./InfoTab";
 import useDetailUser from "./useDetailUser";
 import PasswordTab from "./PasswordTab";
+import InfoRole from "./InfoRole";
 
 
 const DetailUser = () => {
@@ -10,6 +11,7 @@ const DetailUser = () => {
     handleUpdateUser,
     isPendingMutateUpdateUser,
     isSuccessMutateUpdateUser,
+    refetchUser,
   } = useDetailUser();
   return (
     <Tabs aria-label="Options">
@@ -23,6 +25,9 @@ const DetailUser = () => {
       </Tab>
       <Tab key="setPassword" title="Set Password">
         <PasswordTab />
+      </Tab>
+      <Tab key="setRole" title="Set Role">
+        <InfoRole dataUser={dataUser} refetchUser={refetchUser} />
       </Tab>
     </Tabs>
   );

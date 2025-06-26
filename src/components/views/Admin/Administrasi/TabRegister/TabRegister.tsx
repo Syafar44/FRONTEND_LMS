@@ -67,7 +67,7 @@ const TabRegister = () => {
                         Upload & Register Massal
                     </Button>
                 </div>
-                {response || error && (
+                {(response || error) && (
                     <div className="p-5 border rounded-lg mt-5">
                         {response && (
                         <div className="text-green-600">

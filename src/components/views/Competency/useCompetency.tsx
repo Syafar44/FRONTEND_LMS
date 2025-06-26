@@ -71,9 +71,9 @@ const useCompetency = () => {
         data: dataUser,
         isPending: isPendingUser,
     } = useQuery({
-        queryKey: ["User", dataSave?.competency],
+        queryKey: ["User"],
         queryFn: () => getUser(),
-        enabled: !!dataSave?.competency
+        enabled: !!router.isReady
     })
 
     return {

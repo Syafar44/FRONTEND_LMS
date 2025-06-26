@@ -35,6 +35,7 @@ interface IProfile {
   _id?: string;
   fullName?: string;
   email?: string;
+  job?: string
   access?: string;
   role?: string;
 }
@@ -44,8 +45,8 @@ interface IUpdatePasswordByAdmin {
 }
 
 interface IUpdatePassword {
-  oldPassword: string;
-  password: string;
+  currentPassword: string;
+  newPassword: string;
   confirmPassword: string;
 }
 

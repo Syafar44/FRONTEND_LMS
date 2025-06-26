@@ -35,6 +35,7 @@ const InfoTab = (props: PropTypes) => {
     setValueUpdateInfo("fullName", `${dataUser?.fullName}`);
     setValueUpdateInfo("email", `${dataUser?.email}`);
     setValueUpdateInfo("access", `${dataUser?.access}`);
+    setValueUpdateInfo("job", `${dataUser?.job}`);
   }, [dataUser]);
 
   useEffect(() => {
@@ -152,6 +153,27 @@ const InfoTab = (props: PropTypes) => {
                       </SelectItem>
                   ))}
                   </Select>
+              )}
+            />
+          </Skeleton>
+          <Skeleton
+            isLoaded={!!dataUser?.email}
+            className="rounded-lg"
+          >
+            <Controller
+              name="job"
+              control={controlUpdateInfo}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  autoFocus
+                  label="Job"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  type="text"
+                  isInvalid={errorsUpdateInfo.job !== undefined}
+                  errorMessage={errorsUpdateInfo.job?.message}
+                />
               )}
             />
           </Skeleton>

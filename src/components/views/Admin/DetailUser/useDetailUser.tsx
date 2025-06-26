@@ -63,6 +63,7 @@ const usePasswordTab = () => {
     handleUpdateUser,
     isPendingMutateUpdateUser,
     isSuccessMutateUpdateUser,
+    refetchUser,
   };
 };
 

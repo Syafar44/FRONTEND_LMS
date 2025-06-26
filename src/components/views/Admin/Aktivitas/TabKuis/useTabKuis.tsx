@@ -1,13 +1,12 @@
 import useChangeUrl from "@/hooks/useChangeUrl";
 import authServices from "@/services/auth.service";
 import competencyServices from "@/services/competency.service";
-import kajianServices from "@/services/kajian.service";
 import scoreServices from "@/services/score.service";
 import subCompetencyServices from "@/services/subCompetency.service";
 import { IProfile } from "@/types/Auth";
-import { ISubCompetency } from "@/types/Competency";
-import { IKajian } from "@/types/Kajian";
+import { ICompetency, ISubCompetency } from "@/types/Competency";
 import { IScore } from "@/types/Score";
+import { exportToExcel } from "@/utils/exportExcel";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
@@ -101,7 +100,27 @@ const useTabKuis = () => {
       const dateB = new Date(b.createdAt as string).getTime();
       return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
     });
-}, [dataScore, dataUser, dataSubCompetency, searchUser, searchSubCompetency, sortOrder]);
+  }, [dataScore, dataUser, dataSubCompetency, searchUser, searchSubCompetency, sortOrder]);
+
+  const handleDownloadExcel = () => {
+    if (!filteredData || filteredData.length === 0) return;
+
+    const formatted = filteredData.map((score: IScore) => {
+      const subCompetency = dataSubCompetency?.data?.find((s: ISubCompetency) => s._id === score.bySubCompetency);
+      const competency = dataCompetency?.data?.find((c: ICompetency) => c._id === subCompetency?.byCompetency);
+      const user = dataUser?.data?.find((u: IProfile) => u._id === score.createdBy);
+
+      return {
+        "SUB JUDUL": subCompetency?.title || "-",
+        "JUDUL UTAMA": competency?.title || "-",
+        "POIN": `${(Number(score.total_score) / Number(score.total_question)) * 100}` || 0,
+        "PUBLISH": new Date(score.createdAt!).toLocaleString(),
+        "USER": user?.fullName || "-",
+      };
+    });
+
+    exportToExcel(formatted, "Data-Kuis");
+  };
 
 
   return {
@@ -131,6 +150,7 @@ const useTabKuis = () => {
     setSearchSubCompetency,
     setSearchUser,
     setSortOrder,
+    handleDownloadExcel,
   };
 };
 

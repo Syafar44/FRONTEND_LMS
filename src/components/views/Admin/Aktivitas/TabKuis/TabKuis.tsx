@@ -33,6 +33,7 @@ const TabKuis = () => {
     setSearchSubCompetency,
     setSearchUser,
     setSortOrder,
+    handleDownloadExcel,
   } = useTabKuis()
   
   const { setUrl } = useChangeUrl();
@@ -111,12 +112,20 @@ const TabKuis = () => {
             onChange={(e) => setSearchSubCompetency(e.target.value)}
           />
         </div>
-        <Button
-          onPress={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
-          className="border px-4 py-1 rounded bg-primary"
-        >
-          Sort: {sortOrder === "asc" ? "Terlama" : "Terbaru"}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onPress={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
+            className="bg-primary"
+          >
+            Sort: {sortOrder === "asc" ? "Terlama" : "Terbaru"}
+          </Button>
+          <Button
+            onPress={handleDownloadExcel}
+            className="bg-primary"
+          >
+            Download Excel
+          </Button>
+        </div>
     </section>
       {Object.keys(query).length > 0 && (
         <DataTable

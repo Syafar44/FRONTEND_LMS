@@ -3,6 +3,7 @@ import {
   CiViewList,
   CiWallet,
 } from "react-icons/ci";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const SIDEBAR_ADMIN = [
   {
@@ -31,6 +32,12 @@ const SIDEBAR_MEMBER = [
     label: "Kajian Online",
     href: "/kajian-online",
     icon: <CiBookmark />,
+  },
+  {
+    key: "pengaturan",
+    label: "Pengaturan",
+    href: "/setting",
+    icon: <IoSettingsOutline />,
   },
 ];
 

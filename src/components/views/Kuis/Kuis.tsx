@@ -37,7 +37,7 @@ const Kuis = () => {
                     <div className="flex justify-center items-center h-[100px]">
                         <p>Sedang di muat....</p>
                     </div>
-                ): (!dataScore) ? (
+                ): (dataScore.length <= 0 ) ? (
                     <div className="flex justify-center items-center h-[100px]">
                         <p>Kerjakan Kuis Sekarang</p>
                     </div>

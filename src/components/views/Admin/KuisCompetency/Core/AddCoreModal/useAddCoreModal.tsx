@@ -71,8 +71,6 @@ const useAddCoreModal = () => {
     mutateAddCore(payload)
   };
 
-  console.log(errors)
-
   return {
     control,
     errors,

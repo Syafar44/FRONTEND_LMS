@@ -43,8 +43,6 @@ const TabKuis = () => {
       setUrl();
     }
   }, [isReady]);
-
-  console.log(dataScore?.data)
   
   const getCompetencyTitle = (subCompetencyId: string) => {
     const subCompetency = dataSubCompetency?.data?.find((item: ISubCompetency) => item._id === subCompetencyId);

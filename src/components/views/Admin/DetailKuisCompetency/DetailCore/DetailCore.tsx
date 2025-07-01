@@ -10,8 +10,6 @@ const DetailCore = () => {
     isSuccessMutateUpdateCore,
   } = useDetailCore();
 
-  console.log("dataCore", dataCore);
-
   return (
     <Tabs aria-label="Options">
       <Tab key="info" title="Info">

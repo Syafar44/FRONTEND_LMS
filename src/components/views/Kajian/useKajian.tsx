@@ -21,6 +21,7 @@ const useKajian = () => {
     const {
         data: dataKajian,
         isPending: isPendingKajian,
+        isFetching: isFetchingKajian,
     } = useQuery({
         queryKey: ["Kajian", currentLimit, currentPage, currentSearch],
         queryFn: getKajian,
@@ -28,7 +29,7 @@ const useKajian = () => {
     })
 
     const getResume = async () => {
-        const res = await resumeServices.getResumeAll() 
+        const res = await resumeServices.getResumeAllByUser() 
         const { data } = res
         return data
     }
@@ -37,7 +38,7 @@ const useKajian = () => {
         data: dataResume,
         isPending: isPendingResume,
     } = useQuery({
-        queryKey: ["Resume", currentLimit, currentPage, currentSearch],
+        queryKey: ["Resume", router.isReady],
         queryFn: getResume,
         enabled: !!router.isReady
     })
@@ -45,6 +46,7 @@ const useKajian = () => {
     return {
         dataKajian,
         isPendingKajian,
+        isFetchingKajian,
         dataResume,
         isPendingResume,
     }

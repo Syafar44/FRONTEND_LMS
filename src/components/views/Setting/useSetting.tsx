@@ -54,8 +54,6 @@ const useSetting = () => {
 
     const handleUpdateCore = (data: IUpdatePassword) => mutateUpdate(data);
 
-    console.log(errors)
-
     return {
         control,
         errors,

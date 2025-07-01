@@ -15,14 +15,16 @@ const Kajian = () => {
     const {
         dataKajian,
         isPendingKajian,
+        isFetchingKajian,
         dataResume,
-        isPendingResume,
     } = useKajian()
 
     const {
         setUrl,
         currentPage,
         handleChangePage,
+        handleSearch,
+
   } = useChangeUrl();
 
     const { isReady } = useRouter();
@@ -33,25 +35,23 @@ const Kajian = () => {
         }
       }, [isReady]);
 
-    const isPending =  isPendingKajian || isPendingResume
-
-    console.log("dataResume", dataResume?.data)
+    const isPending =  isPendingKajian
 
     return (
         <div className="grid gap-5">
             <section>
                 <Input
+                    onChange={handleSearch}
                     className="w-full md:w-1/4"
                     startContent={<CiSearch />}
                     placeholder="Cari Bedasarkan Judul..."
                 />
             </section>
             <section>
-                {!isPending ? (
+                {!isPending || !isFetchingKajian ? (
                     <div className="grid gap-5 md:grid-cols-3">
                         {dataKajian?.data.map((kajian: IKajian) => {
-                            const resume = dataResume?.data.some((item: IResume) => item.kajian === kajian._id)
-                            console.log("resume", resume)
+                            const resume = dataResume ? dataResume?.data.some((item: IResume) => item.kajian === kajian._id) : false
                             return (
                             <CardCourse
                                 key={kajian._id}
@@ -76,7 +76,7 @@ const Kajian = () => {
                         </div>
                     </div>
                 ): (
-                    <Skeleton />
+                    <Skeleton className="h-[240px] w-full rounded-lg"/>
                 )}
             </section>
         </div>

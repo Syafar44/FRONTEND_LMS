@@ -10,8 +10,6 @@ const DetailManagerial = () => {
     isSuccessMutateUpdateManagerial,
   } = useDetailManagerial();
 
-  console.log("dataManagerial", dataManagerial);
-
   return (
     <Tabs aria-label="Options">
       <Tab key="info" title="Info">

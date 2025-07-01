@@ -62,8 +62,6 @@ const Managerial = () => {
     [push],
   );
 
-  console.log(dataSubManagerial)
-
   return (
     <section>
       {Object.keys(query).length > 0 && (

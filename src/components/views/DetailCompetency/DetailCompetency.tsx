@@ -23,16 +23,14 @@ const DetailCompetency = () => {
     const isPending =
     isPendingSubCompetencyById || isPendingCompetency || isPendingHistoryKuis || isPendingVideo
 
-    console.log("isView", isView)
-
     return (
         <>
             <header className="-mt-16 mb-10">
                 <PageHead title={dataSub?.title} />
                 <img
-                src="/images/general/logo.png"
-                alt="logo panglima"
-                className="w-[100px] rounded-md"
+                    src="/images/general/logo.png"
+                    alt="logo panglima"
+                    className="w-[100px] rounded-md"
                 />
             </header>
             <div className="grid gap-5">
@@ -63,68 +61,41 @@ const DetailCompetency = () => {
                 <section>
                 {!isPending ? (
                     <Card>
-                    <CardBody className="p-3 grid gap-2">
-                        {competency.map((item: ISubCompetency, index: number) => {
-                        const isActive = item._id === dataSub?._id;
-                        const isUnlock = item._id === historyKuis?.bySubCompetency;
+                        <CardBody className="p-3 grid gap-2">
+                            {competency.map((item: ISubCompetency, index: number) => {
+                            const isActive = item._id === dataSub?._id;
+                            const isUnlock = historyKuis?.some((h: IScore) => h.bySubCompetency === item._id);
 
-                        const lastUnlockIndex = competency.findIndex(
-                            (c: IScore) => c._id === historyKuis?.bySubCompetency
-                        );
+                            const lastUnlock = historyKuis?.[historyKuis.length - 1]?.bySubCompetency;
+                            const lastUnlockIndex = competency.findIndex((c: IScore) => c._id === lastUnlock);
 
-                        const isNextAfterUnlock = index === lastUnlockIndex + 1;
+                            const isNextAfterUnlock = index === lastUnlockIndex + 1;
 
-                        let isClickable = isActive || isUnlock;
-                        let showWaitMessage = false;
-                        let remainingTimeText = "";
+                            let isClickable = isActive || isUnlock || isNextAfterUnlock;
 
-                        if (isNextAfterUnlock && historyKuis?.createdAt) {
-                            const passedAt = new Date(historyKuis.createdAt).getTime();
-                            const now = new Date().getTime();
-                            const remainingMs = passedAt + 15 * 60 * 1000 - now;
-
-                            if (!isUnlock) {
-                            const timeLeft = remainingMs;
-                            const timeToUse = timeLeft > 0 ? timeLeft : 0;
-                            if (timeToUse > 0) {
-                                showWaitMessage = true;
-                                const minutes = String(Math.floor(timeToUse / 1000 / 60)).padStart(2, "0");
-                                const seconds = String(Math.floor((timeToUse / 1000) % 60)).padStart(2, "0");
-                                remainingTimeText = `${minutes}:${seconds}`;
-                            } else {
-                                isClickable = true;
-                            }
-                            }
-                        }
-
-                        return (
-                        <div key={item._id} className="grid gap-1">
-                            {showWaitMessage && (
-                            <p className="text-xs text-red-500 ml-2 text-center">
-                                Kamu bisa lanjut setelah: {remainingTimeText}
-                            </p>
-                            )}
-                            <Button
-                            onPress={() => {
-                                if (isClickable) setSubCompetency(`${item._id}`);
-                            }}
-                            disabled={!isClickable}
-                            className={`w-full flex items-center justify-between gap-5 px-5 py-7
-                                ${isActive ? "bg-primary text-black" : "bg-white"}
-                                ${!isClickable ? "opacity-50 cursor-not-allowed" : ""}
-                                rounded-lg`}
-                            >
-                            <div className="flex gap-5 items-center">
-                                <FaCirclePlay size={25} />
-                                <p>{item.title}</p>
+                            return (
+                            <div key={item._id} className="grid gap-1">
+                                <Button
+                                    onPress={() => {
+                                        if (isClickable) setSubCompetency(`${item._id}`);
+                                    }}
+                                    disabled={!isClickable}
+                                    className={`w-full flex items-center justify-between gap-5 px-5 py-7
+                                        ${isActive ? "bg-primary text-black" : "bg-white"}
+                                        ${!isClickable ? "opacity-50 cursor-not-allowed" : ""}
+                                        rounded-lg`}
+                                    >
+                                    <div className="flex gap-5 items-center">
+                                        <FaCirclePlay size={25} />
+                                        <p>{item.title}</p>
+                                    </div>
+                                    {isUnlock && <FaCheck size={20} />}
+                                    {!isClickable && <FaLock size={20} />}
+                                </Button>
                             </div>
-                            {isUnlock && <FaCheck size={20} />}
-                            {!isClickable && <FaLock size={20} />}
-                            </Button>
-                        </div>
-                        );
-                        })}
-                    </CardBody>
+                            );
+                            })}
+                        </CardBody>
                     </Card>
                 ) : (
                     <Skeleton className="w-full h-[200px] rounded-xl" />

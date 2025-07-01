@@ -72,8 +72,6 @@ const useAddManagerialModal = (competencyId: string) => {
     mutateAddManagerial(payload)
   };
 
-  console.log(errors)
-
   return {
     control,
     errors,

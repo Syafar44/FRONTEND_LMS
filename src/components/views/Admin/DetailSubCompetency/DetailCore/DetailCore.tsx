@@ -11,8 +11,6 @@ const DetailCore = () => {
     isSuccessMutateUpdateCore,
   } = useDetailCore();
 
-  console.log("dataCore", dataCore);
-
   return (
     <Tabs aria-label="Options">
       <Tab key="video" title="Video">

@@ -61,7 +61,7 @@ const Recap = () => {
                     </section>
                     <div className="flex justify-end">
                         <Button
-                            onPress={() => router.push(`/kelas-kompetensi/${dataCompetency?.main_competency}/${dataCompetency?._id}`)}
+                            onPress={() => window.location.href = `/`}
                             className="bg-primary text-black px-10">
                             Kembali
                         </Button>

@@ -1,10 +1,11 @@
+import completedServices from "@/services/completed.service"
 import kuisCompetencyServices from "@/services/kuisCompetency.service"
 import saveServices from "@/services/save.service"
 import scoreServices from "@/services/score.service"
 import subCompetencyServices from "@/services/subCompetency.service"
+import { ICompetency } from "@/types/Competency"
 import { IScore } from "@/types/Score"
 import { useQuery } from "@tanstack/react-query"
-import { progress } from "framer-motion"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
@@ -17,6 +18,7 @@ const useStart = () => {
     const [radioSelect, setRadioSelect] = useState<string | null>(null)
     const [jumlahSoal, setJumlahSoal] = useState<number | null>(0)
     const [score, setScore] = useState<number>(0);
+    const [listSoal, setListSoal] = useState<any[]>([])
 
     useEffect(() => {
         if (!router.isReady) return
@@ -27,13 +29,23 @@ const useStart = () => {
         }
     }, [numberSoal, number, router])
 
+    const acakArray = (array: any[]) => {
+        return [...array].sort(() => Math.random() - 0.5)
+    }
 
     const getKuis = async() => {
         const res = await kuisCompetencyServices.getKuisCompetencyBySubCompetency(`${id}`)
         const { data } = res
         setJumlahSoal(data.data.length)
-        const getKuis = data.data[numberSoal - 1]
-        return getKuis
+         if (listSoal.length === 0) {
+            const soalDiacak = acakArray(data.data)
+            setListSoal(soalDiacak)
+            return soalDiacak[numberSoal - 1]
+        } else {
+            return listSoal[numberSoal - 1]
+        }
+        // const getKuis = data.data[numberSoal - 1]
+        // return getKuis
     }
 
     const { data: dataKuis, isPending: isPendingKuis } = useQuery({
@@ -75,56 +87,107 @@ const useStart = () => {
         enabled: !!id,
     })
 
+    
     const getAllScore = async() => {
         const res = await scoreServices.getScoreBySubCompetency(`${id}`)
         const { data } = res
         const reverse = data.data.reverse()
         return reverse
     }
-
+    
     const { data: dataScore, isPending: isPendingScore } = useQuery({
         queryKey: ["getAllScore"],
         queryFn: getAllScore,
         enabled: !!id,
     })
-
+    
     const getSave = async () => {
-        const res = await saveServices.getSaveByCompetency(`${subCompetency?.byCompetency}`)
+        const res = await saveServices.getSaveByUser()
+        const { data } = res
+        return data.data
+    }
+    
+    const { 
+        data: dataSave, 
+        isPending: isPendingSave 
+    } = useQuery({
+        queryKey: ['save'],
+        queryFn: getSave,
+        enabled: !!router.isReady
+    })
+
+    const getSubCompetencyByCompetencyId = async() => {
+        const res = await subCompetencyServices.getSubCompetencyByCompetency(`${subCompetency?.byCompetency}`)
         const { data } = res
         return data.data
     }
 
     const { 
-        data: dataSave, 
-        isPending: isPendingSave 
+        data: dataCompetency, 
     } = useQuery({
-        queryKey: ['save', subCompetency?.byCompetency],
-        queryFn: getSave,
+        queryKey: ['Competency', subCompetency?.byCompetency],
+        queryFn: getSubCompetencyByCompetencyId,
         enabled: !!subCompetency?.byCompetency
     })
 
-    const handleRecap = async() => {
-        if(!dataSave) {
-            await saveServices.addSave({
-                competency: `${subCompetency.byCompetency}`,
-                progress: 1
-            })
+    const getCompleted = async () => {
+        const res = await completedServices.getCompletedByUser()
+        const { data } = res
+        return data.data
+    }
+    
+    const { 
+        data: dataCompleted, 
+        isPending: isPendingCompleted 
+    } = useQuery({
+        queryKey: ['Completed'],
+        queryFn: getCompleted,
+        enabled: !!router.isReady
+    })
+    
+    const handleRecap = async () => {
+        try {
+            const lastId = dataCompetency?.[dataCompetency.length - 1]?._id;
+            const isFinish = Number(localStorage.getItem(LOCAL_STORAGE_KEY)) / Number(jumlahSoal) * 100 >= 80 && lastId === id
+            const IsCompeted = dataCompleted?.some((item: {competency: string}) => item.competency === subCompetency?.byCompetency)
+            const alreadyPassed = dataScore.some((item: IScore) => item.isPass === true) ?? false;
+                await scoreServices.addScore({
+                    bySubCompetency: `${id}`,
+                    isPass: Number(localStorage.getItem(LOCAL_STORAGE_KEY)) / Number(jumlahSoal) * 100 >= 80,
+                    total_question: Number(jumlahSoal),
+                    total_score: Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0,
+            });
+            if(!IsCompeted) {
+                console.log('Belum Selesai')
+                if(!isFinish) {
+                    console.log('Belum Ke Sub Terakhir')
+                    if (!alreadyPassed) {
+                        console.log('Belum Lulus')
+                        if (!dataSave) {
+                            console.log('Tambahkan Save')
+                            await saveServices.addSave({
+                                competency: `${subCompetency.byCompetency}`,
+                                progress: 1,
+                            });
+                        } else {
+                            console.log('Update Save')
+                            await saveServices.updateSave(`${dataSave?._id}`, {
+                                progress: Number(dataSave.progress ?? 0) + 1,
+                            });
+                        }
+                    }
+                } else {
+                    console.log('Sudah Ke Sub Terakhir')
+                    await saveServices.deleteSave(`${dataSave?._id}`)
+                    await completedServices.addCompleted(`${subCompetency.byCompetency}`)
+                }
+            }
+            router.push(`/kuis/recap/${id}`);
+        } catch (error) {
+            console.log('error')
         }
+    };
 
-        if(dataSave && !dataScore) {
-            await saveServices.updateSave(`${subCompetency.byCompetency}`, {
-                progress: Number(dataSave.progress ?? 0) + 1
-            })
-        }
-
-        await scoreServices.addScore({
-            bySubCompetency: `${id}`,
-            isPass: Number(localStorage.getItem(LOCAL_STORAGE_KEY)) / Number(jumlahSoal) * 100 >= 80 ? true : false,
-            total_question: Number(jumlahSoal),
-            total_score: Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0,
-        })
-        router.push(`/kuis/recap/${id}`)
-    } 
 
     const [remainingTime, setRemainingTime] = useState(300)
 
@@ -152,7 +215,6 @@ const useStart = () => {
     useEffect(() => {
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             e.preventDefault()
-            e.returnValue = ''
         }
 
         window.addEventListener('beforeunload', handleBeforeUnload)
@@ -195,6 +257,7 @@ const useStart = () => {
         isPendingScore,
         subCompetency,
         isPendingSubCompetency,
+        isPendingCompleted,
 
         remainingTime,
         formattedTime: formatTime(remainingTime),

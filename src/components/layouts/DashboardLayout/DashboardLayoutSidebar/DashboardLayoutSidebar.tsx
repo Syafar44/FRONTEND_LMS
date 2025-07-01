@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { JSX } from "react";
 import { CiLogout, CiViewList } from "react-icons/ci";
+import { IoGridOutline } from "react-icons/io5";
 
 interface SidebarItem {
   key: string;
@@ -24,7 +25,6 @@ interface PropTypes {
 const DashboardLayoutSidebar = (props: PropTypes) => {
   const { sidebarItems, subSidebarItems, isOpen, type } = props;
   const router = useRouter();
-  console.log("isopen", isOpen)
   return (
     <div
       className={cn(
@@ -49,7 +49,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
             className={cn("my-1 h-12 text-2xl", {
               "bg-primary ": router.pathname.startsWith(type === "admin" ? "/admin/dashboard" : "/home"),
             })}
-            startContent={<CiViewList />}
+            startContent={<IoGridOutline />}
             textValue={"Dashboard"}
             aria-labelledby={"Dashboard"}
             aria-describedby={"Dashboard"}

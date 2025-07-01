@@ -142,6 +142,7 @@ const useHome = () => {
 
     dataSubCompetency,
     isPendingSubCompetency,
+    isPendingAllCompetency,
 
     required
   };

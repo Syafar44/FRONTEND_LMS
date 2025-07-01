@@ -19,7 +19,7 @@ const Login = () => {
     <div className="flex w-full flex-col items-center justify-center gap-10 lg:gap-20">
       <div className="flex w-full flex-col items-center justify-center gap-10 lg:w-1/3">
         <Image
-          src="/images/general/logo.png"
+          src="https://raw.githubusercontent.com/Syafar44/assets/refs/heads/main/assets/image/Desain%20Kitalulus%20PRG%20(2).jpg"
           alt="logo"
           width={180}
           height={180}

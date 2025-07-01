@@ -4,44 +4,68 @@ import { CiSearch } from "react-icons/ci"
 import useCompetency from "./useCompetency"
 import { ICompetency } from "@/types/Competency"
 import useChangeUrl from "@/hooks/useChangeUrl"
-import { useEffect } from "react"
 import { useRouter } from "next/router"
+import { useState, useEffect } from "react";
+import dayjs from "dayjs";
 
 const Competency = () => {
     const {
         dataCourse,
-        isPendingCourse,
-        
+        isPendingCourse,  
         dataSave,
-        isPendingSave,
-
         dataSubCompetency,
-        isPendingSubCompetency,
-
         pathSegments,
-
         dataUser,
-        isPendingUser
+        isPendingUser,
+        dataCompleted,
     } = useCompetency()
-
-    console.log(dataCourse)
-
+    
     const {
-    currentPage,
-    handleChangePage,
-  } = useChangeUrl();
-
+        currentPage,
+        handleChangePage,
+    } = useChangeUrl();
+    
     const { isReady } = useRouter();
     const { setUrl } = useChangeUrl()
-
+    
     useEffect(() => {
         if (isReady) {
-          setUrl();
+            setUrl();
         }
-      }, [isReady]);
-
+    }, [isReady]);
+    
     const isPending = isPendingCourse || isPendingUser 
-
+    const lastData = dataCompleted?.reduce((latest: {createdAt: string}, current: {createdAt: string}) => {
+        return new Date(current.createdAt) > new Date(latest.createdAt) ? current : latest
+    }, dataCompleted?.[0]);
+    const lastTime = lastData?.createdAt;
+    const [isWaitOver, setIsWaitOver] = useState(false);
+    const [countdown, setCountdown] = useState("");
+    useEffect(() => {
+        if (!lastTime) return;
+        const waitUntil = dayjs(lastTime).add(15, 'minute');
+        const now = dayjs();
+        if (now.isAfter(waitUntil)) {
+            setIsWaitOver(false);
+            setCountdown("");
+            return;
+        }
+        setIsWaitOver(true);
+        const interval = setInterval(() => {
+            const now = dayjs();
+            const diff = waitUntil.diff(now);
+            if (diff <= 0) {
+                setIsWaitOver(true);
+                setCountdown("");
+                clearInterval(interval);
+            } else {
+                const minutes = Math.floor(diff / 1000 / 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+                setCountdown(`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [lastTime]);
     return (
         <div className="grid gap-5">
             <section>
@@ -51,6 +75,18 @@ const Competency = () => {
                     placeholder="Cari Bedasarkan Judul..."
                 />
             </section>
+            {isWaitOver && (
+                <section>
+                        <div className="flex justify-between items-center border p-3 rounded-lg bg-red-500/20 border-red-500">
+                            <h2 className="text-sm">
+                                Mohon Menunggu Untuk Berpindah Materi
+                            </h2>
+                            <p className="font-bold">
+                                {countdown}
+                            </p>
+                        </div>
+                </section>
+            )}
             <section>
                 {!isPending ? (
                     <div className="grid gap-5 md:grid-cols-3">
@@ -63,15 +99,23 @@ const Competency = () => {
                             const access = accessCourse.includes(accessUser); 
                             const isAccess = dataSave ? false : access
                             const allAccess = course?.access?.includes('all-team')
+                            const isCompeted = dataCompleted?.some((item: {competency: string}) => item.competency === course._id)
                             return (
-                            <CardCourse
-                                key={course._id}
-                                data={course}
-                                competency={`${pathSegments[2]}`}
-                                progress={isProgress ? progress : 0}
-                                isLock={lock}
-                                isAccess={allAccess ? true : isAccess}
-                            />)
+                                <CardCourse
+                                    key={course._id}
+                                    data={course}
+                                    competency={`${pathSegments[2]}`}
+                                    progress={
+                                        !isCompeted ? (
+                                            isProgress ? progress : 0
+                                        ) : 100 
+                                    }
+                                    isLock={lock}
+                                    isAccess={allAccess ? true : isAccess}
+                                    isCompleted={isCompeted}
+                                    isCountdown={isAccess ? isWaitOver : false}
+                                />
+                            )
                         })}
                         <div className="flex justify-center md:justify-end">
                             {dataCourse?.pagination?.totalPages > 1 && (

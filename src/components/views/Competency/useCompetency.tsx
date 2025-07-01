@@ -1,6 +1,8 @@
 import useChangeUrl from "@/hooks/useChangeUrl";
 import authServices from "@/services/auth.service";
 import competencyServices from "@/services/competency.service"
+import completedServices from "@/services/completed.service";
+
 import saveServices from "@/services/save.service";
 import subCompetencyServices from "@/services/subCompetency.service";
 import { useQuery } from "@tanstack/react-query";
@@ -76,6 +78,21 @@ const useCompetency = () => {
         enabled: !!router.isReady
     })
 
+    const getCompleted = async() => {
+        const res = await completedServices.getCompletedByUser()
+        const { data } = res
+        return data?.data
+    }
+
+    const {
+        data: dataCompleted,
+        isPending: isPendingCompleted,
+    } = useQuery({
+        queryKey: ["Completed"],
+        queryFn: () => getCompleted(),
+        enabled: !!router.isReady
+    })
+
     return {
         dataCourse,
         isPendingCourse,
@@ -91,6 +108,9 @@ const useCompetency = () => {
 
         dataUser,
         isPendingUser,
+
+        dataCompleted,
+        isPendingCompleted,
     }
 }
 

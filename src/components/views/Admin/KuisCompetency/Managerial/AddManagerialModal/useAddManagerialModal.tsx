@@ -71,8 +71,6 @@ const useAddManagerialModal = () => {
     mutateAddManagerial(payload)
   };
 
-  console.log(errors)
-
   return {
     control,
     errors,

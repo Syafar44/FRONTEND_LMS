@@ -61,8 +61,6 @@ const Functional = () => {
     [push],
   );
 
-  console.log(dataSubFunctional)
-
   return (
     <section>
       {Object.keys(query).length > 0 && (

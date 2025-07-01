@@ -23,7 +23,7 @@ const toDateStandard = (date: DateValue) => {
 };
 
 const toInputDate = (date: string) => {
-  const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+07:00`);
+  const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+08:00`);
   return formattedDate;
 };
 
@@ -36,9 +36,9 @@ const convertTime = (isoDate: string) => {
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: "Asia/Jakarta",
+    timeZone: "Asia/Makassar",
   });
-  return `${date} WIB`;
+  return `${date} WITA`;
 };
 
 export { toDateStandard, toInputDate, convertTime };

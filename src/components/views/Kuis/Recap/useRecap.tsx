@@ -63,12 +63,10 @@ const useRecap = () => {
         queryFn: getHistoryVideo,
         enabled: !!dataSub?._id,
     })
-
-    console.log("dataScore", dataScore)
     useEffect(() => {
         if (dataHistoryVideo) {      
             const deleteScoreIfNeeded = async () => {
-                if(totalScore <= 80) {
+                if(totalScore < 80) {
                     await videoServices.deleteVideo(`${dataHistoryVideo?._id}`)
                 }
             }

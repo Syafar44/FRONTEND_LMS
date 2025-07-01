@@ -5,6 +5,7 @@ import resumeServices from "@/services/resume.service";
 import { IProfile } from "@/types/Auth";
 import { IKajian } from "@/types/Kajian";
 import { IResume } from "@/types/Resume";
+import { exportToExcel } from "@/utils/exportExcel";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
@@ -71,23 +72,40 @@ const useTabResume = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const filteredData = useMemo(() => {
-  if (!dataResume?.data || !dataUser?.data || !dataKajian?.data) return [];
+    if (!dataResume?.data || !dataUser?.data || !dataKajian?.data) return [];
 
-  return dataResume.data
-    .filter((resume: IResume) => {
-      const user: IProfile | undefined = dataUser.data.find((u: IProfile) => u._id === resume.createdBy);
-      const kajian = dataKajian.data.find((k: IKajian) => k._id === resume.kajian);
+    return dataResume.data
+      .filter((resume: IResume) => {
+        const user: IProfile | undefined = dataUser.data.find((u: IProfile) => u._id === resume.createdBy);
+        const kajian = dataKajian.data.find((k: IKajian) => k._id === resume.kajian);
+        const matchUser = user?.fullName?.toLowerCase().includes(searchUser.toLowerCase());
+        const matchKajian = kajian?.title?.toLowerCase().includes(searchKajian.toLowerCase());
+        return matchUser && matchKajian;
+      })
+      .sort((a: IResume, b: IResume) => {
+        const dateA = new Date(a.createdAt as string).getTime();
+        const dateB = new Date(b.createdAt as string).getTime();
+        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+      });
+  }, [dataResume, dataUser, dataKajian, searchUser, searchKajian, sortOrder]);
 
-      const matchUser = user?.fullName?.toLowerCase().includes(searchUser.toLowerCase());
-      const matchKajian = kajian?.title?.toLowerCase().includes(searchKajian.toLowerCase());
-      return matchUser && matchKajian;
-    })
-    .sort((a: IResume, b: IResume) => {
-      const dateA = new Date(a.createdAt as string).getTime();
-      const dateB = new Date(b.createdAt as string).getTime();
-      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-    });
-}, [dataResume, dataUser, dataKajian, searchUser, searchKajian, sortOrder]);
+  const handleDownloadExcel = () => {
+  if (!filteredData || filteredData.length === 0) return;
+
+  const formatted = filteredData.map((resume: IResume) => {
+    const user = dataUser?.data?.find((u: IProfile) => u._id === resume.createdBy);
+    const kajian = dataKajian?.data?.find((k: IKajian) => k._id === resume.kajian);
+
+    return {
+      "JUDUL": kajian?.title || "-",
+      "RESUME": resume.resume || "-",
+      "PUBLISH": new Date(resume.createdAt!).toLocaleString(),
+      "USER": user?.fullName || "-",
+    };
+  });
+
+  exportToExcel(formatted, "Data-Resume");
+};
 
 
   return {
@@ -114,6 +132,7 @@ const useTabResume = () => {
     setSearchKajian,
     setSearchUser,
     setSortOrder,
+    handleDownloadExcel,
   };
 };
 

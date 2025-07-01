@@ -30,6 +30,8 @@ const TabResume = () => {
     setSearchKajian,
     setSearchUser,
     setSortOrder,
+
+    handleDownloadExcel,
   } = useTabResume()
   
   const { setUrl } = useChangeUrl();
@@ -92,12 +94,20 @@ const TabResume = () => {
             onChange={(e) => setSearchKajian(e.target.value)}
           />
         </div>
-        <Button
-          onPress={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
-          className="bg-primary"
-        >
-          Sort: {sortOrder === "asc" ? "Terlama" : "Terbaru"}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onPress={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
+            className="bg-primary"
+          >
+            Sort: {sortOrder === "asc" ? "Terlama" : "Terbaru"}
+          </Button>
+          <Button
+            onPress={handleDownloadExcel}
+            className="bg-primary"
+          >
+            Download Excel
+          </Button>
+        </div>
     </section>
       {Object.keys(query).length > 0 && (
         <DataTable

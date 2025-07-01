@@ -71,8 +71,6 @@ const useAddFunctionalModal = () => {
     mutateAddFunctional(payload)
   };
 
-  console.log(errors)
-
   return {
     control,
     errors,

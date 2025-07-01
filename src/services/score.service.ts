@@ -5,6 +5,7 @@ import { IScore } from "@/types/Score";
 
 const scoreServices = {
   getScoreAll: () => instance.get(`${endpoint.SCORE}`),
+  getScoreAllByUser: () => instance.get(`${endpoint.SCORE}-user`),
   getScoreById: (id: string) => instance.get(`${endpoint.SCORE}/${id}`),
   addScore: (payload: IScore) =>
     instance.post(endpoint.SCORE, payload),

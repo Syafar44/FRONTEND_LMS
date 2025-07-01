@@ -5,6 +5,7 @@ interface IRegister {
   fullName: string;
   access: string;
   email: string;
+  job: string;
   password: string;
   confirmPassword: string;
 }

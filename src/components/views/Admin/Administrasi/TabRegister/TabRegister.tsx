@@ -145,15 +145,15 @@ const TabRegister = () => {
                 control={control}
                 render={({field: {onChange, ...field}}) => (
                     <Select
-                        {...field}
-                        label="Access"
-                        variant="bordered"
-                        isInvalid={errors.access !== undefined}
-                        errorMessage={errors.access?.message}
-                        className="mb-2"
-                        onSelectionChange={(value) => {
-                            onChange(`${value.anchorKey}`)
-                        }}
+                    {...field}
+                    label="Access"
+                    variant="bordered"
+                    isInvalid={errors.access !== undefined}
+                    errorMessage={errors.access?.message}
+                    className="mb-2"
+                    onSelectionChange={(value) => {
+                        onChange(`${value.anchorKey}`)
+                    }}
                     >
                     {access_list.map((item) => (
                         <SelectItem key={item.key} value={item.key}>
@@ -161,6 +161,21 @@ const TabRegister = () => {
                         </SelectItem>
                     ))}
                     </Select>
+                )}
+                />
+                <Controller
+                name="job"
+                control={control}
+                render={({ field }) => (
+                    <Input
+                    {...field}
+                    type="job"
+                    label="Job"
+                    variant="bordered"
+                    autoComplete="off"
+                    isInvalid={errors.job !== undefined}
+                    errorMessage={errors.job?.message}
+                    />
                 )}
                 />
                 <Controller

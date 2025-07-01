@@ -1,5 +1,5 @@
 import CardCourse from "@/components/ui/CardCourse";
-import { Card, CardBody, Select, SelectItem, Skeleton, Spinner } from "@heroui/react";
+import { Card, CardBody, Select, SelectItem, Skeleton } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useHome from "./useHome";
@@ -38,11 +38,11 @@ const Home = () => {
         },
         {
             label: "Functional Competency",
-            link: "/kelas-kompetensi/core"
+            link: "/kelas-kompetensi/functional"
         },
         {
             label: "Managerial Competency",
-            link: "/kelas-kompetensi/core"
+            link: "/kelas-kompetensi/managerial"
         }
     ]
     
@@ -56,9 +56,6 @@ const Home = () => {
     const avatarUrl = `https://ui-avatars.com/api/background=F8BD1B&color=000000?name=${encodeURIComponent(profile?.fullName)}&bold=true&uppercase=true`
 
     const progress = dataSave?.progress / dataSubCompetency?.length * 100
-
-    console.log(avatarUrl)
-    console.log(dataCompetency)
 
     return (
         <div className="grid gap-5">

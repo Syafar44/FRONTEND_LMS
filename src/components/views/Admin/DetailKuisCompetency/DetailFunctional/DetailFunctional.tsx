@@ -10,8 +10,6 @@ const DetailFunctional = () => {
     isSuccessMutateUpdateFunctional,
   } = useDetailFunctional();
 
-  console.log("dataFunctional", dataFunctional);
-
   return (
     <Tabs aria-label="Options">
       <Tab key="info" title="Info">

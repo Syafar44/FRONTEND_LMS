@@ -10,6 +10,7 @@ const endpoint = {
   VIDEO: "/video",
   RESUME: "/resume",
   SAVE: "/save",
+  COMPLETED: "/completed",
 };
 
 export default endpoint;

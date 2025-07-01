@@ -2,6 +2,7 @@ import { IKajian } from "@/types/Kajian"
 import { CardBody, Card, Progress, Link } from "@heroui/react"
 import Image from "next/image"
 import { BiSolidLock } from "react-icons/bi";
+import { RiTimerLine } from "react-icons/ri";
 
 interface PropTypes {
     type?: string
@@ -11,6 +12,8 @@ interface PropTypes {
     progress?: number
     isLock?: boolean
     isAccess?: boolean
+    isCompleted?: boolean
+    isCountdown?: boolean
 }
 
 const CardCourse = (props: PropTypes) => {
@@ -21,15 +24,22 @@ const CardCourse = (props: PropTypes) => {
         isPass,
         progress,
         isLock,
-        isAccess
+        isAccess,
+        isCompleted,
+        isCountdown,
     } = props
 
   return (
     <Card>
         <CardBody className="relative p-0">
-             {(isLock || isAccess === false) && (
+             {(!isCompleted && (isLock || isAccess === false)) && (
                 <div className="bg-white/30 absolute h-full w-full top-0 border z-40 flex justify-center items-center">
-                    <BiSolidLock size={100} className="font-bold text-primary "/>
+                        <BiSolidLock size={100} className="font-bold text-primary "/>
+                </div>
+            )}
+            {(isCountdown && !isCompleted) && (
+                <div className="bg-white/30 absolute h-full w-full top-0 border z-40 flex justify-center items-center">
+                    <RiTimerLine size={100} className="font-bold text-primary "/>   
                 </div>
             )}
             <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}` : `/kajian-online/${data?._id}`} className="grid gap-3 p-3">

@@ -4,6 +4,7 @@ import { IResume } from "@/types/Resume";
 
 const resumeServices = {
   getResumeAll: (params?: string) => instance.get(`${endpoint.RESUME}?${params}`),
+  getResumeAllByUser: () => instance.get(`${endpoint.RESUME}-user`),
   getResumeById: (id: string) => instance.get(`${endpoint.RESUME}/${id}`),
   addResume: (payload: IResume) =>
     instance.post(endpoint.RESUME, payload),

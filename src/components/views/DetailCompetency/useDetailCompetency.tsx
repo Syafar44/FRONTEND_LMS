@@ -9,7 +9,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 const useDetailCompetency = () => {
-    const { query } = useRouter()
+    const { query, isReady } = useRouter()
     const { currentLimit, currentPage, currentSearch } = useChangeUrl();
     const [ subCompetency, setSubCompetency ] = useState("")
     const [isView, setIsView] = useState(false)
@@ -69,10 +69,10 @@ const useDetailCompetency = () => {
     })
 
     const getHistoryKuis = async () => {
-        const res = await scoreServices.getScoreAll()
+        const res = await scoreServices.getScoreAllByUser()
         const { data } = res
         const filterLulus = data.data.filter((item: IScore) => item.isPass === true )
-        return filterLulus[0]
+        return filterLulus
     }
 
     const {
@@ -97,7 +97,7 @@ const useDetailCompetency = () => {
     } = useQuery({
         queryKey: ["getVideo", subCompetencyById?._id, subCompetency],
         queryFn: getVideo,
-        enabled: !!subCompetencyById?._id,
+        enabled: !!subCompetencyById?._id || !!isReady,
     })
 
     useEffect(()=> {
@@ -107,6 +107,21 @@ const useDetailCompetency = () => {
             setIsView(false)
         )
     }, [dataVideo])
+
+    console.log("historyKuis", historyKuis?.bySubCompetency)
+    console.log("subId", subCompetency)
+
+    useEffect(() => {
+        if (!competency || competency.length === 0) return;
+        if (!historyKuis) return;
+
+        const lastId = competency[competency.length - 1]?._id;
+
+        if (historyKuis.bySubCompetency === lastId) {
+            console.log("Semua subCompetency telah selesai");
+            // Bisa juga nanti trigger API update progres user, dsb.
+        }
+    }, [competency, historyKuis]);
 
     return {
         competency,

@@ -9,6 +9,7 @@ import useManagerial from "./useManagerial";
 import DeleteManagerialModal from "./DeleteManagerialModal";
 import AddManagerialModal from "./AddManagerialModal";
 import { COLUMN_LISTS_MANAGERIAL } from "./Managerial.constants";
+import { convertTime } from "@/utils/date";
 
 const Managerial = () => {
   const { push, isReady, query } = useRouter();
@@ -37,9 +38,11 @@ const Managerial = () => {
       const cellValue = managerial[columnKey as keyof typeof managerial];
 
       switch (columnKey) {
-        case "icon":
+        case "createdAt":
           return (
-            <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
+            <div>
+              <span>{convertTime(`${managerial.createdAt}`)}</span>
+            </div>
           );
         case "actions":
           return (

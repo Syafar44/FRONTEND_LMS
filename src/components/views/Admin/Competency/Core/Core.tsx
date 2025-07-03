@@ -9,6 +9,7 @@ import { COLUMN_LISTS_CORE } from "./Core.constants";
 import useCore from "./useCore";
 import DeleteCoreModal from "./DeleteCoreModal";
 import AddCoreModal from "./AddCoreModal";
+import { convertTime } from "@/utils/date";
 
 const Core = () => {
   const { push, isReady, query } = useRouter();
@@ -37,9 +38,11 @@ const Core = () => {
       const cellValue = core[columnKey as keyof typeof core];
 
       switch (columnKey) {
-        case "icon":
+        case "createdAt":
           return (
-            <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
+            <div>
+              <span>{convertTime(`${core.createdAt}`)}</span>
+            </div>
           );
         case "actions":
           return (

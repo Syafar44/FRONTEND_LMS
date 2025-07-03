@@ -30,10 +30,10 @@ const YouTubeWithControls = (props: PropTypes) => {
     } = useYouTubeWithControls(selectionId)
 
     return (
-        <div className="grid gap-5">
+        <div className="grid gap-5 w-full">
             <div
                 ref={containerRef} 
-                className="aspect-video w-full max-w-2xl mx-auto overflow-hidden rounded-xl shadow border">
+                className="aspect-video w-full mx-auto overflow-hidden rounded-xl shadow border">
                 {isPlayerVisible ? (
                     <YouTube
                         videoId={videoId}

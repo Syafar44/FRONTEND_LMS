@@ -1,4 +1,5 @@
 import kuisCompetencyServices from "@/services/kuisCompetency.service";
+import subCompetencyServices from "@/services/subCompetency.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -20,9 +21,24 @@ const useCore = () => {
     isRefetching: isRefetchingKuisCore,
     refetch: refetchKuisCore,
   } = useQuery({
-    queryKey: ["KuisCompetency"],
+    queryKey: ["KuisCompetency", id],
     queryFn: () => getAllKuisCompetencyBySubCompetency(),
     enabled: router.isReady && !!id,
+  });
+
+  const getSubCompetency = async () => {
+    const res = await subCompetencyServices.getSubCompetencyById(`${id}`)
+    const { data } = res;
+    return data.data;
+  };
+
+  const {
+    data: dataSubCompetency,
+    isPending: isPendingSubCompetency,
+  } = useQuery({
+    queryKey: ["SubCompetency", id],
+    queryFn: () => getSubCompetency(),
+    enabled: router.isReady && !!id
   });
 
   return {
@@ -34,7 +50,8 @@ const useCore = () => {
     selectedId,
     setSelectedId,
 
-    id
+    dataSubCompetency,
+    isPendingSubCompetency,
   };
 };
 

@@ -83,15 +83,15 @@ const TabResume = () => {
         <div className="flex flex-col sm:flex-row gap-2">
           <Input
             type="text"
-            placeholder="Cari nama user..."
-            value={searchUser}
-            onChange={(e) => setSearchUser(e.target.value)}
-          />
-          <Input
-            type="text"
             placeholder="Cari bedasarkan kajian..."
             value={searchKajian}
             onChange={(e) => setSearchKajian(e.target.value)}
+          />
+          <Input
+            type="text"
+            placeholder="Cari nama user..."
+            value={searchUser}
+            onChange={(e) => setSearchUser(e.target.value)}
           />
         </div>
         <div className="flex gap-2">

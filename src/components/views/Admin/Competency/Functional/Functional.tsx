@@ -9,6 +9,7 @@ import useFunctional from "./useFunctional";
 import DeleteFunctionalModal from "./DeleteFunctionalModal";
 import AddFunctionalModal from "./AddFunctionalModal";
 import { COLUMN_LISTS_FUNCTIONAL } from "./Functional.constants";
+import { convertTime } from "@/utils/date";
 
 const Functional = () => {
   const { push, isReady, query } = useRouter();
@@ -37,6 +38,12 @@ const Functional = () => {
       const cellValue = functional[columnKey as keyof typeof functional];
 
       switch (columnKey) {
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${functional.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction

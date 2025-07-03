@@ -5,7 +5,7 @@ import {
 import { FaRegCircleUser } from "react-icons/fa6";
 import { HiUserGroup } from "react-icons/hi";
 import { IoBookOutline, IoSettingsOutline } from "react-icons/io5";
-import { LuBrain } from "react-icons/lu";
+import { LuBrain, LuClipboardCheck } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
 
 const SIDEBAR_ADMIN = [
@@ -35,6 +35,12 @@ const SIDEBAR_MEMBER = [
     label: "Kajian Online",
     href: "/kajian-online",
     icon: <IoBookOutline />,
+  },
+  {
+    key: "lkp",
+    label: "Lembar Kepatuhan Pribadi",
+    href: "/lkp",
+    icon: <LuClipboardCheck />,
   },
   {
     key: "pengaturan",

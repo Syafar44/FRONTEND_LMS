@@ -7,6 +7,7 @@ import useFunctional from "./useFunctional";
 import DeleteFunctionalModal from "./DeleteFunctionalModal";
 import AddFunctionalModal from "./AddFunctionalModal";
 import { COLUMN_LISTS_FUNCTIONAL } from "./Functional.constants";
+import { convertTime } from "@/utils/date";
 
 const Functional = () => {
   const { push, query } = useRouter();
@@ -17,7 +18,11 @@ const Functional = () => {
     refetchKuisFunctional,
     selectedId,
     setSelectedId,
+    dataSubCompetency,
+    isPendingSubCompetency,
   } = useFunctional()
+
+  const title = dataSubCompetency?.title
 
   const addFunctionalModal = useDisclosure();
   const deleteFunctionalModal = useDisclosure();
@@ -27,6 +32,18 @@ const Functional = () => {
       const cellValue = functional[columnKey as keyof typeof functional];
 
       switch (columnKey) {
+        case "subCompetency":
+          return (
+            <div>
+              <span>{`${title}`}</span>
+            </div>
+          );
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${functional.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction
@@ -44,7 +61,7 @@ const Functional = () => {
           return cellValue as ReactNode;
       }
     },
-    [push],
+    [push, title],
   );
 
   return (
@@ -55,7 +72,7 @@ const Functional = () => {
           columns={COLUMN_LISTS_FUNCTIONAL}
           data={dataKuisFunctional?.data || []}
           emptyContent="Kuis Functional is empty"
-          isLoading={isLoadingKuisFunctional || isRefetchingKuisFunctional}
+          isLoading={isLoadingKuisFunctional || isRefetchingKuisFunctional || isPendingSubCompetency}
           onClickButtonTopContent={addFunctionalModal.onOpen}
           renderCell={renderCell}
           totalPages={dataKuisFunctional?.pagination?.totalPages}

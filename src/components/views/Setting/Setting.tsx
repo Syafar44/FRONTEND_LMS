@@ -13,7 +13,7 @@ const Setting = () => {
     } = useSetting()
 
     return (
-        <div>
+        <div className="max-w-[600px]">
             <h1>Reset Password</h1>
             <form onSubmit={handleSubmitForm(handleUpdateCore)}>
                 <div className="py-5">

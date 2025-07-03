@@ -23,6 +23,7 @@ const Competency = () => {
     const {
         currentPage,
         handleChangePage,
+        handleSearch,
     } = useChangeUrl();
     
     const { isReady } = useRouter();
@@ -70,6 +71,7 @@ const Competency = () => {
         <div className="grid gap-5">
             <section>
                 <Input
+                    onChange={handleSearch}
                     className="w-full md:w-1/4"
                     startContent={<CiSearch />}
                     placeholder="Cari Bedasarkan Judul..."
@@ -89,7 +91,7 @@ const Competency = () => {
             )}
             <section>
                 {!isPending ? (
-                    <div className="grid gap-5 md:grid-cols-3">
+                    <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-4">
                         {dataCourse?.data.map((course: ICompetency) => {
                             const isProgress = dataSave?.competency === course?._id;
                             const progress = (dataSave?.progress ?? 0) / (dataSubCompetency?.length ?? 1) * 100;
@@ -133,9 +135,9 @@ const Competency = () => {
                         </div>
                     </div>
                 ): (
-                    <div className="grid gap-5">
-                        <Skeleton className="h-[240px] rounded-lg" />
-                        <Skeleton className="h-[240px] rounded-lg" />
+                    <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
+                        <Skeleton className="h-[240px] md:h-[340px] rounded-lg" />
+                        <Skeleton className="h-[240px] md:h-[340px] rounded-lg" />
                     </div>
                 )}
             </section>

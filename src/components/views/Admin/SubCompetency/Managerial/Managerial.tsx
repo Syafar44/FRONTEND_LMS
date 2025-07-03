@@ -9,6 +9,7 @@ import useManagerial from "./useManagerial";
 import DeleteManagerialModal from "./DeleteManagerialModal";
 import AddManagerialModal from "./AddManagerialModal";
 import { COLUMN_LISTS_MANAGERIAL } from "./Managerial.constants";
+import { convertTime } from "@/utils/date";
 
 const Managerial = () => {
   const { push, isReady, query } = useRouter();
@@ -40,6 +41,18 @@ const Managerial = () => {
       const cellValue = managerial[columnKey as keyof typeof managerial];
 
       switch (columnKey) {
+        case "competency" :
+          return (
+            <p>
+              {slug}
+            </p>
+          );
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${managerial.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction
@@ -47,7 +60,7 @@ const Managerial = () => {
                 push(`/admin/kelas-kompetensi/managerial/kuis/${managerial._id}`)
               }
               onPressButtonUpdate={() =>
-                push(`/admin/kelas-kompetensi/managerial/update/${managerial._id}`)
+                push(`/admin/kelas-kompetensi/managerial/subupdate/${managerial._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${managerial._id}`);

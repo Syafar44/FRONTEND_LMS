@@ -10,7 +10,7 @@ const competencyServices = {
   deleteCompetency: (id: string) => instance.delete(`${endpoint.COMPETENCY}/${id}`),
   updateCompetency: (id: string, payload: ICompetency) =>
     instance.put(`${endpoint.COMPETENCY}/${id}`, payload),
-  getCompetencyByMainCompetency: (main_competency: string, params: string) => instance.get(`${endpoint.COMPETENCY}/${main_competency}/main_competency?${params}`),
+  getCompetencyByMainCompetency: (main_competency: string, params?: string) => instance.get(`${endpoint.COMPETENCY}/${main_competency}/main_competency?${params}`),
   getCompetencyBySlug: (slug: string, params?: string) => instance.get(`${endpoint.COMPETENCY}/${slug}/slug?${params}`),
 };
 

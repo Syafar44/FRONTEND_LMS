@@ -9,6 +9,7 @@ import { COLUMN_LISTS_CORE } from "./Core.constants";
 import useCore from "./useCore";
 import DeleteCoreModal from "./DeleteCoreModal";
 import AddCoreModal from "./AddCoreModal";
+import { convertTime } from "@/utils/date";
 
 const Core = () => {
   const { push, isReady, query } = useRouter();
@@ -18,10 +19,8 @@ const Core = () => {
     isLoadingSubCore,
     isRefetchingSubCore,
     refetchSubCore,
-
     selectedId,
     setSelectedId,
-
     slug,
   } = useCore()
 
@@ -40,6 +39,18 @@ const Core = () => {
       const cellValue = core[columnKey as keyof typeof core];
 
       switch (columnKey) {
+        case "competency" :
+          return (
+            <p>
+              {slug}
+            </p>
+          );
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${core.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction
@@ -47,7 +58,7 @@ const Core = () => {
                 push(`/admin/kelas-kompetensi/core/kuis/${core._id}`)
               }
               onPressButtonUpdate={() =>
-                push(`/admin/kelas-kompetensi/core/update/${core._id}`)
+                push(`/admin/kelas-kompetensi/core/subupdate/${core._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${core._id}`);

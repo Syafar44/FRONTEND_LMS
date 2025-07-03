@@ -57,15 +57,15 @@ const TabRekap = () => {
         <div className="flex flex-col sm:flex-row gap-2">
           <Input
             type="text"
-            placeholder="Cari nama user..."
-            value={searchUser}
-            onChange={(e) => setSearchUser(e.target.value)}
-          />
-          <Input
-            type="text"
             placeholder="Cari bedasarkan Materi..."
             value={searchCompetency}
             onChange={(e) => setSearchCompetency(e.target.value)}
+          />
+          <Input
+            type="text"
+            placeholder="Cari nama user..."
+            value={searchUser}
+            onChange={(e) => setSearchUser(e.target.value)}
           />
         </div>
         <div>

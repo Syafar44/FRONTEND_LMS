@@ -28,6 +28,13 @@ const useDetailFunctional = () => {
     return data.data;
   };
 
+  const extractYouTubeId = (url: string): string | null => {
+    const match = url.match(
+      /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&#?/]+)/,
+    );
+    return match ? match[1] : null;
+  };
+
   const {
     mutate: mutateUpdateFunctional,
     isPending: isPendingMutateUpdateFunctional,
@@ -50,8 +57,10 @@ const useDetailFunctional = () => {
   });
 
   const handleUpdateFunctional = (data: ISubCompetency) => {
+    const videoId = extractYouTubeId(`${data.video}`);
     const payload = {
       ...data,
+      video: `${videoId}`
     }
     mutateUpdateFunctional(payload)
   };

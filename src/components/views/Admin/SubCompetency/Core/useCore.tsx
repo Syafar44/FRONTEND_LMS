@@ -25,7 +25,7 @@ const useCore = () => {
   } = useQuery({
     queryKey: ["Competency"],
     queryFn: () => getCompetency(),
-    enabled: router.isReady,
+    enabled: !!router.isReady,
   });
 
   

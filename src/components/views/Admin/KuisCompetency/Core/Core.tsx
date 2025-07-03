@@ -7,6 +7,7 @@ import { COLUMN_LISTS_CORE } from "./Core.constants";
 import useCore from "./useCore";
 import DeleteCoreModal from "./DeleteCoreModal";
 import AddCoreModal from "./AddCoreModal";
+import { convertTime } from "@/utils/date";
 
 const Core = () => {
   const { push, query } = useRouter();
@@ -17,8 +18,12 @@ const Core = () => {
     refetchKuisCore,
     selectedId,
     setSelectedId,
+    dataSubCompetency,
+    isPendingSubCompetency,
   } = useCore()
 
+  const title = dataSubCompetency?.title
+  
   const addCoreModal = useDisclosure();
   const deleteCoreModal = useDisclosure();
 
@@ -27,6 +32,18 @@ const Core = () => {
       const cellValue = core[columnKey as keyof typeof core];
 
       switch (columnKey) {
+        case "subCompetency":
+          return (
+            <div>
+              <span>{`${title}`}</span>
+            </div>
+          );
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${core.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction
@@ -44,7 +61,7 @@ const Core = () => {
           return cellValue as ReactNode;
       }
     },
-    [push],
+    [push, title],
   );
 
   return (
@@ -55,7 +72,7 @@ const Core = () => {
           columns={COLUMN_LISTS_CORE}
           data={dataKuisCore?.data || []}
           emptyContent="Kuis Core is empty"
-          isLoading={isLoadingKuisCore || isRefetchingKuisCore}
+          isLoading={isLoadingKuisCore || isRefetchingKuisCore || isPendingSubCompetency}
           onClickButtonTopContent={addCoreModal.onOpen}
           renderCell={renderCell}
           totalPages={dataKuisCore?.pagination?.totalPages}

@@ -20,7 +20,7 @@ const Recap = () => {
     const isPending = isPendingScore || isPendingSub || isPendingCompetency
 
     return (
-        <div>
+        <div className="mx-auto max-w-[600px]">
             {!isPending ? (
                 <div className="grid gap-10">
                     <section className="grid gap-3">

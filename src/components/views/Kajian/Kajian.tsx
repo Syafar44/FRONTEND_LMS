@@ -2,14 +2,12 @@
 import { Input, Pagination, Skeleton } from "@heroui/react"
 import { CiSearch } from "react-icons/ci"
 import useKajian from "./useKajian"
-import { ICompetency } from "@/types/Competency"
 import CardCourse from "@/components/ui/CardCourse"
 import useChangeUrl from "@/hooks/useChangeUrl"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { IKajian } from "@/types/Kajian"
 import { IResume } from "@/types/Resume"
-import resumeServices from "@/services/resume.service"
 
 const Kajian = () => {
     const {
@@ -24,7 +22,6 @@ const Kajian = () => {
         currentPage,
         handleChangePage,
         handleSearch,
-
   } = useChangeUrl();
 
     const { isReady } = useRouter();
@@ -49,7 +46,7 @@ const Kajian = () => {
             </section>
             <section>
                 {!isPending || !isFetchingKajian ? (
-                    <div className="grid gap-5 md:grid-cols-3">
+                    <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-4">
                         {dataKajian?.data.map((kajian: IKajian) => {
                             const resume = dataResume ? dataResume?.data.some((item: IResume) => item.kajian === kajian._id) : false
                             return (
@@ -76,7 +73,9 @@ const Kajian = () => {
                         </div>
                     </div>
                 ): (
-                    <Skeleton className="h-[240px] w-full rounded-lg"/>
+                    <div className="grid md:grid-cols-3 xl:grid-cols-4">
+                        <Skeleton className="h-[240px] w-full rounded-lg"/>
+                    </div>
                 )}
             </section>
         </div>

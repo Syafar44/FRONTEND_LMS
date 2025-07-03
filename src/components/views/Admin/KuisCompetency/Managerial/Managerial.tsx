@@ -7,6 +7,7 @@ import useManagerial from "./useManagerial";
 import DeleteManagerialModal from "./DeleteManagerialModal";
 import AddManagerialModal from "./AddManagerialModal";
 import { COLUMN_LISTS_MANAGERIAL } from "./Managerial.constants";
+import { convertTime } from "@/utils/date";
 
 const Managerial = () => {
   const { push, query } = useRouter();
@@ -17,7 +18,11 @@ const Managerial = () => {
     refetchKuisManagerial,
     selectedId,
     setSelectedId,
+    dataSubCompetency,
+    isPendingSubCompetency,
   } = useManagerial()
+
+  const title = dataSubCompetency?.title
 
   const addManagerialModal = useDisclosure();
   const deleteManagerialModal = useDisclosure();
@@ -27,6 +32,18 @@ const Managerial = () => {
       const cellValue = managerial[columnKey as keyof typeof managerial];
 
       switch (columnKey) {
+        case "subCompetency":
+          return (
+            <div>
+              <span>{`${title}`}</span>
+            </div>
+          );
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${managerial.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction
@@ -44,7 +61,7 @@ const Managerial = () => {
           return cellValue as ReactNode;
       }
     },
-    [push],
+    [push, title],
   );
 
   return (
@@ -55,7 +72,7 @@ const Managerial = () => {
           columns={COLUMN_LISTS_MANAGERIAL}
           data={dataKuisManagerial?.data || []}
           emptyContent="Kuis Managerial is empty"
-          isLoading={isLoadingKuisManagerial || isRefetchingKuisManagerial}
+          isLoading={isLoadingKuisManagerial || isRefetchingKuisManagerial || isPendingSubCompetency}
           onClickButtonTopContent={addManagerialModal.onOpen}
           renderCell={renderCell}
           totalPages={dataKuisManagerial?.pagination?.totalPages}

@@ -16,7 +16,7 @@ const Dashboard = () => {
                 </h2>
             </CardHeader>
             <CardBody className="grid gap-5 px-5 py-8 overflow-hidden">
-                <div className="flex gap-5 w-full justify-between">
+                <div className="flex flex-col md:flex-row gap-5 w-full justify-between">
                     <Button
                         size="lg"
                         className="bg-primary shadow-md grid h-full p-5"

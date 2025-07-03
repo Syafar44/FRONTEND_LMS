@@ -1,5 +1,5 @@
 import CardCourse from "@/components/ui/CardCourse";
-import { Card, CardBody, Select, SelectItem, Skeleton } from "@heroui/react";
+import { Button, Card, CardBody, Select, SelectItem, Skeleton } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useHome from "./useHome";
@@ -59,64 +59,72 @@ const Home = () => {
 
     return (
         <div className="grid gap-5">
-            {profile ? (
-                <Card>
-                    <CardBody className="p-5">
-                        <div className="flex gap-5 items-center">
-                            <Image src={avatarUrl} alt="syafar" width={1000} height={1000} className="rounded-full w-1/5" />
-                            <div>
-                                <h2 className="font-bold text-lg">
-                                    {profile?.fullName}
-                                </h2>
-                                <p>
-                                    {profile?.job}
-                                </p>
+            <section className="flex flex-col gap-3 md:gap-5 md:flex-row w-full">
+                {profile ? (
+                    <Card className="md:w-[700px]">
+                        <CardBody className="p-5">
+                            <div className="flex gap-5 items-center">
+                                <Image src={avatarUrl} alt="syafar" width={1000} height={1000} className="rounded-full w-1/5" />
+                                <div>
+                                    <h2 className="font-bold text-lg">
+                                        {profile?.fullName}
+                                    </h2>
+                                    <p>
+                                        {profile?.job}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </CardBody>
-                </Card>
-            ) : (
-                <div>
-                    <Skeleton className="w-full h-[100px] rounded-lg" />
-                </div>
-            )}
-            <Select
-                color="default"
-                size="lg"
-                variant="bordered"
-                placeholder="Daftar Kompetensi Utama"
-                onChange={(e) => handleChange(e.target.value)}
-                >
-                {competency.map((item) => (
-                    <SelectItem key={item.label} value={item.label}>
-                        {item.label}
-                    </SelectItem>
-                ))}
-            </Select>
-            <section className="grid grid-cols-3 gap-2">
-                <div className="border py-5 rounded-xl flex flex-col items-center gap-2">
-                    <h3 className="text-xs">
-                        Kompetensi Wajib
-                    </h3>
-                    <p className="text-3xl text-primary">{required?.length ?? 0}</p>
-                </div>
-                <div className="border py-5 rounded-xl flex flex-col items-center gap-2">
-                    <h3 className="text-xs">
-                        Sedang Berjalan
-                    </h3>   
-                    <p className="text-3xl text-primary">{dataSave ? 1 : 0}</p>
-                </div>
-                <div className="border py-5 rounded-xl flex flex-col items-center gap-2">
-                    <h3 className="text-xs">
-                        Sertifikat
-                    </h3>
-                    <p className="text-3xl text-primary">0</p>
+                        </CardBody>
+                    </Card>
+                ) : (
+                    <div>
+                        <Skeleton className="w-full h-[100px] rounded-lg" />
+                    </div>
+                )}
+                <div className="flex items-center gap-2 md:gap-5 w-full">
+                    <Card className="w-full h-full">
+                        <CardBody className="py-5 flex flex-col items-center justify-center gap-2 shadow-sm w-full bg-white">
+                            <h3 className="text-xs">
+                                Kompetensi Wajib
+                            </h3>
+                            <p className="text-3xl text-primary">{required?.length ?? 0}</p>
+                        </CardBody>
+                    </Card>
+                    <Card className="w-full h-full">
+                        <CardBody className="py-5 flex flex-col items-center justify-center gap-2 shadow-sm w-full bg-white">
+                            <h3 className="text-xs">
+                                Sedang Berjalan
+                            </h3>   
+                            <p className="text-3xl text-primary">{dataSave ? 1 : 0}</p>
+                        </CardBody>
+                    </Card>
                 </div>
             </section>
+                <div className="grid gap-3 w-full md:max-w-[500px]">
+                    <Select
+                        color="default"
+                        size="lg"
+                        variant="bordered"
+                        placeholder="Daftar Kompetensi Utama"
+                        onChange={(e) => handleChange(e.target.value)}
+                        >
+                        {competency.map((item) => (
+                            <SelectItem key={item.label} value={item.label}>
+                                {item.label}
+                            </SelectItem>
+                        ))}
+                    </Select>
+                    <Button 
+                        className="w-full bg-primary shadow-md"
+                        onPress={() => router.push("/lkp")}
+                    >
+                        Isi Lembar Kepatuhan Pribadi
+                    </Button>
+                </div>
             <section className="grid gap-3">
                 <h3 className="font-bold text-lg">Lanjutkan Belajar</h3>
                     {dataSave ? (
-                        <div>
+                        <div className="grid md:grid-cols-3 xl:grid-cols-4">
                             {!isPendingSave && !isPendingCompetency ? (
                                 <CardCourse competency={dataCompetency?.main_competency} data={dataCompetency} progress={progress}/>
                             ) : (
@@ -124,19 +132,22 @@ const Home = () => {
                             )}
                         </div>
                     ): (
-                        <div className="flex justify-center items-center h-[200px]">
-                            <p>Belum ada kelas yang di ambil</p>
+                        <div className="grid md:grid-cols-3 xl:grid-cols-4">
+                            <div className="border w-full h-[300px] rounded-lg flex items-center justify-center">
+                                <p>Belum ada materi yang di ambil</p>
+                            </div>
                         </div>
                     )}
-
             </section>
             <section className="grid gap-3">
                 <h3 className="font-bold text-lg">Kajian Minggu Ini</h3>
-                {!isPendingKajian ? (
-                    <CardCourse type="kajian" data={dataKajian} isPass={isPass}/>
-                ): (
-                    <Skeleton className="w-full h-[200px] rounded-lg" />
-                )}
+                <div className="grid md:grid-cols-3 xl:grid-cols-4">
+                    {!isPendingKajian ? (
+                        <CardCourse type="kajian" data={dataKajian} isPass={isPass}/>
+                    ): (
+                        <Skeleton className="w-full h-[200px] rounded-lg" />
+                    )}
+                </div>
             </section>
         </div>
     );

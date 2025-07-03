@@ -4,7 +4,6 @@ import useDetailUser from "./useDetailUser";
 import PasswordTab from "./PasswordTab";
 import InfoRole from "./InfoRole";
 
-
 const DetailUser = () => {
   const {
     dataUser,

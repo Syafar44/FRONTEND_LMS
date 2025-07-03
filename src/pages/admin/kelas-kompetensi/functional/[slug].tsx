@@ -5,7 +5,7 @@ import Functional from "@/components/views/Admin/SubCompetency/Functional";
 const AdminSubFunctionalCompetencyPage = () => {
   return (
     <DashboardLayout
-      title="SubFunctional Competency"
+      title="Sub Functional Competency"
       description="List of all SubFunctional Categories, create new Competency, and manage existing SubFunctional."
       type="admin"
     >

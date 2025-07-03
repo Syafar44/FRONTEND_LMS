@@ -9,6 +9,7 @@ import useFunctional from "./useFunctional";
 import DeleteFunctionalModal from "./DeleteFunctionalModal";
 import AddFunctionalModal from "./AddFunctionalModal";
 import { COLUMN_LISTS_FUNCTIONAL } from "./Functional.constants";
+import { convertTime } from "@/utils/date";
 
 const Functional = () => {
   const { push, isReady, query } = useRouter();
@@ -39,6 +40,18 @@ const Functional = () => {
       const cellValue = functional[columnKey as keyof typeof functional];
 
       switch (columnKey) {
+        case "competency" :
+          return (
+            <p>
+              {slug}
+            </p>
+          );
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${functional.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction
@@ -46,7 +59,7 @@ const Functional = () => {
                 push(`/admin/kelas-kompetensi/functional/kuis/${functional._id}`)
               }
               onPressButtonUpdate={() =>
-                push(`/admin/kelas-kompetensi/functional/update/${functional._id}`)
+                push(`/admin/kelas-kompetensi/functional/subupdate/${functional._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${functional._id}`);

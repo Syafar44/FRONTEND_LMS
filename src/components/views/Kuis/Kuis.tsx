@@ -12,7 +12,7 @@ const Kuis = () => {
     } = useKuis()
 
     return (
-        <div className="grid gap-5">
+        <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">
             <section className="grid gap-5">
                 <div className="grid gap-5">
                     <h1 className="text-xl font-bold">Aturan</h1>
@@ -42,7 +42,7 @@ const Kuis = () => {
                         <p>Kerjakan Kuis Sekarang</p>
                     </div>
                 ): (    
-                    <div className="grid gap-5 h-[200px] overflow-scroll ">
+                    <div className="flex flex-col gap-5 h-[200px] md:h-[400px] overflow-scroll ">
                         {dataScore.map((score: IScore) => {
                             const totalScore = score.total_score / score.total_question * 100
                             return(

@@ -29,6 +29,13 @@ const useDetailKajian = () => {
     return data.data;
   };
 
+  const extractYouTubeId = (url: string): string | null => {
+    const match = url.match(
+      /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&#?/]+)/,
+    );
+    return match ? match[1] : null;
+  };
+
   const {
     mutate: mutateUpdateKajian,
     isPending: isPendingMutateUpdateKajian,
@@ -51,8 +58,10 @@ const useDetailKajian = () => {
   });
 
   const handleUpdateKajian = (data: IKajian) => {
+    const videoId = extractYouTubeId(`${data.video}`);
     const payload = {
       ...data,
+      video: `${videoId}`,
     }
     mutateUpdateKajian(payload)
   };

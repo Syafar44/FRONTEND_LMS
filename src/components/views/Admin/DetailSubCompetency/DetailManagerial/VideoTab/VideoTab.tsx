@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { ISubCompetency } from "@/types/Competency";
 import useVideoTab from "./useVideoTab";
 import DriveVideoEmbed from "@/utils/DriveVideoEmbed";
+import YouTube from "react-youtube";
 
 interface PropTypes {
   currentVideo: string;
@@ -53,39 +54,27 @@ const VideoTab = (props: PropTypes) => {
             <p className="text-sm font-medium text-default-700">Current Video</p>
             <Skeleton
               isLoaded={!!currentVideo}
-              className="rounded-lg"
+              className="rounded-lg flex flex-col items-center p-5"
             >
-              <iframe
-                src={`${currentVideo}`}
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                className="rounded-2xl shadow-md border border-gray-200 w-full h-80"
-              ></iframe>
+              <YouTube
+                  videoId={currentVideo}
+                  className="w-full rounded-lg"
+              />
             </Skeleton>
           </div>
           <Controller
             name="video"
             control={controlUpdateVideo}
-            render={({ field: { onChange, value, ...field } }) => (
-              <Input 
+            render={({ field }) => (
+              <Input
                 {...field}
-                value={value}
-                onChange={(e) => {
-                  const url = e.target.value;
-                  const driveId = url.match(/(?:drive\.google\.com\/.*?\/d\/)([^\/?]+)/);
-                  if (driveId) {
-                    onChange(`https://drive.google.com/file/d/${driveId[1]}/preview`);
-                  } else {
-                    onChange(url);
-                  }
-                }}
-                placeholder="Input link video"
-                className="w-full"
-                errorMessage={errorsUpdateVideo?.video?.message}
-                isInvalid={!!errorsUpdateVideo?.video}
-                label="Link Video"
+                autoFocus
+                label="Link New Video"
                 variant="bordered"
                 type="text"
+                isInvalid={errorsUpdateVideo.video !== undefined}
+                errorMessage={errorsUpdateVideo.video?.message}
+                className="mb-2"
               />
             )}
           />

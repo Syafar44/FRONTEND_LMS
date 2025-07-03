@@ -8,6 +8,7 @@ import useKajian from "./useKajian";
 import DeleteKajianModal from "./DeleteKajianModal";
 import AddKajianModal from "./AddKajianModal";
 import { COLUMN_LISTS_KAJIAN } from "./Kajian.constants";
+import { convertTime } from "@/utils/date";
 
 const Kajian = () => {
   const { push, isReady, query } = useRouter();
@@ -36,6 +37,12 @@ const Kajian = () => {
       const cellValue = kajian[columnKey as keyof typeof kajian];
 
       switch (columnKey) {
+        case "createdAt":
+          return (
+            <div>
+              <span>{convertTime(`${kajian.createdAt}`)}</span>
+            </div>
+          );
         case "actions":
           return (
             <DropdownAction

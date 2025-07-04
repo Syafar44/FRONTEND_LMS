@@ -6,13 +6,16 @@ import { ChangeEvent } from "react";
 const useChangeUrl = () => {
   const router = useRouter();
   const debounce = useDebounce();
+  const DEFAULT_YEAR = new Date().getFullYear();
 
   const currentLimit = router.query.limit;
   const currentPage = router.query.page;
   const currentSearch = router.query.search;
-  const currentCategory = router.query.category;
-  const currentIsOnline = router.query.isOnline;
-  const currentIsFeatured = router.query.isFeatured;
+  const currentFullName = router.query.name;
+  const currentEmail = router.query.email;
+  const currentJob = router.query.job;
+  const currentMonth = router.query.month;
+  const currentYear = router.query.year;
 
   const pathWithoutQuery = router.asPath.split("?")[0];
 
@@ -32,9 +35,10 @@ const useChangeUrl = () => {
       query: {
         limit: currentLimit || LIMIT_DEFAULT,
         page: currentPage || PAGE_DEFAULT,
-        category: currentCategory || "",
-        isOnline: currentIsOnline || "",
-        isFeatured: currentIsFeatured || "",
+        name: currentFullName || "",
+        job: currentJob || "",
+        month: currentMonth || "",
+        year: currentYear || DEFAULT_YEAR,
       },
     });
   };
@@ -59,31 +63,51 @@ const useChangeUrl = () => {
     });
   };
 
-  const handleChangeCategory = (category: string) => {
+  const handleChangeFullName = (name: string) => {
     router.push({
       query: {
         ...router.query,
-        category,
+        name,
         page: PAGE_DEFAULT,
       },
     });
   };
 
-  const handleChangeIsOnline = (isOnline: string) => {
+  const handleChangeEmail = (email: string) => {
     router.push({
       query: {
         ...router.query,
-        isOnline,
+        email,
         page: PAGE_DEFAULT,
       },
     });
   };
 
-  const handleChangeIsFeatured = (isFeatured: string) => {
+  const handleChangeJob = (job: string) => {
     router.push({
       query: {
         ...router.query,
-        isFeatured,
+        job,
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleChangeMonth = (month: string) => {
+    router.push({
+      query: {
+        ...router.query,
+        month,
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleChangeYear = (year: string) => {
+    router.push({
+      query: {
+        ...router.query,
+        year,
         page: PAGE_DEFAULT,
       },
     });
@@ -111,24 +135,82 @@ const useChangeUrl = () => {
       },
     });
   };
+
+  const handleClearFullname = () => {
+    router.push({
+      query: {
+        ...router.query,
+        fullname: "",
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleClearEmail = () => {
+    router.push({
+      query: {
+        ...router.query,
+        email: "",
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleClearJob = () => {
+    router.push({
+      query: {
+        ...router.query,
+        job: "",
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleClearMonth = () => {
+    router.push({
+      query: {
+        ...router.query,
+        month: "",
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleClearYear = () => {
+    router.push({
+      query: {
+        ...router.query,
+        year: "",
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+  
   return {
     currentLimit,
     currentPage,
     currentSearch,
-
+    currentFullName,
+    currentEmail,
+    currentJob,
+    currentMonth,
+    currentYear,
     setUrl,
     handleChangePage,
     handleChangeLimit,
     handleSearch,
+    handleChangeFullName,
+    handleChangeEmail,
+    handleChangeJob,
+    handleChangeMonth,
+    handleChangeYear,
     handleClearSearch,
-
+    handleClearFullname,
+    handleClearEmail,
+    handleClearJob,
+    handleClearMonth,
+    handleClearYear,
     setUrlExplore,
-    currentCategory,
-    currentIsFeatured,
-    currentIsOnline,
-    handleChangeCategory,
-    handleChangeIsFeatured,
-    handleChangeIsOnline,
   };
 };
 

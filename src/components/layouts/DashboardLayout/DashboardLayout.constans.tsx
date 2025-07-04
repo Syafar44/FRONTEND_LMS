@@ -1,7 +1,4 @@
 import { BsTools } from "react-icons/bs";
-import {
-  CiWallet,
-} from "react-icons/ci";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { HiUserGroup } from "react-icons/hi";
 import { IoBookOutline, IoSettingsOutline } from "react-icons/io5";
@@ -20,6 +17,12 @@ const SIDEBAR_ADMIN = [
     label: "Aktivitas",
     href: "/admin/aktivitas",
     icon: <SlCalender />,
+  },
+  {
+    key: "lkp",
+    label: "Lembar Kepatuhan Pribadi",
+    href: "/admin/lkp",
+    icon: <LuClipboardCheck />,
   },
   {
     key: "administrasi",

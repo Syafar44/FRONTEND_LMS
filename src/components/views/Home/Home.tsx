@@ -1,5 +1,5 @@
 import CardCourse from "@/components/ui/CardCourse";
-import { Button, Card, CardBody, Select, SelectItem, Skeleton } from "@heroui/react";
+import { Badge, Button, Card, CardBody, Select, SelectItem, Skeleton } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useHome from "./useHome";
@@ -24,9 +24,10 @@ const Home = () => {
         isPendingCompetency,
 
         dataSubCompetency,
-        isPendingSubCompetency,
 
         required,
+
+        dataLkp,
     } = useHome()
 
     const isPass = dataResume?.isPass
@@ -57,10 +58,12 @@ const Home = () => {
 
     const progress = dataSave?.progress / dataSubCompetency?.length * 100
 
+    const lkp = dataLkp ? 1 : 0
+
     return (
         <div className="grid gap-5">
             <section className="flex flex-col gap-3 md:gap-5 md:flex-row w-full">
-                {profile ? (
+                {!isPendingUser ? (
                     <Card className="md:w-[700px]">
                         <CardBody className="p-5">
                             <div className="flex gap-5 items-center">
@@ -70,7 +73,7 @@ const Home = () => {
                                         {profile?.fullName}
                                     </h2>
                                     <p>
-                                        {profile?.job}
+                                        {profile?.department}
                                     </p>
                                 </div>
                             </div>
@@ -114,12 +117,14 @@ const Home = () => {
                             </SelectItem>
                         ))}
                     </Select>
-                    <Button 
-                        className="w-full bg-primary shadow-md"
-                        onPress={() => router.push("/lkp")}
-                    >
-                        Isi Lembar Kepatuhan Pribadi
-                    </Button>
+                    <Badge className=" bg-red-600 border-none" content="" isInvisible={lkp === 1 ? true : false} placement="top-right">
+                        <Button 
+                            className="w-full bg-primary shadow-md"
+                            onPress={() => router.push("/lkp")}
+                        >
+                            Isi Lembar Kepatuhan Pribadi ( {lkp} / 1 )
+                        </Button>
+                    </Badge>
                 </div>
             <section className="grid gap-3">
                 <h3 className="font-bold text-lg">Lanjutkan Belajar</h3>

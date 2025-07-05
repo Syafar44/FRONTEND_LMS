@@ -6,15 +6,15 @@ import { useRouter } from "next/router";
 
 const useTabRekap = () => {
   const router = useRouter();
-  const { name, job, month, year } = router.query
-  const { currentLimit, currentPage, currentFullName, currentJob, currentMonth, currentYear } = useChangeUrl();
+  const { name, department, month, year } = router.query
+  const { currentLimit, currentPage, currentFullName, currentDepartment, currentMonth, currentYear } = useChangeUrl();
 
   let params = `limit=${currentLimit}&page=${currentPage}&year=${currentYear}`;
   if (currentFullName) {
     params += `&name=${currentFullName}`;
   }
-  if (currentJob) {
-    params += `&job=${currentJob}`;
+  if (currentDepartment) {
+    params += `&department=${currentDepartment}`;
   }
   if (currentMonth) {
     params += `&month=${currentMonth}`;
@@ -31,7 +31,7 @@ const useTabRekap = () => {
     isLoading: isLoadingRekap,
     isRefetching: isRefetchingRekap,
   } = useQuery({
-    queryKey: ["Rekap", currentPage, currentLimit, currentFullName, currentJob, currentMonth, currentYear],
+    queryKey: ["Rekap", currentPage, currentLimit, currentFullName, currentDepartment, currentMonth, currentYear],
     queryFn: () => getRekap(),
     enabled: router.isReady && !!currentPage && !!currentLimit,
   });
@@ -62,7 +62,7 @@ const useTabRekap = () => {
     isLoadingRekap,
     isRefetchingRekap,
     name,
-    job,
+    department,
     month,
     year,
 

@@ -6,7 +6,7 @@ const schemaUpdateInfo = yup.object().shape({
   fullName: yup.string().required("Please input fullName"),
   email: yup.string().required("Please input email"),
   access: yup.string().required("Please input access"),
-  job: yup.string().required("Please input job"),
+  department: yup.string().required("Please input department"),
 });
 
 const useInfoTab = () => {

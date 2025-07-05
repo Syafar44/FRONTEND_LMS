@@ -1,6 +1,6 @@
 const COLUMN_LISTS = [
   { name: "NAMA LENGKAP", uid: "fullName" },
-  { name: "JOB", uid: "job" },
+  { name: "DEPARTEMEN", uid: "department" },
   { name: "SUBUH", uid: "subuh" },
   { name: "DZUHUR", uid: "dzuhur" },
   { name: "ASHAR", uid: "ashar" },

@@ -5,7 +5,7 @@ interface IRegister {
   fullName: string;
   access: string;
   email: string;
-  job: string;
+  department: string;
   password: string;
   confirmPassword: string;
 }
@@ -36,7 +36,7 @@ interface IProfile {
   _id?: string;
   fullName?: string;
   email?: string;
-  job?: string
+  department?: string
   access?: string;
   role?: string;
 }

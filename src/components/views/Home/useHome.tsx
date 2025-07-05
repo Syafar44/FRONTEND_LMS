@@ -1,6 +1,7 @@
 import authServices from "@/services/auth.service";
 import competencyServices from "@/services/competency.service";
 import kajianServices from "@/services/kajian.service";
+import LkpServices from "@/services/lkp.service";
 import resumeServices from "@/services/resume.service";
 import saveServices from "@/services/save.service";
 import subCompetencyServices from "@/services/subCompetency.service";
@@ -124,6 +125,20 @@ const useHome = () => {
       )
     : [];
 
+  const getLkp = async() => {
+        const res = await LkpServices.getLkpByUser()
+        const { data } = res
+        return data.data
+    }
+    
+    const {
+        data: dataLkp,
+    } = useQuery({
+        queryKey: ["lkp"],
+        queryFn: getLkp,
+        enabled: !!router.isReady,
+    })
+
   return {
     dataUser,
     isPendingUser,
@@ -144,7 +159,9 @@ const useHome = () => {
     isPendingSubCompetency,
     isPendingAllCompetency,
 
-    required
+    required,
+
+    dataLkp,
   };
 };
 

@@ -14,7 +14,7 @@ const TabRekap = () => {
     isLoadingRekap,
     isRefetchingRekap,
     name, 
-    job,
+    department,
     month,
     year,
     handleDownloadExcel,
@@ -23,11 +23,11 @@ const TabRekap = () => {
   const { 
     setUrlExplore,
     handleChangeFullName,
-    handleChangeJob,
+    handleChangeDepartment,
     handleChangeMonth,
     handleChangeYear,
     handleClearFullname,
-    handleClearJob,
+    handleClearDepartment,
     handleClearMonth,
     handleClearYear,
   } = useChangeUrl();
@@ -73,10 +73,10 @@ const TabRekap = () => {
             type="text"
             variant="bordered"
             className="max-w-[250px]"
-            value={job ? String(job) : undefined}
+            value={department ? String(department) : undefined}
             placeholder="Pekerjaan"
-            onChange={e => handleChangeJob(e.target.value)}
-            onClear={handleClearJob}
+            onChange={e => handleChangeDepartment(e.target.value)}
+            onClear={handleClearDepartment}
           />
           <Select
             className="max-w-[200px]"
@@ -117,21 +117,21 @@ const TabRekap = () => {
           </Select>
         </div>
     )
-  }, [handleChangeFullName, handleChangeJob, handleChangeMonth, handleChangeYear, handleClearFullname, handleClearJob, handleClearMonth, handleClearYear, year])
+  }, [handleChangeFullName, handleChangeDepartment, handleChangeMonth, handleChangeYear, handleClearFullname, handleClearDepartment, handleClearMonth, handleClearYear, year])
 
   const renderCell = useCallback(
     (rekap: Record<string, unknown>, columnKey: Key) => {
       const cellValue = rekap[columnKey as keyof typeof rekap];
       const fullName = (rekap.createdBy as IProfile).fullName
-      const job = (rekap.createdBy as IProfile).job
+      const department = (rekap.createdBy as IProfile).department
       switch (columnKey) {
         case "fullName":
           return (
             <h2>{fullName}</h2>
           );
-        case "job":
+        case "department":
           return (
-            <h2>{job}</h2>
+            <h2>{department}</h2>
           );
         case "subuh":
           let borderSubuh = "";
@@ -149,7 +149,7 @@ const TabRekap = () => {
               borderSubuh = "border-gray-400 bg-gray-400/30";
           }
           return (
-            <h2 className={`border rounded-full p-2 ${borderSubuh}`}>{`${rekap.subuh}`}</h2>
+            <h2 className={`border rounded-full text-sm px-2 ${borderSubuh}`}>{`${rekap.subuh}`}</h2>
           );
         case "dzuhur":
           let borderDzuhur = "";
@@ -167,7 +167,7 @@ const TabRekap = () => {
               borderDzuhur = "border-gray-400 bg-gray-400/30";
           }
           return (
-            <h2 className={`border rounded-full p-2 ${borderDzuhur}`}>{`${rekap.dzuhur}`}</h2>
+            <h2 className={`border rounded-full text-sm px-2 ${borderDzuhur}`}>{`${rekap.dzuhur}`}</h2>
           );
         case "ashar":
           let borderAshar = "";
@@ -185,7 +185,7 @@ const TabRekap = () => {
               borderAshar = "border-gray-400 bg-gray-400/30";
           }
           return (
-            <h2 className={`border rounded-full p-2 ${borderAshar}`}>{`${rekap.ashar}`}</h2>
+            <h2 className={`border rounded-full text-sm px-2 ${borderAshar}`}>{`${rekap.ashar}`}</h2>
           );
         case "magrib":
           let borderMagrib = "";
@@ -203,7 +203,7 @@ const TabRekap = () => {
               borderMagrib = "border-gray-400 bg-gray-400/30";
           }
           return (
-            <h2 className={`border rounded-full p-2 ${borderMagrib}`}>{`${rekap.magrib}`}</h2>
+            <h2 className={`border rounded-full text-sm px-2 ${borderMagrib}`}>{`${rekap.magrib}`}</h2>
           );
         case "isya":
           let borderIsya = "";
@@ -221,7 +221,7 @@ const TabRekap = () => {
               borderIsya = "border-gray-400 bg-gray-400/30";
           }
           return (
-            <h2 className={`border rounded-full p-2 ${borderIsya}`}>{`${rekap.isya}`}</h2>
+            <h2 className={`border rounded-full text-sm px-2 ${borderIsya}`}>{`${rekap.isya}`}</h2>
           );
         default:
           return cellValue as ReactNode;

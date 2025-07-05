@@ -8,6 +8,7 @@ import useTabUser from "./useTabUser";
 import { useRouter } from "next/router";
 import { COLUMN_LISTS_TABUSER } from "./TabUser.constants";
 import DeleteUserModal from "./DeleteUserModal";
+import { convertTime } from "@/utils/date";
 
 const TabUser = () => {
   const { push, isReady, query } = useRouter();
@@ -37,6 +38,10 @@ const TabUser = () => {
       const cellValue = user[columnKey as keyof typeof user];
 
       switch (columnKey) {
+        case "createdAt": 
+          return (
+            <p>{convertTime(`${user.createdAt}`)}</p>
+          )
         case "actions":
           return (
             <DropdownAction

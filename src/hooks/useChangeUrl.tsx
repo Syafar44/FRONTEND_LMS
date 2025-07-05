@@ -13,7 +13,7 @@ const useChangeUrl = () => {
   const currentSearch = router.query.search;
   const currentFullName = router.query.name;
   const currentEmail = router.query.email;
-  const currentJob = router.query.job;
+  const currentDepartment = router.query.department;
   const currentMonth = router.query.month;
   const currentYear = router.query.year;
 
@@ -36,7 +36,7 @@ const useChangeUrl = () => {
         limit: currentLimit || LIMIT_DEFAULT,
         page: currentPage || PAGE_DEFAULT,
         name: currentFullName || "",
-        job: currentJob || "",
+        department: currentDepartment || "",
         month: currentMonth || "",
         year: currentYear || DEFAULT_YEAR,
       },
@@ -83,11 +83,11 @@ const useChangeUrl = () => {
     });
   };
 
-  const handleChangeJob = (job: string) => {
+  const handleChangeDepartment = (department: string) => {
     router.push({
       query: {
         ...router.query,
-        job,
+        department,
         page: PAGE_DEFAULT,
       },
     });
@@ -156,11 +156,11 @@ const useChangeUrl = () => {
     });
   };
 
-  const handleClearJob = () => {
+  const handleClearDepartment = () => {
     router.push({
       query: {
         ...router.query,
-        job: "",
+        department: "",
         page: PAGE_DEFAULT,
       },
     });
@@ -192,7 +192,7 @@ const useChangeUrl = () => {
     currentSearch,
     currentFullName,
     currentEmail,
-    currentJob,
+    currentDepartment,
     currentMonth,
     currentYear,
     setUrl,
@@ -201,13 +201,13 @@ const useChangeUrl = () => {
     handleSearch,
     handleChangeFullName,
     handleChangeEmail,
-    handleChangeJob,
+    handleChangeDepartment,
     handleChangeMonth,
     handleChangeYear,
     handleClearSearch,
     handleClearFullname,
     handleClearEmail,
-    handleClearJob,
+    handleClearDepartment,
     handleClearMonth,
     handleClearYear,
     setUrlExplore,

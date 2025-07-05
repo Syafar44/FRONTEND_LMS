@@ -164,17 +164,17 @@ const TabRegister = () => {
                 )}
                 />
                 <Controller
-                name="job"
+                name="department"
                 control={control}
                 render={({ field }) => (
                     <Input
                     {...field}
-                    type="job"
-                    label="Job"
+                    type="department"
+                    label="Department"
                     variant="bordered"
                     autoComplete="off"
-                    isInvalid={errors.job !== undefined}
-                    errorMessage={errors.job?.message}
+                    isInvalid={errors.department !== undefined}
+                    errorMessage={errors.department?.message}
                     />
                 )}
                 />

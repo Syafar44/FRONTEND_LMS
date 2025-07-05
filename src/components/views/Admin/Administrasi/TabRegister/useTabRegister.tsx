@@ -14,7 +14,7 @@ const registerSchema = yup.object().shape({
     .email("Email format not valid")
     .required("Please input your email"),
     access: yup.string().required("Please input your access"),
-    job: yup.string().required("Please input your job"),
+    department: yup.string().required("Please input your department"),
     password: yup
         .string()
         .min(8, "Minimal 8 Characters")

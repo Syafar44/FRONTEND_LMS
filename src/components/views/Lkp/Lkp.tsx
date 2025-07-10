@@ -54,8 +54,8 @@ const LkpAbsensi = () => {
       {!isPendingLkp ? (
         <form onSubmit={handleSubmitAddLkp(handleAbsen)} className="grid gap-5">
           <Card>
-            <CardBody className={`bg-white shadow-lg p-5 rounded-xl text-center grid gap-3 ${errorsAddLkp.subuh && 'bg-red-500/20'}`}>
-            <h2 className="font-bold">SHOLAT SUBUH</h2>
+            <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkp.subuh && 'bg-red-500/20'}`}>
+            <h2 className="font-bold text-center">SHOLAT SUBUH</h2>
               <Controller 
                 name="subuh"
                 control={controlAddLkp}
@@ -76,8 +76,8 @@ const LkpAbsensi = () => {
             </CardBody>
           </Card>
           <Card>
-            <CardBody className={`bg-white shadow-lg p-5 rounded-xl text-center grid gap-3 ${errorsAddLkp.dzuhur && 'bg-red-500/20'}`}>
-              <h2 className="font-bold">SHOLAT DZUHUR</h2>
+            <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkp.dzuhur && 'bg-red-500/20'}`}>
+              <h2 className="font-bold text-center">SHOLAT DZUHUR</h2>
               <Controller 
                 name="dzuhur"
                 control={controlAddLkp}
@@ -98,8 +98,8 @@ const LkpAbsensi = () => {
             </CardBody>
           </Card>
           <Card>
-            <CardBody className={`bg-white shadow-lg p-5 rounded-xl text-center grid gap-3 ${errorsAddLkp.ashar && 'bg-red-500/20'}`}>
-              <h2 className="font-bold">SHOLAT ASHAR</h2>
+            <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkp.ashar && 'bg-red-500/20'}`}>
+              <h2 className="font-bold text-center">SHOLAT ASHAR</h2>
               <Controller 
                 name="ashar"
                 control={controlAddLkp}
@@ -120,8 +120,8 @@ const LkpAbsensi = () => {
             </CardBody>
           </Card>
           <Card>
-            <CardBody className={`bg-white shadow-lg p-5 rounded-xl text-center grid gap-3 ${errorsAddLkp.magrib && 'bg-red-500/20'}`}>
-              <h2 className="font-bold">SHOLAT MAGRIB</h2>
+            <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkp.magrib && 'bg-red-500/20'}`}>
+              <h2 className="font-bold text-center">SHOLAT MAGRIB</h2>
               <Controller 
                 name="magrib"
                 control={controlAddLkp}
@@ -142,8 +142,8 @@ const LkpAbsensi = () => {
             </CardBody>
           </Card>
           <Card>
-            <CardBody className={`bg-white shadow-lg p-5 rounded-xl text-center grid gap-3 ${errorsAddLkp.isya && 'bg-red-500/20'}`}>
-            <h2 className="font-bold">SHOLAT ISYA</h2>
+            <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkp.isya && 'bg-red-500/20'}`}>
+            <h2 className="font-bold text-center">SHOLAT ISYA</h2>
               <Controller 
                 name="isya"
                 control={controlAddLkp}

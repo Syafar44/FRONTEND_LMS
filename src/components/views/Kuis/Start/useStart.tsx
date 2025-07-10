@@ -3,13 +3,14 @@ import kuisCompetencyServices from "@/services/kuisCompetency.service"
 import saveServices from "@/services/save.service"
 import scoreServices from "@/services/score.service"
 import subCompetencyServices from "@/services/subCompetency.service"
-import { ICompetency } from "@/types/Competency"
 import { IScore } from "@/types/Score"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 const LOCAL_STORAGE_KEY = "jawaban_kuis"
+const TOTAL_TIME = 300
+const TIMER_STORAGE_KEY = "kuis_timer_start"
 
 const useStart = () => {
     const router = useRouter()
@@ -19,6 +20,7 @@ const useStart = () => {
     const [jumlahSoal, setJumlahSoal] = useState<number | null>(0)
     const [score, setScore] = useState<number>(0);
     const [listSoal, setListSoal] = useState<any[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         if (!router.isReady) return
@@ -68,7 +70,7 @@ const useStart = () => {
 
     useEffect(() => {
         if (router.isReady) {
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
+            localStorage.setItem(LOCAL_STORAGE_KEY, "0");
         }
     }, [router.isReady]);
 
@@ -147,64 +149,109 @@ const useStart = () => {
     
     const handleRecap = async () => {
         try {
-            const lastId = dataCompetency?.[dataCompetency.length - 1]?._id;
-            const isFinish = Number(localStorage.getItem(LOCAL_STORAGE_KEY)) / Number(jumlahSoal) * 100 >= 80 && lastId === id
-            const IsCompeted = dataCompleted?.some((item: {competency: string}) => item.competency === subCompetency?.byCompetency)
-            const alreadyPassed = dataScore.some((item: IScore) => item.isPass === true) ?? false;
-                await scoreServices.addScore({
-                    bySubCompetency: `${id}`,
-                    isPass: Number(localStorage.getItem(LOCAL_STORAGE_KEY)) / Number(jumlahSoal) * 100 >= 80,
-                    total_question: Number(jumlahSoal),
-                    total_score: Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0,
+            const score = Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0;
+            const total = Number(jumlahSoal) || 1;
+            const percent = (score / total) * 100;
+            const isPass = percent >= 80;
+
+            const lastSubId = dataCompetency?.[dataCompetency.length - 1]?._id;
+            const isLastSub = lastSubId === id;
+
+            const hasCompleted = dataCompleted?.some(
+                (item: {competency: string}) => item.competency === subCompetency?.byCompetency
+            );
+
+            const hasPassedBefore = dataScore?.some((item: IScore) => item.isPass) ?? false;
+
+            // 1. Simpan skor saat ini
+            await scoreServices.addScore({
+                bySubCompetency: `${id}`,
+                isPass,
+                total_question: total,
+                total_score: score,
             });
-            if(!IsCompeted) {
-                console.log('Belum Selesai')
-                if(!isFinish) {
-                    console.log('Belum Ke Sub Terakhir')
-                    if (!alreadyPassed) {
-                        console.log('Belum Lulus')
-                        if (!dataSave) {
-                            console.log('Tambahkan Save')
-                            await saveServices.addSave({
-                                competency: `${subCompetency.byCompetency}`,
-                                progress: 1,
-                            });
-                        } else {
-                            console.log('Update Save')
-                            await saveServices.updateSave(`${dataSave?._id}`, {
-                                progress: Number(dataSave.progress ?? 0) + 1,
-                            });
-                        }
+
+            // 2. Kalau belum selesai semua subkompetensi (belum completed)
+            if (!hasCompleted) {
+                if (!isLastSub || !isPass) {
+                    // Belum sub terakhir ATAU belum lulus
+                    if (!hasPassedBefore) {
+                    // Jika belum pernah lulus
+                    if (!dataSave) {
+                        // Belum ada progress, buat baru
+                        await saveServices.addSave({
+                        competency: `${subCompetency.byCompetency}`,
+                        progress: 1,
+                        });
+                    } else {
+                        // Sudah ada progress, tambahkan +1
+                            await saveServices.updateSave(`${dataSave._id}`, {
+                            progress: Number(dataSave.progress ?? 0) + 1,
+                        });
                     }
-                } else {
-                    console.log('Sudah Ke Sub Terakhir')
-                    await saveServices.deleteSave(`${dataSave?._id}`)
-                    await completedServices.addCompleted(`${subCompetency.byCompetency}`)
                 }
+            } else {
+                // Sudah sub terakhir dan lulus → selesaikan kompetensi
+                await saveServices.deleteSave(`${dataSave?._id}`);
+                await completedServices.addCompleted(`${subCompetency.byCompetency}`);
             }
-            router.push(`/kuis/recap/${id}`);
-        } catch (error) {
-            console.log('error')
         }
-    };
 
+    // 3. Cleanup dan redirect
+    setIsLoading(true);
+    localStorage.removeItem(TIMER_STORAGE_KEY);
+    router.replace(`/kuis/recap/${id}`);
+  } catch (error) {
+    console.error("Gagal menyelesaikan recap:", error);
+  }
+};
 
-    const [remainingTime, setRemainingTime] = useState(300)
+    const [remainingTime, setRemainingTime] = useState(TOTAL_TIME)
+
+    // useEffect(() => {
+    //     if (!router.isReady) return;
+
+    //     if (remainingTime === 0) {
+    //         handleRecap();
+    //         return;
+    //     }
+
+    //     const interval = setInterval(() => {
+    //         setRemainingTime((prev) => prev - 1);
+    //     }, 1000);
+
+    //     return () => clearInterval(interval);
+    // }, [remainingTime, router.isReady]);
 
     useEffect(() => {
         if (!router.isReady) return;
 
-        if (remainingTime <= 0) {
-            handleRecap();
-            return;
+        // Ambil waktu mulai dari localStorage, jika tidak ada set sekarang
+        let startTime = localStorage.getItem(TIMER_STORAGE_KEY);
+
+        if (!startTime) {
+            const now = Date.now();
+            localStorage.setItem(TIMER_STORAGE_KEY, now.toString());
+            startTime = now.toString();
         }
 
+        const start = Number(startTime);
         const interval = setInterval(() => {
-            setRemainingTime((prev) => prev - 1);
+            const now = Date.now();
+            const elapsedSeconds = Math.floor((now - start) / 1000);
+            const remaining = TOTAL_TIME - elapsedSeconds;
+
+            if (remaining <= 0) {
+                setRemainingTime(0);
+                clearInterval(interval);
+                handleRecap(); // auto submit
+            } else {
+                setRemainingTime(remaining);
+            }
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [remainingTime, router.isReady]);
+    }, [router.isReady]);
 
     const formatTime = (seconds: number) => {
         const m = Math.floor(seconds / 60).toString().padStart(2, "0");
@@ -261,6 +308,7 @@ const useStart = () => {
 
         remainingTime,
         formattedTime: formatTime(remainingTime),
+        isLoading,
     }
 }
 

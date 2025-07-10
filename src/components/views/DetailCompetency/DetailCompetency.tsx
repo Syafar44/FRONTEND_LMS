@@ -25,14 +25,6 @@ const DetailCompetency = () => {
 
     return (
         <>
-            <header className="-mt-16 mb-10">
-                <PageHead title={dataSub?.title} />
-                <img
-                    src="/images/general/logo.png"
-                    alt="logo panglima"
-                    className="w-[100px] rounded-md"
-                />
-            </header>
             <div className="flex flex-col gap-5 xl:flex-row items-start">
                 <section className="grid gap-3 w-full">
                     {!isPending ? (
@@ -85,7 +77,7 @@ const DetailCompetency = () => {
                                             ${!isClickable ? "opacity-50 cursor-not-allowed" : ""}
                                             rounded-lg`}
                                         >
-                                        <div className="flex gap-5 items-center">
+                                        <div className="flex gap-5 items-center text-wrap text-start">
                                             <FaCirclePlay size={25} />
                                             <p>{item.title}</p>
                                         </div>

@@ -71,7 +71,7 @@ const YouTubeWithControls = (props: PropTypes) => {
                     <Button onPress={handlePlay} className="bg-primary text-gray-700" isDisabled={isPending}>Play Video</Button>
                 )}
                 {isPlay && (
-                    <Button onPress={handleFullscreen} variant="ghost" className="shadow-lg"><GoScreenFull size={20} /></Button>
+                    <Button onPress={handleFullscreen} variant="ghost" isIconOnly className="shadow-lg"><GoScreenFull size={20} /></Button>
                 )}
                 {(isView) && (
                     <Button 

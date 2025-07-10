@@ -1,12 +1,14 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout"
+import PageHead from "@/components/commons/PageHead"
+import SubDashboardLayout from "@/components/layouts/SubDashboardLayout/SubDashboardLayout"
 import DetailCompetency from "@/components/views/DetailCompetency"
 
 
 const CoreDetailPage = () => {
     return (
-        <DashboardLayout type="user">
+        <SubDashboardLayout>
+            <PageHead title="Core Competency" />
             <DetailCompetency />
-        </DashboardLayout>
+        </SubDashboardLayout>
     )
 }
 

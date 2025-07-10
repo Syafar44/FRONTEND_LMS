@@ -108,9 +108,6 @@ const useDetailCompetency = () => {
         )
     }, [dataVideo])
 
-    console.log("historyKuis", historyKuis?.bySubCompetency)
-    console.log("subId", subCompetency)
-
     useEffect(() => {
         if (!competency || competency.length === 0) return;
         if (!historyKuis) return;

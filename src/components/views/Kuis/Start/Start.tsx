@@ -1,4 +1,4 @@
-import { Button, Radio, RadioGroup} from "@heroui/react"
+import { Button, Radio, RadioGroup, Spinner} from "@heroui/react"
 import useStart from "./useStart"
 
 const Start = () => {
@@ -19,6 +19,8 @@ const Start = () => {
         formattedTime,
 
         subCompetency,
+        isLoading,
+        isPendingSubCompetency,
     } = useStart()
 
     return (
@@ -33,8 +35,8 @@ const Start = () => {
                 </h1>
             </div>
             <div className="flex flex-col md:flex-row gap-5 md:gap-10 md:p-5">
-                <div className="grid gap-5 min-w-[350px] md:border-r">
-                    <div className="border-y p-5 grid grid-cols-5 px-14 gap-y-2 md:border-none">
+                <div className="grid gap-5 md:border-r">
+                    <div className="border-y p-5 grid grid-cols-5 gap-y-2 gap-x-5 md:border-none">
                     {Array.from({ length: jumlahSoal ?? 0 }, (_, index) => {
                         const isActive = index < numberSoal - 1;
                         return (
@@ -75,14 +77,15 @@ const Start = () => {
                     <div className="flex justify-end">
                         {numberSoal === (jumlahSoal ?? 0) ? (
                             <Button
-                                isDisabled={radioSelect === null}
-                                className="bg-primary text-black font-bold"
+                                isDisabled={radioSelect === null || isPendingSubCompetency}
+                                className="bg-primary text-black font-bold disabled:bg-gray-800"
+                                disabled={isLoading}
                                 onPress={() => {
                                     handleSelect(Number(radioSelect), true)
                                     handleRecap()
                                 }}
                             >
-                                Selesiakan Kuis
+                                {isLoading ? <Spinner size="sm" color="primary"/> : 'Selesiakan Kuis'}
                             </Button>
                         ): (
                             <Button 

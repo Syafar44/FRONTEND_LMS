@@ -11,7 +11,7 @@ import {
   Spinner,
   Textarea,
 } from "@heroui/react";
-import useAddKajianModal from "./useAddKajianModal";
+import useAddCompetencyModal from "./useAddCompetencyModal";
 import { Controller } from "react-hook-form";
 import InputFile from "@/components/ui/InputFile";
 import { useEffect } from "react";
@@ -20,18 +20,18 @@ interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   onOpenChange: () => void;
-  refetchKajian: () => void;
+  refetchCompetency: () => void;
 }
 
-const AddKajianModal = (props: PropTypes) => {
-  const { isOpen, onClose, onOpenChange, refetchKajian } = props;
+const AddCompetencyModal = (props: PropTypes) => {
+  const { isOpen, onClose, onOpenChange, refetchCompetency } = props;
   const {
     control,
     errors,
     handleSubmitForm,
-    handleAddKajian,
-    isPendingMutateAddKajian,
-    isSuccessMutateAddKajian,
+    handleAddCompetency,
+    isPendingMutateAddCompetency,
+    isSuccessMutateAddCompetency,
 
     preview,
     handleUploadImage,
@@ -39,19 +39,49 @@ const AddKajianModal = (props: PropTypes) => {
     handleDeleteImage,
     isPendingMutateDeleteFile,
     handleOnClose,
-  } = useAddKajianModal();
+
+    access,
+    setAccess,
+  } = useAddCompetencyModal();
 
   useEffect(() => {
-    if (isSuccessMutateAddKajian) {
+    if (isSuccessMutateAddCompetency) {
       onClose();
-      refetchKajian();
+      refetchCompetency();
     }
-  }, [isSuccessMutateAddKajian]);
+  }, [isSuccessMutateAddCompetency]);
 
   const disabledSubmit =
-    isPendingMutateAddKajian ||
+    isPendingMutateAddCompetency ||
     isPendingMutateUploadFile ||
     isPendingMutateDeleteFile;
+
+  const list_access = [
+    {
+      key: "all-team",
+      value: "All Team",
+    },
+    {
+      key: "outlet",
+      value: "Outlet",
+    },
+    {
+      key: "gerai",
+      value: "Gerai",
+    },
+    {
+      key: "produksi",
+      value: "Produksi",
+    },
+    {
+      key: "office",
+      value: "Office",
+    },
+    {
+      key: "manager",
+      value: "Manager",
+    },
+  ]
 
   return (
     <Modal
@@ -61,9 +91,9 @@ const AddKajianModal = (props: PropTypes) => {
       scrollBehavior="inside"
       onClose={() => handleOnClose(onClose)}
     >
-      <form onSubmit={handleSubmitForm(handleAddKajian)}>
+      <form onSubmit={handleSubmitForm(handleAddCompetency)}>
         <ModalContent className="m-4">
-          <ModalHeader>Add Kajian</ModalHeader>
+          <ModalHeader>Add Competency</ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-2">
               <p className="text-sm font-bold">Information</p>
@@ -97,6 +127,31 @@ const AddKajianModal = (props: PropTypes) => {
                   />
                 )}
               />
+              <Controller
+                name="access"
+                control={control}
+                render={({ field }) => (
+                  <CheckboxGroup
+                    {...field}
+                    color="warning"
+                    label="Select Access"
+                    value={access}
+                    onValueChange={setAccess}
+                    isInvalid={errors.access !== undefined}
+                    errorMessage={errors.access?.message}
+                    orientation="horizontal"
+                  >
+                    {list_access.map((item) => (
+                      <Checkbox 
+                        key={item.key} 
+                        value={item.key}
+                      >
+                        {item.value}
+                      </Checkbox>
+                    ))}
+                  </CheckboxGroup>
+                )}
+              />
               <p className="text-sm font-bold">Image</p>
               <Controller
                 name="image"
@@ -115,22 +170,6 @@ const AddKajianModal = (props: PropTypes) => {
                   />
                 )}
               />
-              <Controller
-                name="video"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    autoFocus
-                    label="Link Video"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.video !== undefined}
-                    errorMessage={errors.video?.message}
-                    className="mb-2"
-                  />
-                )}
-              />
             </div>
           </ModalBody>
           <ModalFooter>
@@ -144,10 +183,10 @@ const AddKajianModal = (props: PropTypes) => {
               Cancel
             </Button>
             <Button color="primary" className="text-black" type="submit" disabled={disabledSubmit}>
-              {isPendingMutateAddKajian ? (
+              {isPendingMutateAddCompetency ? (
                 <Spinner size="sm" color="white" />
               ) : (
-                "Create Kajian"
+                "Create Competency"
               )}
             </Button>
           </ModalFooter>
@@ -157,4 +196,4 @@ const AddKajianModal = (props: PropTypes) => {
   );
 };
 
-export default AddKajianModal;
+export default AddCompetencyModal;

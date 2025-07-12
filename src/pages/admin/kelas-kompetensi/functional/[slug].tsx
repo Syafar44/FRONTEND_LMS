@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import Functional from "@/components/views/Admin/SubCompetency/Functional";
+import SubCompetency from "@/components/views/Admin/SubCompetency";
 
 
 const AdminSubFunctionalCompetencyPage = () => {
@@ -9,7 +9,7 @@ const AdminSubFunctionalCompetencyPage = () => {
       description="List of all SubFunctional Categories, create new Competency, and manage existing SubFunctional."
       type="admin"
     >
-      <Functional />
+      <SubCompetency />
     </DashboardLayout>
   );
 };

@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import Core from "@/components/views/Admin/SubCompetency/Core";
+import SubCompetency from "@/components/views/Admin/SubCompetency";
 
 
 const AdminSubCoreCompetencyPage = () => {
@@ -9,7 +9,7 @@ const AdminSubCoreCompetencyPage = () => {
       description="List of all SubCore Categories, create new Competency, and manage existing SubCore."
       type="admin"
     >
-      <Core />
+      <SubCompetency />
     </DashboardLayout>
   );
 };

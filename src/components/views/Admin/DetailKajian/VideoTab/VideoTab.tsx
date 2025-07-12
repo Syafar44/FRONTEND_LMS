@@ -38,7 +38,7 @@ const VideoTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4 lg:w-1/2">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Core Video</h1>
+        <h1 className="w-full text-xl font-bold">Sub Competency Video</h1>
         <p className="w-full text-small text-default-400">
           Manage Video of this sub competency. You can update the video link
         </p>
@@ -60,6 +60,7 @@ const VideoTab = (props: PropTypes) => {
               />
             </Skeleton>
           </div>
+          <p className="text-sm font-medium text-default-700"> Add New Video</p>
           <Controller
             name="video"
             control={controlUpdateVideo}
@@ -67,7 +68,7 @@ const VideoTab = (props: PropTypes) => {
               <Input
                 {...field}
                 autoFocus
-                label="Link New Video"
+                label="Paste Link Youtube"
                 variant="bordered"
                 type="text"
                 isInvalid={errorsUpdateVideo.video !== undefined}

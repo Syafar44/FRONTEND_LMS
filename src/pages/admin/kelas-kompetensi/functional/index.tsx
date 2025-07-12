@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import Functional from "@/components/views/Admin/Competency/Functional";
+import Competency from "@/components/views/Admin/Competency";
 
 const AdminFunctionalCompetencyPage = () => {
   return (
@@ -8,7 +8,7 @@ const AdminFunctionalCompetencyPage = () => {
       description="List of all Functional Categories, create new Competency, and manage existing Functional."
       type="admin"
     >
-      <Functional />
+      <Competency />
     </DashboardLayout>
   );
 };

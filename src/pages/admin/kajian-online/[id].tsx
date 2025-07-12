@@ -1,7 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import DetailKajian from "@/components/views/Admin/DetailKajian";
-import Core from "@/components/views/Admin/SubCompetency/Core";
-
 
 const AdminDetailKajianPage = () => {
   return (

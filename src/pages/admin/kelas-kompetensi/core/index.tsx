@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import Core from "@/components/views/Admin/Competency/Core";
+import Competency from "@/components/views/Admin/Competency";
 
 const AdminCoreCompetencyPage = () => {
   return (
@@ -8,7 +8,7 @@ const AdminCoreCompetencyPage = () => {
       description="List of all Core Categories, create new Competency, and manage existing Core."
       type="admin"
     >
-      <Core />
+      <Competency />
     </DashboardLayout>
   );
 };

@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import Managerial from "@/components/views/Admin/Competency/Managerial";
+import Competency from "@/components/views/Admin/Competency";
 
 const AdminManagerialCompetencyPage = () => {
   return (
@@ -8,7 +8,7 @@ const AdminManagerialCompetencyPage = () => {
       description="List of all Managerial Categories, create new Competency, and manage existing Managerial."
       type="admin"
     >
-      <Managerial />
+      <Competency />
     </DashboardLayout>
   );
 };

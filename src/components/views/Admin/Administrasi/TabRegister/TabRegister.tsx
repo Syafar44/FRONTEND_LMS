@@ -39,8 +39,8 @@ const TabRegister = () => {
         label: "Office",
     },
     {
-        key: "produksi",
-        label: "Produksi",
+        key: "central_kitchen",
+        label: "Central Kitchen",
     },
     {
         key: "manager",

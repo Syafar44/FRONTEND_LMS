@@ -14,6 +14,7 @@ import useInfoTab from "./useInfoTab";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { ICompetency } from "@/types/Competency";
+import { access_list } from "../../../Administrasi/TabRegister/TabRegister";
 
 interface PropTypes {
   dataCore: ICompetency;
@@ -43,33 +44,6 @@ const InfoTab = (props: PropTypes) => {
       resetUpdateInfo();
     }
   }, [isSuccessUpdate]);
-
-    const list_access = [
-    {
-      key: "all-team",
-      value: "All Team",
-    },
-    {
-      key: "outlet",
-      value: "Outlet",
-    },
-    {
-      key: "gerai",
-      value: "Gerai",
-    },
-    {
-      key: "produksi",
-      value: "Produksi",
-    },
-    {
-      key: "office",
-      value: "Office",
-    },
-    {
-      key: "manager",
-      value: "Manager",
-    },
-  ]
 
   return (
     <Card className="w-full p-4 lg:w-1/2">
@@ -141,12 +115,12 @@ const InfoTab = (props: PropTypes) => {
                   errorMessage={errorsUpdateInfo.access?.message}
                   orientation="horizontal"
                 >
-                  {list_access.map((item) => (
+                  {access_list.map((item) => (
                     <Checkbox 
                       key={item.key} 
                       value={item.key}
                     >
-                      {item.value}
+                      {item.label}
                     </Checkbox>
                   ))}
                 </CheckboxGroup>

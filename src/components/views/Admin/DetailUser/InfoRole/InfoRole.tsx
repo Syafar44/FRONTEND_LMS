@@ -36,7 +36,7 @@ const InfoRole = (props: PropTypes) => {
     setValue("role", `${dataUser?.role}`);
   }, [dataUser]);
 
-    const access_list = [
+  const access_list = [
     {
         key: "admin",
         label: "Admin",

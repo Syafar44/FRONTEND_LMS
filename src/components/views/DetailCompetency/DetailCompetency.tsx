@@ -39,7 +39,7 @@ const DetailCompetency = () => {
                         <Skeleton className="w-full h-[250px] rounded-lg" />
                     )}
                 </section>
-                <section className="grid gap-5 xl:max-w-[300px] 2xl:max-w-[600px] h-auto">
+                <section className="grid gap-5 w-full xl:max-w-[300px] 2xl:max-w-[600px] h-auto">
                     {!isPending ? (
                         <section>
                             <h2 className="text-lg font-bold">{dataSub?.title}</h2>
@@ -52,7 +52,7 @@ const DetailCompetency = () => {
                         </div>
                     )}
                     {!isPending ? (
-                        <Card>
+                        <Card className="w-full border">
                             <CardBody className="p-3 grid gap-2">
                                 {competency.map((item: ISubCompetency, index: number) => {
                                 const isActive = item._id === dataSub?._id;

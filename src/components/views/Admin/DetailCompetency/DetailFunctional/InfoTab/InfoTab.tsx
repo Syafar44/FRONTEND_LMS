@@ -14,6 +14,7 @@ import useInfoTab from "./useInfoTab";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { ICompetency } from "@/types/Competency";
+import { access_list } from "../../../Administrasi/TabRegister/TabRegister";
 
 interface PropTypes {
   dataFunctional: ICompetency;
@@ -141,12 +142,12 @@ const InfoTab = (props: PropTypes) => {
                   errorMessage={errorsUpdateInfo.access?.message}
                   orientation="horizontal"
                 >
-                  {list_access.map((item) => (
+                  {access_list.map((item) => (
                     <Checkbox 
                       key={item.key} 
                       value={item.key}
                     >
-                      {item.value}
+                      {item.label}
                     </Checkbox>
                   ))}
                 </CheckboxGroup>

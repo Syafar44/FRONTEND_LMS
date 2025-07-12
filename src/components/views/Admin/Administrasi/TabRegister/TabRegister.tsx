@@ -1,31 +1,15 @@
-import { Button, Card, CardBody, CardHeader, Input, Select, SelectItem, Spinner } from "@heroui/react";
+import { Button, Card, CardBody, Input, Select, SelectItem, Spinner } from "@heroui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import useTabRegister from "./useTabRegister";
 import { Controller } from "react-hook-form";
 import { cn } from "@/utils/cn";
 import { useFileHandling } from "@/hooks/useFileHandling";
 
-const TabRegister = () => {
-  const {
-    visiblePassword,
-    handleVisiblePassword,
-    control,
-    handleSubmit,
-    handleRegister,
-    isPendingRegister,
-    errors,
-  } = useTabRegister();
-
-  const {
-    file,
-    loading,
-    error,
-    response,
-    handleFileChange,
-    uploadFile,
-  } = useFileHandling();
-
-  const access_list = [
+export const access_list = [
+    {
+        key: "all-team",
+        label: "All Team",
+    },
     {
         key: "outlet",
         label: "Outlet",
@@ -55,6 +39,26 @@ const TabRegister = () => {
         label: "General affair",
     },
 ]
+const TabRegister = () => {
+  const {
+    visiblePassword,
+    handleVisiblePassword,
+    control,
+    handleSubmit,
+    handleRegister,
+    isPendingRegister,
+    errors,
+  } = useTabRegister();
+
+  const {
+    file,
+    loading,
+    error,
+    response,
+    handleFileChange,
+    uploadFile,
+  } = useFileHandling();
+
 
   return (
     <div className="max-w-[600px] grid gap-5">

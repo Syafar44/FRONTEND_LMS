@@ -13,6 +13,7 @@ import useInfoTab from "./useInfoTab";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { IProfile } from "@/types/Auth";
+import { access_list } from "../../Administrasi/TabRegister/TabRegister";
 
 interface PropTypes {
   dataUser: IProfile;
@@ -43,37 +44,6 @@ const InfoTab = (props: PropTypes) => {
       resetUpdateInfo();
     }
   }, [isSuccessUpdate]);
-
-    const access_list = [
-    {
-        key: "outlet",
-        label: "Outlet",
-    },
-    {
-        key: "gerai",
-        label: "Gerai",
-    },
-    {
-        key: "office",
-        label: "Office",
-    },
-    {
-        key: "produksi",
-        label: "Produksi",
-    },
-    {
-        key: "manager",
-        label: "Manager",
-    },
-    {
-        key: "warehouse",
-        label: "Warehouse",
-    },
-    {
-        key: "general_affair",
-        label: "General affair",
-    },
-  ]
 
   return (
     <Card className="w-full p-4 lg:w-1/2">

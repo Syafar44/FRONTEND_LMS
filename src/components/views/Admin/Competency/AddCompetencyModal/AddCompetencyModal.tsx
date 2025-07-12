@@ -15,6 +15,7 @@ import useAddCompetencyModal from "./useAddCompetencyModal";
 import { Controller } from "react-hook-form";
 import InputFile from "@/components/ui/InputFile";
 import { useEffect } from "react";
+import { access_list } from "../../Administrasi/TabRegister/TabRegister";
 
 interface PropTypes {
   isOpen: boolean;
@@ -55,33 +56,6 @@ const AddCompetencyModal = (props: PropTypes) => {
     isPendingMutateAddCompetency ||
     isPendingMutateUploadFile ||
     isPendingMutateDeleteFile;
-
-  const list_access = [
-    {
-      key: "all-team",
-      value: "All Team",
-    },
-    {
-      key: "outlet",
-      value: "Outlet",
-    },
-    {
-      key: "gerai",
-      value: "Gerai",
-    },
-    {
-      key: "produksi",
-      value: "Produksi",
-    },
-    {
-      key: "office",
-      value: "Office",
-    },
-    {
-      key: "manager",
-      value: "Manager",
-    },
-  ]
 
   return (
     <Modal
@@ -141,12 +115,12 @@ const AddCompetencyModal = (props: PropTypes) => {
                     errorMessage={errors.access?.message}
                     orientation="horizontal"
                   >
-                    {list_access.map((item) => (
+                    {access_list.map((item) => (
                       <Checkbox 
                         key={item.key} 
                         value={item.key}
                       >
-                        {item.value}
+                        {item.label}
                       </Checkbox>
                     ))}
                   </CheckboxGroup>

@@ -44,33 +44,6 @@ const InfoTab = (props: PropTypes) => {
     }
   }, [isSuccessUpdate]);
 
-    const list_access = [
-    {
-      key: "all-team",
-      value: "All Team",
-    },
-    {
-      key: "outlet",
-      value: "Outlet",
-    },
-    {
-      key: "gerai",
-      value: "Gerai",
-    },
-    {
-      key: "produksi",
-      value: "Produksi",
-    },
-    {
-      key: "office",
-      value: "Office",
-    },
-    {
-      key: "manager",
-      value: "Manager",
-    },
-  ]
-
   return (
     <Card className="w-full p-4 lg:w-1/2">
       <CardHeader className="flex-col items-center">

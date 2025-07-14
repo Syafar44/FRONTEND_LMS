@@ -49,7 +49,7 @@ const CardCourse = (props: PropTypes) => {
                         {data?.title}
                     </h4>
                     <p className="text-sm text-gray-500">
-                        {type === "course" ? "Panglima Univercity" : data?.description}
+                        {type === "course" ? "Panglima University" : data?.description}
                     </p>
                 </div>
                 {(progress ?? 0) > 0 && (

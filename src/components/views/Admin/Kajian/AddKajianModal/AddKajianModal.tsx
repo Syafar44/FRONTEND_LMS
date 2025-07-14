@@ -115,6 +115,7 @@ const AddKajianModal = (props: PropTypes) => {
                   />
                 )}
               />
+              <p className="text-sm font-bold">Video</p>
               <Controller
                 name="video"
                 control={control}
@@ -122,7 +123,7 @@ const AddKajianModal = (props: PropTypes) => {
                   <Input
                     {...field}
                     autoFocus
-                    label="Link Video"
+                    label="Paste Link Video"
                     variant="bordered"
                     type="text"
                     isInvalid={errors.video !== undefined}

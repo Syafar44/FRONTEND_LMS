@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import Swal from 'sweetalert2'
 
 const useLkp = () => {
     const router = useRouter()
@@ -54,10 +55,27 @@ const useLkp = () => {
      } = useMutation({
         mutationFn: Absen,
         onSuccess: () => {
-            console.log("seccess menambahkan")
+            Swal.fire({
+                title: 'Pengisian LKP Berhasil',
+                icon: 'success',
+                confirmButtonText: 'Ok, Tutup',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'bg-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
+                }
+            });
         },
-        onError: (err) => {
-            console.log(err)
+        onError: () => {
+            Swal.fire({
+                title: 'Pengisian LKP Gagal',
+                icon: 'error',
+                text: 'Jika kejadian ini berulang, silahkan hubungi admin.',
+                confirmButtonText: 'Coba Lagi',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'bg-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
+                }
+            });
         }
     })
 

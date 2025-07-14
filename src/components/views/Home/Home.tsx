@@ -3,6 +3,7 @@ import { Badge, Button, Card, CardBody, Select, SelectItem, Skeleton } from "@he
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useHome from "./useHome";
+import Swal from "sweetalert2";
 
 const Home = () => {
     const router = useRouter()
@@ -59,6 +60,25 @@ const Home = () => {
     const progress = dataSave?.progress / dataSubCompetency?.length * 100
 
     const lkp = dataLkp ? 1 : 0
+
+    const completedLkp = () => {
+        Swal.fire({
+            title: 'Anda sudah mengisi Lkp hari ini!.',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Ok, Tutup',
+            confirmButtonText: 'Ingin Merubah?',
+            buttonsStyling: false,
+            customClass: {
+                cancelButton: 'bg-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
+                confirmButton: 'bg-gray-200 hover:bg-gray-300 font-semibold py-2 px-4 rounded mr-2',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.push('/lkp')
+            }
+        });
+    }
 
     return (
         <div className="grid gap-5">
@@ -120,7 +140,7 @@ const Home = () => {
                     <Badge className=" bg-red-600 border-none" content="" isInvisible={lkp === 1 ? true : false} placement="top-right">
                         <Button 
                             className="w-full bg-primary shadow-md"
-                            onPress={() => router.push("/lkp")}
+                            onPress={() => lkp === 1 ? completedLkp() : router.push("/lkp")}
                         >
                             Isi Lembar Kepatuhan Pribadi ( {lkp} / 1 )
                         </Button>

@@ -17,14 +17,6 @@ const DetailKajian = () => {
 
     return (
         <>
-            <header className="-mt-16 mb-10">
-                <PageHead title={dataKajian?.title} />
-                    <img
-                    src="/images/general/logo.png"
-                    alt="logo panglima"
-                    className="w-[100px] rounded-md"
-                />
-            </header>
             <div className="grid gap-5">
                 <section className="pt-5 grid gap-3">
                     <div
@@ -56,7 +48,7 @@ const DetailKajian = () => {
                     )}
                 </section>
                 {!isPending ? (
-                <section>
+                <section className="grid gap-5">
                     <h2 className="text-lg font-bold">{dataKajian?.title}</h2>
                     <p className="text-sm">{dataKajian?.description}</p>
                 </section>

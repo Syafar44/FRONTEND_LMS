@@ -14,7 +14,7 @@ const SubDashboardLayout = (props: PropTypes) => {
             <nav className="px-5 py-3 border-b shadow-md flex justify-between items-center mb-5">
                 <Link href="/">
                     <Image 
-                        src="/images/general/logo.png" 
+                        src="https://res.cloudinary.com/doyafjjum/image/upload/v1752466101/maskable-icon_ljfnvc.png" 
                         className="rounded-lg w-[80px]"
                         alt="logo" 
                         width={100} 

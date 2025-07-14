@@ -91,49 +91,55 @@ const Competency = () => {
             )}
             <section>
                 {!isPending ? (
-                    <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-4">
-                        {dataCourse?.data.map((course: ICompetency) => {
-                            const isProgress = dataSave?.competency === course?._id;
-                            const progress = (dataSave?.progress ?? 0) / (dataSubCompetency?.length ?? 1) * 100;
-                            const lock = dataSave ? (isProgress ? false : true) : false
-                            const accessUser = dataUser?.access;
-                            const accessCourse = course?.access || [];
-                            const access = accessCourse.includes(accessUser); 
-                            const isAccess = dataSave ? false : access
-                            const allAccess = course?.access?.includes('all-team')
-                            const isCompeted = dataCompleted?.some((item: {competency: string}) => item.competency === course._id)
-                            return (
-                                <CardCourse
-                                    key={course._id}
-                                    data={course}
-                                    competency={`${pathSegments[2]}`}
-                                    progress={
-                                        !isCompeted ? (
-                                            isProgress ? progress : 0
-                                        ) : 100 
-                                    }
-                                    isLock={lock}
-                                    isAccess={allAccess ? true : isAccess}
-                                    isCompleted={isCompeted}
-                                    isCountdown={isAccess ? isWaitOver : false}
-                                />
-                            )
-                        })}
-                        <div className="flex justify-center md:justify-end">
-                            {dataCourse?.pagination?.totalPages > 1 && (
-                                <Pagination
-                                    isCompact
-                                    showControls
-                                    className="text-black"
-                                    color="primary"
-                                    page={Number(currentPage)}
-                                    total={dataCourse?.pagination?.totalPages}
-                                    onChange={handleChangePage}
-                                    loop
-                                />
-                            )}
+                    dataCourse?.data?.length > 0 ? (
+                        <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-4">
+                            {dataCourse?.data.map((course: ICompetency) => {
+                                const isProgress = dataSave?.competency === course?._id;
+                                const progress = (dataSave?.progress ?? 0) / (dataSubCompetency?.length ?? 1) * 100;
+                                const lock = dataSave ? (isProgress ? false : true) : false
+                                const accessUser = dataUser?.access;
+                                const accessCourse = course?.access || [];
+                                const access = accessCourse.includes(accessUser); 
+                                const isAccess = dataSave ? false : access
+                                const allAccess = course?.access?.includes('all-team')
+                                const isCompeted = dataCompleted?.some((item: {competency: string}) => item.competency === course._id)
+                                return (
+                                    <CardCourse
+                                        key={course._id}
+                                        data={course}
+                                        competency={`${pathSegments[2]}`}
+                                        progress={
+                                            !isCompeted ? (
+                                                isProgress ? progress : 0
+                                            ) : 100 
+                                        }
+                                        isLock={lock}
+                                        isAccess={allAccess ? true : isAccess}
+                                        isCompleted={isCompeted}
+                                        isCountdown={isAccess ? isWaitOver : false}
+                                    />
+                                )
+                            })}
+                            <div className="flex justify-center md:justify-end">
+                                {dataCourse?.pagination?.totalPages > 1 && (
+                                    <Pagination
+                                        isCompact
+                                        showControls
+                                        className="text-black"
+                                        color="primary"
+                                        page={Number(currentPage)}
+                                        total={dataCourse?.pagination?.totalPages}
+                                        onChange={handleChangePage}
+                                        loop
+                                    />
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="text-center px-10 border py-20 rounded-lg"> 
+                            <h2 className="text-lg font-bold">Belum ada kompetensi yang di Tambahkan.</h2>
+                        </div>
+                    )
                 ): (
                     <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
                         <Skeleton className="h-[240px] md:h-[340px] rounded-lg" />

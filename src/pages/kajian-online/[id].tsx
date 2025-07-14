@@ -1,12 +1,14 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout"
+import PageHead from "@/components/commons/PageHead"
+import SubDashboardLayout from "@/components/layouts/SubDashboardLayout/SubDashboardLayout"
 import DetailKajian from "@/components/views/DetailKajian"
 
 
 const KajianDetailPage = () => {
     return (
-        <DashboardLayout type="user">
+        <SubDashboardLayout>
+            <PageHead title="Detail Kajian" />
             <DetailKajian />
-        </DashboardLayout>
+        </SubDashboardLayout>
     )
 }
 

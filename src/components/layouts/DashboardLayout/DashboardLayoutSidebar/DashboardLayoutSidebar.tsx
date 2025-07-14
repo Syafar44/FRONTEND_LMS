@@ -1,3 +1,4 @@
+import InstallButton from "@/components/commons/InstallPwaButton";
 import { cn } from "@/utils/cn";
 import { Accordion, AccordionItem, Button, Listbox, ListboxItem } from "@heroui/react";
 import { signOut } from "next-auth/react";
@@ -28,14 +29,14 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
   return (
     <div
       className={cn(
-        "fixed z-50 flex h-screen w-full max-w-[300px] -translate-x-full flex-col justify-between border-r-1 border-default-200 bg-white px-4 py-6 transition-all lg:relative lg:translate-x-0",
+        "fixed z-50 flex h-full w-full max-w-[300px] -translate-x-full flex-col justify-between border-r-1 border-default-200 bg-white px-4 py-6 transition-all lg:relative lg:translate-x-0",
         { "translate-x-0": isOpen },
       )}
     >
       <div>
         <div className="flex justify-center">
           <Image
-            src="/images/general/logo.png"
+            src="https://res.cloudinary.com/doyafjjum/image/upload/v1752466101/maskable-icon_ljfnvc.png"
             alt="logo"
             width={180}
             height={60}
@@ -109,19 +110,22 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
             );
           })}
         </Listbox>
-      </div>
-      <div className="flex items-center p-1">
-        <Button
-          color="primary"
-          fullWidth
-          variant="light"
-          className="flex justify-start rounded-lg px-2 py-1.5 text-black"
-          size="lg"
-          onPress={() => signOut()}
-        >
-          <CiLogout />
-          Logout
-        </Button>
+        <div className="flex items-center p-1">
+          <InstallButton />
+        </div>
+        <div className="flex items-center p-1">
+          <Button
+            color="primary"
+            fullWidth
+            variant="light"
+            className="flex justify-start rounded-lg px-2 py-1.5 text-danger"
+            size="lg"
+            onPress={() => signOut()}
+          >
+            <CiLogout />
+            Logout
+          </Button>
+        </div>
       </div>
     </div>
   );

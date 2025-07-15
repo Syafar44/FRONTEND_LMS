@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { ToasterContext } from "@/contexts/ToasterContext";
+import Swal from "sweetalert2";
 
 const loginSchema = yup.object().shape({
   email: yup.string().required("Please input your email"),
@@ -42,9 +43,15 @@ const useLogin = () => {
   const { mutate: mutateLogin, isPending: isPendingLogin } = useMutation({
     mutationFn: loginService,
     onError: () => {
-      setToaster({
-        type: "error",
-        message: "Your credential is wrong",
+      Swal.fire({
+          title: 'Login Gagal',
+          icon: 'error',
+          text: 'Email atau password yang anda masukkan salah.',
+          confirmButtonText: 'Coba Lagi',
+          buttonsStyling: false,
+          customClass: {
+              confirmButton: 'bg-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
+          }
       });
     },
     onSuccess: () => {

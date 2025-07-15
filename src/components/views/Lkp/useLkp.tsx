@@ -64,6 +64,7 @@ const useLkp = () => {
                     confirmButton: 'bg-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
                 }
             });
+            router.push('/')
         },
         onError: () => {
             Swal.fire({

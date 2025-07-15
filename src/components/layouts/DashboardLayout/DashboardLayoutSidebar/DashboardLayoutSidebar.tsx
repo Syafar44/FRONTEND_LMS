@@ -36,7 +36,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
       <div>
         <div className="flex justify-center">
           <Image
-            src="https://res.cloudinary.com/doyafjjum/image/upload/v1752466101/maskable-icon_ljfnvc.png"
+            src="https://res.cloudinary.com/doyafjjum/image/upload/v1752470088/maskable-icon_ljfnvc.png"
             alt="logo"
             width={180}
             height={60}

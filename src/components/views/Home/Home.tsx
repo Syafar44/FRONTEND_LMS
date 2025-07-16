@@ -55,7 +55,6 @@ const Home = () => {
         }
     };
     const profile = dataUser?.data
-    const avatarUrl = `https://ui-avatars.com/api/background=F8BD1B&color=000000?name=${encodeURIComponent(profile?.fullName)}&bold=true&uppercase=true`
 
     const progress = dataSave?.progress / dataSubCompetency?.length * 100
 
@@ -63,21 +62,15 @@ const Home = () => {
 
     const completedLkp = () => {
         Swal.fire({
-            title: 'Anda sudah mengisi Lkp hari ini!.',
+            title: 'Anda sudah mengisi Lkp hari ini.',
             icon: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Ok, Tutup',
-            confirmButtonText: 'Ingin Merubah?',
+            showCancelButton: false,
+            confirmButtonText: 'Ok, Tutup',
             buttonsStyling: false,
             customClass: {
-                cancelButton: 'bg-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
-                confirmButton: 'bg-gray-200 hover:bg-gray-300 font-semibold py-2 px-4 rounded mr-2',
+                confirmButton: 'bg-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                router.push('/lkp')
-            }
-        });
+        })
     }
 
     return (
@@ -87,7 +80,7 @@ const Home = () => {
                     <Card className="md:w-[700px]">
                         <CardBody className="p-5">
                             <div className="flex gap-5 items-center">
-                                <Image src={avatarUrl} alt="syafar" width={1000} height={1000} className="rounded-full w-1/5" />
+                                <Image src={profile?.image} alt="syafar" width={1000} height={1000} className="rounded-full w-[80px] h-[80px] object-cover" />
                                 <div>
                                     <h2 className="font-bold text-lg">
                                         {profile?.fullName}

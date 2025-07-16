@@ -66,11 +66,11 @@ const useLkp = () => {
             });
             router.push('/')
         },
-        onError: () => {
+        onError: (error) => {
             Swal.fire({
                 title: 'Pengisian LKP Gagal',
-                icon: 'error',
-                text: 'Jika kejadian ini berulang, silahkan hubungi admin.',
+                icon: 'warning',
+                text: 'Anda sudah mengisi LKP hari ini.',
                 confirmButtonText: 'Coba Lagi',
                 buttonsStyling: false,
                 customClass: {

@@ -13,7 +13,7 @@ const schema = yup.object().shape({
     confirmPassword: yup.string().required("Please input confirm password"),
 });
 
-const useSetting = () => {
+const useTabKeamanan = () => {
     const { setToaster } = useContext(ToasterContext);
 
     const {
@@ -52,15 +52,15 @@ const useSetting = () => {
         },
     });
 
-    const handleUpdateCore = (data: IUpdatePassword) => mutateUpdate(data);
+    const handleUpdatePassword = (data: IUpdatePassword) => mutateUpdate(data);
 
     return {
         control,
         errors,
-        handleUpdateCore,
+        handleUpdatePassword,
         isPendingMutateUpdate,
         handleSubmitForm,
     }
 }
 
-export default useSetting
+export default useTabKeamanan

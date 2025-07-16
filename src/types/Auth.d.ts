@@ -37,6 +37,7 @@ interface IProfile {
   fullName?: string;
   email?: string;
   department?: string
+  image?: string | FileList;
   access?: string;
   role?: string;
 }

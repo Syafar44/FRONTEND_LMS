@@ -43,7 +43,7 @@ const CardCourse = (props: PropTypes) => {
                 </div>
             )}
             <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}` : `/kajian-online/${data?._id}`} className="grid gap-3 p-3">
-                <Image src={`${data?.image}`} alt={data?.title || "Course Image"} className="w-full h-auto rounded-lg" width={1000} height={1000} />
+                <Image src={ data?.image !== undefined ? `${data?.image}` : "https://res.cloudinary.com/doyafjjum/image/upload/v1752723514/y9DpT_eac19z.jpg"} alt={data?.title || "Course Image"} className="w-full h-auto rounded-lg" width={1000} height={1000} />
                 <div>
                     <h4 className="text-lg font-bold text-black">
                         {data?.title}

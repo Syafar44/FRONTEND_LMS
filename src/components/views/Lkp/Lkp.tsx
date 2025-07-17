@@ -32,8 +32,6 @@ const LkpAbsensi = () => {
     },
   ]
 
-  console.log(dataLkp?.ashar)
-
   useEffect(() => {
     setValueAddLkp("subuh", `${dataLkp?.subuh}`)
     setValueAddLkp("dzuhur", `${dataLkp?.dzuhur}`)

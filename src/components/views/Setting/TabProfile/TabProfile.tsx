@@ -22,7 +22,7 @@ const TabProfile = () => {
         refetchProfile,
     } = useTabProfile()
 
-    console.log(dataProfile)
+    
 
     return (
         <Card className="max-w-[600px]">

@@ -72,8 +72,6 @@ const useAddSubCompetencyModal = (competencyId: string) => {
     mutateAddSubCompetency(payload)
   };
 
-  console.log(errors)
-
   return {
     control,
     errors,

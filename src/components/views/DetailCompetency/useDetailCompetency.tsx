@@ -116,7 +116,6 @@ const useDetailCompetency = () => {
 
         if (historyKuis.bySubCompetency === lastId) {
             console.log("Semua subCompetency telah selesai");
-            // Bisa juga nanti trigger API update progres user, dsb.
         }
     }, [competency, historyKuis]);
 

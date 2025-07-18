@@ -11,7 +11,7 @@ const useChangeUrl = () => {
   const currentLimit = router.query.limit;
   const currentPage = router.query.page;
   const currentSearch = router.query.search;
-  const currentFullName = router.query.name;
+  const currentFullName = router.query.fullName;
   const currentEmail = router.query.email;
   const currentDepartment = router.query.department;
   const currentMonth = router.query.month;
@@ -35,7 +35,7 @@ const useChangeUrl = () => {
       query: {
         limit: currentLimit || LIMIT_DEFAULT,
         page: currentPage || PAGE_DEFAULT,
-        name: currentFullName || "",
+        fullName: currentFullName || "",
         department: currentDepartment || "",
         month: currentMonth || "",
         year: currentYear || DEFAULT_YEAR,
@@ -63,34 +63,40 @@ const useChangeUrl = () => {
     });
   };
 
-  const handleChangeFullName = (name: string) => {
-    router.push({
-      query: {
-        ...router.query,
-        name,
-        page: PAGE_DEFAULT,
-      },
-    });
+  const handleChangeFullName = (fullName: string) => {
+    debounce(() => {
+      router.push({
+        query: {
+          ...router.query,
+          fullName,
+          page: PAGE_DEFAULT,
+        },
+      });
+    }, DELAY);
   };
 
   const handleChangeEmail = (email: string) => {
-    router.push({
-      query: {
-        ...router.query,
-        email,
-        page: PAGE_DEFAULT,
-      },
-    });
+    debounce(() => {
+      router.push({
+        query: {
+          ...router.query,
+          email,
+          page: PAGE_DEFAULT,
+        },
+      });
+    }, DELAY);
   };
 
   const handleChangeDepartment = (department: string) => {
-    router.push({
-      query: {
-        ...router.query,
-        department,
-        page: PAGE_DEFAULT,
-      },
-    });
+    debounce(() => {
+      router.push({
+        query: {
+          ...router.query,
+          department,
+          page: PAGE_DEFAULT,
+        },
+      });
+    }, DELAY);
   };
 
   const handleChangeMonth = (month: string) => {
@@ -140,7 +146,7 @@ const useChangeUrl = () => {
     router.push({
       query: {
         ...router.query,
-        fullname: "",
+        fullName: "",
         page: PAGE_DEFAULT,
       },
     });

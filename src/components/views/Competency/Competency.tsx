@@ -24,6 +24,7 @@ const Competency = () => {
         currentPage,
         handleChangePage,
         handleSearch,
+        handleClearSearch,
     } = useChangeUrl();
     
     const { isReady } = useRouter();
@@ -72,6 +73,7 @@ const Competency = () => {
             <section>
                 <Input
                     onChange={handleSearch}
+                    onClear={handleClearSearch}
                     className="w-full md:w-1/4"
                     startContent={<CiSearch />}
                     placeholder="Cari Bedasarkan Judul..."

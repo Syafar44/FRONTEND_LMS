@@ -13,7 +13,7 @@ const TabRekap = () => {
     dataRekap,
     isLoadingRekap,
     isRefetchingRekap,
-    name, 
+    search, 
     department,
     month,
     year,
@@ -64,7 +64,7 @@ const TabRekap = () => {
             type="text"
             variant="bordered"
             className="max-w-[250px]"
-            value={name ? String(name) : undefined}
+            value={search ? String(search) : undefined}
             placeholder="Nama Lengkap"
             onChange={e => handleChangeFullName(e.target.value)}
             onClear={handleClearFullname}
@@ -74,7 +74,7 @@ const TabRekap = () => {
             variant="bordered"
             className="max-w-[250px]"
             value={department ? String(department) : undefined}
-            placeholder="Pekerjaan"
+            placeholder="Departemen"
             onChange={e => handleChangeDepartment(e.target.value)}
             onClear={handleClearDepartment}
           />

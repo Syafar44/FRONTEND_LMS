@@ -6,12 +6,12 @@ import { useRouter } from "next/router";
 
 const useTabRekap = () => {
   const router = useRouter();
-  const { name, department, month, year } = router.query
+  const { search, department, month, year } = router.query
   const { currentLimit, currentPage, currentFullName, currentDepartment, currentMonth, currentYear } = useChangeUrl();
 
   let params = `limit=${currentLimit}&page=${currentPage}&year=${currentYear}`;
   if (currentFullName) {
-    params += `&name=${currentFullName}`;
+    params += `&search=${currentFullName}`;
   }
   if (currentDepartment) {
     params += `&department=${currentDepartment}`;
@@ -61,7 +61,7 @@ const useTabRekap = () => {
     dataRekap,
     isLoadingRekap,
     isRefetchingRekap,
-    name,
+    search,
     department,
     month,
     year,

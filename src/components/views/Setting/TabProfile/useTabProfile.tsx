@@ -22,6 +22,22 @@ const useTabProfile = () => {
         handleDeleteFile,
         isPendingMutateDeleteFile,
     } = useMediaHandling();
+    
+    const getProfile = async () => {
+        const res = await authServices.getProfile()
+        const { data } = res;
+        return data.data
+    }
+
+    const {
+        data: dataProfile,
+        isPending: isPendingProfile,
+        refetch: refetchProfile,
+    } = useQuery({
+        queryKey: ["profile"],
+        queryFn: getProfile,
+        enabled: !!router.isReady,
+    });
 
     const {
         control,
@@ -31,10 +47,10 @@ const useTabProfile = () => {
         watch: watchUpdateImage,
         getValues: getValuesUpdateImage,
         setValue: setValueUpdateImage,
-        } = useForm({
-            resolver: yupResolver(schemaUpdateImage),
+    } = useForm({
+        resolver: yupResolver(schemaUpdateImage),
     });
-
+    
     const preview = watchUpdateImage("image");
     const fileUrl = getValuesUpdateImage("image");
 
@@ -68,37 +84,23 @@ const useTabProfile = () => {
     } = useMutation({
         mutationFn: update,
         onError: (error) => {
-        setToaster({
-            type: "error",
-            message: error.message,
-        });
+            setToaster({
+                type: "error",
+                message: error.message,
+            });
         },
         onSuccess: () => {
-        setToaster({
-            type: "success",
-            message: "Success Update",
-        });
-        reset();
+            setToaster({
+                type: "success",
+                message: "Foto berhasil perbarui",
+            });
+            refetchProfile()
+            reset();
         },
     });
 
     const onUpdate = (data: IProfile) => mutateUpdate(data);
 
-    const getProfile = async () => {
-        const res = await authServices.getProfile()
-        const { data } = res;
-        return data.data
-    }
-
-    const {
-        data: dataProfile,
-        isPending: isPendingProfile,
-        refetch: refetchProfile,
-    } = useQuery({
-        queryKey: ["profile"],
-        queryFn: getProfile,
-        enabled: !!router.isReady,
-    });
 
     return {
         control,

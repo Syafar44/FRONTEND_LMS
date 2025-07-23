@@ -1,10 +1,15 @@
 import scoreServices from "@/services/score.service"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 const useKuis = () => {
     const router = useRouter()
     const { id } =  router.query
+    
+    useEffect(() => {
+        localStorage.removeItem('kuis_timer_start')
+    }, [router.isReady])
     
     const getAllScore = async() => {
         const res = await scoreServices.getScoreBySubCompetency(`${id}`)

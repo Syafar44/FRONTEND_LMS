@@ -34,13 +34,13 @@ const useYouTubeWithControls = (selectionId: string) => {
     const handleFullscreen = () => {
         const container = containerRef.current;
         if (container?.requestFullscreen) {
-        container.requestFullscreen();
+            container.requestFullscreen();
         } else if ((container as any)?.webkitRequestFullscreen) {
-        (container as any).webkitRequestFullscreen(); // Safari
+            (container as any).webkitRequestFullscreen();
         } else if ((container as any)?.mozRequestFullScreen) {
-        (container as any).mozRequestFullScreen(); // Firefox
+            (container as any).mozRequestFullScreen();
         } else if ((container as any)?.msRequestFullscreen) {
-        (container as any).msRequestFullscreen(); // IE
+            (container as any).msRequestFullscreen();
         }
     };
 
@@ -48,6 +48,7 @@ const useYouTubeWithControls = (selectionId: string) => {
         setIsPlay(false)
         setHasWatchedToEnd(true);
         const res = await videoServices.addVideo({bySubCompetency: `${selectionId}`})
+        window.location.reload();
     };
 
     const getVideoHistory = async() => {

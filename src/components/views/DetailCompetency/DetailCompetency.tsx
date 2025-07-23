@@ -2,7 +2,6 @@ import { Button, Card, CardBody, Skeleton } from "@heroui/react";
 import useDetailCompetency from "./useDetailCompetency";
 import { FaCheck, FaCirclePlay, FaLock } from "react-icons/fa6";
 import { ISubCompetency } from "@/types/Competency";
-import PageHead from "@/components/commons/PageHead";
 import YouTubeWithControls from "@/components/ui/YouTubeWithControls";
 import { IScore } from "@/types/Score";
 

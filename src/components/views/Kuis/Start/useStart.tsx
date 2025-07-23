@@ -39,15 +39,13 @@ const useStart = () => {
         const res = await kuisCompetencyServices.getKuisCompetencyBySubCompetency(`${id}`)
         const { data } = res
         setJumlahSoal(data.data.length)
-         if (listSoal.length === 0) {
+        if (listSoal.length === 0) {
             const soalDiacak = acakArray(data.data)
             setListSoal(soalDiacak)
             return soalDiacak[numberSoal - 1]
         } else {
             return listSoal[numberSoal - 1]
         }
-        // const getKuis = data.data[numberSoal - 1]
-        // return getKuis
     }
 
     const { data: dataKuis, isPending: isPendingKuis } = useQuery({

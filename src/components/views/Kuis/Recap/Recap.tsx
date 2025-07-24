@@ -6,7 +6,6 @@ const Recap = () => {
     const { 
         dataScore, 
         isPendingScore, 
-        router, 
         dataSub, 
         isPendingSub,
         dataCompetency,
@@ -61,7 +60,7 @@ const Recap = () => {
                     </section>
                     <div className="flex justify-end">
                         <Button
-                            onPress={() => window.location.href = `/`}
+                            onPress={() => window.location.href = `/kelas-kompetensi/core/${dataCompetency?._id}`}
                             className="bg-primary text-black px-10">
                             Kembali
                         </Button>

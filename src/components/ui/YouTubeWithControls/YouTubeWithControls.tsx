@@ -42,7 +42,7 @@ const YouTubeWithControls = (props: PropTypes) => {
                             event.target.playVideo();
                             setIsPlay(true);
                         }}
-                        onEnd={handleVideoEnd}
+                        onEnd={() => handleVideoEnd()}
                         opts={{
                         width: "100%",
                         height: "100%",
@@ -73,7 +73,7 @@ const YouTubeWithControls = (props: PropTypes) => {
                 {isPlay && (
                     <Button onPress={handleFullscreen} variant="ghost" isIconOnly className="shadow-lg"><GoScreenFull size={20} /></Button>
                 )}
-                {(isView) && (
+                {(isView || hasWatchedToEnd) && (
                     <Button 
                         className="text-primary bg-gray-700" 
                         isDisabled={isPending}

@@ -45,10 +45,9 @@ const useYouTubeWithControls = (selectionId: string) => {
     };
 
     const handleVideoEnd = async () => {
+        const res = await videoServices.addVideo({bySubCompetency: `${selectionId}`})
         setIsPlay(false)
         setHasWatchedToEnd(true);
-        const res = await videoServices.addVideo({bySubCompetency: `${selectionId}`})
-        window.location.reload();
     };
 
     const getVideoHistory = async() => {

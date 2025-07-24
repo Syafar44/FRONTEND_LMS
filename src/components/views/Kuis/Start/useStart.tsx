@@ -3,10 +3,11 @@ import kuisCompetencyServices from "@/services/kuisCompetency.service"
 import saveServices from "@/services/save.service"
 import scoreServices from "@/services/score.service"
 import subCompetencyServices from "@/services/subCompetency.service"
+import videoServices from "@/services/video.service"
 import { IScore } from "@/types/Score"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 const LOCAL_STORAGE_KEY = "jawaban_kuis"
 const TOTAL_TIME = 300
@@ -87,6 +88,19 @@ const useStart = () => {
         enabled: !!id,
     })
 
+    const getVideo = async() => {
+        const res = await videoServices.getVideoBySubCompetency(`${subCompetency?._id}`)
+        const { data } = res
+        return data?.data
+    }
+
+    const {
+        data: dataVideo,
+    } = useQuery({
+        queryKey: ['video'],
+        queryFn: getVideo,
+        enabled: !!subCompetency?._id,
+    })
     
     const getAllScore = async() => {
         const res = await scoreServices.getScoreBySubCompetency(`${id}`)
@@ -145,10 +159,14 @@ const useStart = () => {
         enabled: !!router.isReady
     })
     
-    const handleRecap = async () => {
+    const handleRecap = useCallback(async () => {
+        if (!id || !jumlahSoal || !subCompetency || !subCompetency.byCompetency) {
+            return;
+        }
+
         try {
             const score = Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0;
-            const total = Number(jumlahSoal) || 1;
+            const total = Number(jumlahSoal);
             const percent = (score / total) * 100;
             const isPass = percent >= 80;
 
@@ -171,55 +189,54 @@ const useStart = () => {
 
             // 2. Kalau belum selesai semua subkompetensi (belum completed)
             if (!hasCompleted) {
-                if (!isLastSub || !isPass) {
-                    // Belum sub terakhir ATAU belum lulus
-                    if (!hasPassedBefore) {
+                // Belum sub terakhir ATAU belum lulus
+                if (!isLastSub) {
                     // Jika belum pernah lulus
-                    if (!dataSave) {
-                        // Belum ada progress, buat baru
-                        await saveServices.addSave({
-                        competency: `${subCompetency.byCompetency}`,
-                        progress: 1,
-                        });
-                    } else {
-                        // Sudah ada progress, tambahkan +1
-                            await saveServices.updateSave(`${dataSave._id}`, {
-                            progress: Number(dataSave.progress ?? 0) + 1,
-                        });
+                    if (!hasPassedBefore) {
+                        // Jika gagal memenuhi skor
+                        if(!isPass) {
+                            await videoServices.deleteVideo(`${dataVideo?._id}`)
+                        } else {
+                            if (!dataSave) {
+                                // Belum ada progress, buat baru
+                                await saveServices.addSave({
+                                    competency: `${subCompetency.byCompetency}`,
+                                    progress: 1,
+                                });
+                            } else {
+                                    // Sudah ada progress, tambahkan +1
+                                    await saveServices.updateSave(`${dataSave._id}`, {
+                                    progress: Number(dataSave.progress ?? 0) + 1,
+                                });
+                            }
+                        }
                     }
+                } else {
+                    // Sudah sub terakhir dan lulus → selesaikan kompetensi
+                    await saveServices.deleteSave(`${dataSave?._id}`);
+                    await completedServices.addCompleted(`${subCompetency.byCompetency}`);
                 }
-            } else {
-                // Sudah sub terakhir dan lulus → selesaikan kompetensi
-                await saveServices.deleteSave(`${dataSave?._id}`);
-                await completedServices.addCompleted(`${subCompetency.byCompetency}`);
             }
-        }
 
     // 3. Cleanup dan redirect
-    setIsLoading(true);
-    localStorage.removeItem(TIMER_STORAGE_KEY);
-    router.replace(`/kuis/recap/${id}`);
-  } catch (error) {
-    console.error("Gagal menyelesaikan recap:", error);
-  }
-};
+            setIsLoading(true);
+            localStorage.removeItem(TIMER_STORAGE_KEY);
+            router.replace(`/kuis/recap/${id}`);
+        } catch (error) {
+            console.error("Gagal menyelesaikan recap:", error);
+        }
+    }, [
+        id,
+        jumlahSoal,
+        dataCompetency,
+        dataCompleted,
+        dataScore,
+        dataSave,
+        subCompetency,
+        router
+    ]);
 
     const [remainingTime, setRemainingTime] = useState(TOTAL_TIME)
-
-    // useEffect(() => {
-    //     if (!router.isReady) return;
-
-    //     if (remainingTime === 0) {
-    //         handleRecap();
-    //         return;
-    //     }
-
-    //     const interval = setInterval(() => {
-    //         setRemainingTime((prev) => prev - 1);
-    //     }, 1000);
-
-    //     return () => clearInterval(interval);
-    // }, [remainingTime, router.isReady]);
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -240,16 +257,16 @@ const useStart = () => {
             const remaining = TOTAL_TIME - elapsedSeconds;
 
             if (remaining <= 0) {
+                handleRecap(); // auto submit
                 setRemainingTime(0);
                 clearInterval(interval);
-                handleRecap(); // auto submit
             } else {
                 setRemainingTime(remaining);
             }
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [router.isReady]);
+    }, [router.isReady, id, subCompetency?.byCompetency, handleRecap]);
 
     const formatTime = (seconds: number) => {
         const m = Math.floor(seconds / 60).toString().padStart(2, "0");
@@ -281,7 +298,6 @@ const useStart = () => {
             window.removeEventListener('popstate', handlePopState)
         }
     }, [router])
-
 
     return{
         id,

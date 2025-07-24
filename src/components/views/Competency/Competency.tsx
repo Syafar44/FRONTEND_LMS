@@ -21,6 +21,7 @@ const Competency = () => {
     } = useCompetency()
     
     const {
+        setUrl,
         currentPage,
         handleChangePage,
         handleSearch,
@@ -28,7 +29,6 @@ const Competency = () => {
     } = useChangeUrl();
     
     const { isReady } = useRouter();
-    const { setUrl } = useChangeUrl()
     
     useEffect(() => {
         if (isReady) {
@@ -40,16 +40,18 @@ const Competency = () => {
     const lastData = dataCompleted?.reduce((latest: {createdAt: string}, current: {createdAt: string}) => {
         return new Date(current.createdAt) > new Date(latest.createdAt) ? current : latest
     }, dataCompleted?.[0]);
+
     const lastTime = lastData?.createdAt;
     const [isWaitOver, setIsWaitOver] = useState(false);
     const [countdown, setCountdown] = useState("");
+
     useEffect(() => {
         if (!lastTime) return;
         const waitUntil = dayjs(lastTime).add(15, 'minute');
         const now = dayjs();
         if (now.isAfter(waitUntil)) {
             setIsWaitOver(false);
-            setCountdown("");
+            setCountdown("00:00");
             return;
         }
         setIsWaitOver(true);
@@ -57,7 +59,7 @@ const Competency = () => {
             const now = dayjs();
             const diff = waitUntil.diff(now);
             if (diff <= 0) {
-                setIsWaitOver(true);
+                setIsWaitOver(false);
                 setCountdown("");
                 clearInterval(interval);
             } else {
@@ -68,6 +70,7 @@ const Competency = () => {
         }, 1000);
         return () => clearInterval(interval);
     }, [lastTime]);
+
     return (
         <div className="grid gap-5">
             <section>
@@ -118,7 +121,7 @@ const Competency = () => {
                                         isLock={lock}
                                         isAccess={allAccess ? true : isAccess}
                                         isCompleted={isCompeted}
-                                        isCountdown={isAccess ? isWaitOver : false}
+                                        isCountdown={isWaitOver}
                                     />
                                 )
                             })}

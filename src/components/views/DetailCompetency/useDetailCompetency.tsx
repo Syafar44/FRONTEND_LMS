@@ -9,10 +9,9 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 const useDetailCompetency = () => {
-    const { query, isReady } = useRouter()
+    const { query, isReady, replace, pathname } = useRouter()
     const { currentLimit, currentPage, currentSearch } = useChangeUrl();
-    const [ subCompetency, setSubCompetency ] = useState("")
-    const [isView, setIsView] = useState(false)
+    const [ isView, setIsView ] = useState(false)
 
     const getCompetencyById = async () => {
         const res = await competencyServices.getCompetencyById(`${query.id}`)
@@ -49,11 +48,21 @@ const useDetailCompetency = () => {
         enabled:!!query.id 
     })
 
+    const handleSub = (id: string) => {
+        replace({
+            pathname: pathname,
+            query: {
+                id: query.id,
+                sub: `${id}`,
+            },
+        }, undefined, { shallow: true });
+    }
+
     const firstId = competency?.[0]?._id
 
     const getSubCompetencyById = async () => {
         const res = await subCompetencyServices.getSubCompetencyById(
-            subCompetency ? `${subCompetency}` : `${firstId}`
+            query.sub ? `${query.sub}` : `${firstId}`
         );
         const { data } = res
         return data.data
@@ -63,9 +72,9 @@ const useDetailCompetency = () => {
         data: subCompetencyById,
         isPending: isPendingSubCompetencyById,
     } = useQuery({
-        queryKey: ["getSubCompetencyById", subCompetency, firstId],
+        queryKey: ["getSubCompetencyById", query.sub, firstId],
         queryFn: getSubCompetencyById,
-        enabled: !!subCompetency || !!firstId,
+        enabled: !!query.sub || !!firstId,
     })
 
     const getHistoryKuis = async () => {
@@ -79,13 +88,13 @@ const useDetailCompetency = () => {
         data: historyKuis,
         isPending: isPendingHistoryKuis,
     } = useQuery({
-        queryKey: ["getHistoryKuis", subCompetencyById?._id, subCompetency],
+        queryKey: ["getHistoryKuis", subCompetencyById?._id, query.sub],
         queryFn: getHistoryKuis,
         enabled: !!subCompetencyById?._id,
     })
 
     const getVideo = async() => {
-        const id = subCompetency || firstId
+        const id = query.sub || firstId
         const res = await videoServices.getVideoBySubCompetency(`${id}`)
         const { data } = res
         return data.data
@@ -95,7 +104,7 @@ const useDetailCompetency = () => {
         data: dataVideo,
         isPending: isPendingVideo,
     } = useQuery({
-        queryKey: ["getVideo", subCompetencyById?._id, subCompetency],
+        queryKey: ["getVideo", subCompetencyById?._id, query.sub],
         queryFn: getVideo,
         enabled: !!subCompetencyById?._id || !!isReady,
     })
@@ -131,14 +140,13 @@ const useDetailCompetency = () => {
         historyKuis,
         isPendingHistoryKuis,
 
-        subCompetency,
-        setSubCompetency,
-
         isView,
         setIsView,
 
         dataVideo,
         isPendingVideo,
+        handleSub,
+        query,
     }
 }
 

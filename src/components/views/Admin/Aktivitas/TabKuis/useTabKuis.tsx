@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 const useTabKuis = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const router = useRouter();
+  const { fullName, search } = router.query
   const { currentLimit, currentPage} = useChangeUrl();
 
   const getScore = async () => {
@@ -79,8 +80,6 @@ const useTabKuis = () => {
     enabled: router.isReady,
   });
 
-  const [searchUser, setSearchUser] = useState("");
-  const [searchSubCompetency, setSearchSubCompetency] = useState("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const filteredData = useMemo(() => {
@@ -91,8 +90,8 @@ const useTabKuis = () => {
       const user: IProfile | undefined = dataUser.data.find((u: IProfile) => u._id === score.createdBy);
       const SubCompetency = dataSubCompetency.data.find((s: ISubCompetency) => s._id === score.bySubCompetency);
 
-      const matchUser = user?.fullName?.toLowerCase().includes(searchUser.toLowerCase());
-      const matchSubCompetency = SubCompetency?.title?.toLowerCase().includes(searchSubCompetency.toLowerCase());
+      const matchUser = user?.fullName?.toLowerCase().includes((fullName as string).toLowerCase());
+      const matchSubCompetency = SubCompetency?.title?.toLowerCase().includes((search as string).toLowerCase());
       return matchUser && matchSubCompetency;
     })
     .sort((a: IScore, b: IScore) => {
@@ -100,7 +99,14 @@ const useTabKuis = () => {
       const dateB = new Date(b.createdAt as string).getTime();
       return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
     });
-  }, [dataScore, dataUser, dataSubCompetency, searchUser, searchSubCompetency, sortOrder]);
+  }, [dataScore, dataUser, dataSubCompetency, fullName, search, sortOrder]);
+
+  const totalPages = Math.ceil(filteredData.length / Number(currentLimit));
+
+  const paginatedData = filteredData.slice(
+    (Number(currentPage) - 1) * Number(currentLimit),
+    Number(currentPage) * Number(currentLimit)
+  );
 
   const handleDownloadExcel = () => {
     if (!filteredData || filteredData.length === 0) return;
@@ -144,13 +150,15 @@ const useTabKuis = () => {
 
     filteredData,
 
-    searchSubCompetency,
-    searchUser,
     sortOrder,
-    setSearchSubCompetency,
-    setSearchUser,
     setSortOrder,
     handleDownloadExcel,
+
+    paginatedData,
+    totalPages,
+
+    search,
+    fullName,
   };
 };
 

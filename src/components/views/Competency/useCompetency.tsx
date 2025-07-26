@@ -13,8 +13,23 @@ const useCompetency = () => {
     const pathSegments = router.pathname.split('/');
     const { currentLimit, currentPage, currentSearch } = useChangeUrl();
 
+    const getUser = async() => {
+        const res = await authServices.getProfile()
+        const { data } = res
+        return data.data
+    }
+
+    const {
+        data: dataUser,
+        isPending: isPendingUser,
+    } = useQuery({
+        queryKey: ["User"],
+        queryFn: () => getUser(),
+        enabled: !!router.isReady
+    })
+
     const getCourse = async () => {
-        let params = `limit=${currentLimit}&page=${currentPage}`;
+        let params = `access=${dataUser?.access}&limit=${currentLimit}&page=${currentPage}`;
         if (currentSearch) {
             params += `&search=${currentSearch}`;
         }
@@ -61,21 +76,6 @@ const useCompetency = () => {
         queryKey: ["SubCompetency", dataSave?.competency],
         queryFn: () => getSubCompetency(),
         enabled: !!dataSave?.competency
-    })
-
-    const getUser = async() => {
-        const res = await authServices.getProfile()
-        const { data } = res
-        return data.data
-    }
-
-    const {
-        data: dataUser,
-        isPending: isPendingUser,
-    } = useQuery({
-        queryKey: ["User"],
-        queryFn: () => getUser(),
-        enabled: !!router.isReady
     })
 
     const getCompleted = async() => {

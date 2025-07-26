@@ -6,17 +6,17 @@ import YouTubeWithControls from "@/components/ui/YouTubeWithControls";
 import { IScore } from "@/types/Score";
 
 const DetailCompetency = () => {
-  const {
-    competency,
-    subCompetencyById,
-    isPendingSubCompetencyById,
-    isPendingCompetency,
-    historyKuis,
-    isPendingHistoryKuis,
-    setSubCompetency,
-    isView,
-    isPendingVideo,
-  } = useDetailCompetency();
+    const {
+        competency,
+        subCompetencyById,
+        isPendingSubCompetencyById,
+        isPendingCompetency,
+        historyKuis,
+        isPendingHistoryKuis,
+        isView,
+        isPendingVideo,
+        handleSub,
+    } = useDetailCompetency();
 
     const dataSub = subCompetencyById;
     const isPending =
@@ -68,7 +68,7 @@ const DetailCompetency = () => {
                                 <div key={item._id} className="grid gap-1">
                                     <Button
                                         onPress={() => {
-                                            if (isClickable) setSubCompetency(`${item._id}`);
+                                            if (isClickable) handleSub(`${item._id}`);
                                         }}
                                         disabled={!isClickable}
                                         className={`w-full flex items-center justify-between gap-5 px-5 py-7

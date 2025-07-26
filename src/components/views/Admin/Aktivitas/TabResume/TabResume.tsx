@@ -6,7 +6,7 @@ import { COLUMN_LISTS } from "./TabResume.constants";
 import useTabResume from "./useTabResume";
 import { convertTime } from "@/utils/date";
 import { IKajian } from "@/types/Kajian";
-import { IProfile, IRegister } from "@/types/Auth";
+import { IProfile } from "@/types/Auth";
 import { Button, Input } from "@heroui/react";
 
 const TabResume = () => {
@@ -15,30 +15,31 @@ const TabResume = () => {
     dataResume,
     isPendingResume,
     isRefetchingResume,
-
     dataKajian,
     isPendingKajian,
-
     dataUser,
     isPendingUser,
-
     filteredData,
-
-    searchKajian,
-    searchUser,
     sortOrder,
-    setSearchKajian,
-    setSearchUser,
     setSortOrder,
 
     handleDownloadExcel,
+
+    search,
+    fullName,
   } = useTabResume()
   
-  const { setUrl } = useChangeUrl();
+  const { 
+    setUrlAktivitas,
+    handleChangeFullName,
+    handleSearch,
+    handleClearFullname,
+    handleClearSearch,
+    } = useChangeUrl();
 
   useEffect(() => {
     if (isReady) {
-      setUrl();
+      setUrlAktivitas();
     }
   }, [isReady]);
 
@@ -84,14 +85,16 @@ const TabResume = () => {
           <Input
             type="text"
             placeholder="Cari bedasarkan kajian..."
-            value={searchKajian}
-            onChange={(e) => setSearchKajian(e.target.value)}
+            value={search ? String(search) : undefined}
+            onChange={e => handleSearch(e)}
+            onClear={handleClearSearch}
           />
           <Input
             type="text"
             placeholder="Cari nama user..."
-            value={searchUser}
-            onChange={(e) => setSearchUser(e.target.value)}
+            value={fullName ? String(fullName) : undefined}
+            onChange={e => handleChangeFullName(e.target.value)}
+            onClear={handleClearFullname}
           />
         </div>
         <div className="flex gap-2">
@@ -114,7 +117,7 @@ const TabResume = () => {
           columns={COLUMN_LISTS}
           data={filteredData || []}
           emptyContent="Resume is empty"
-          isLoading={isPendingResume || isRefetchingResume || isPendingKajian || isPendingKajian || isPendingUser}
+          isLoading={isPendingResume || isRefetchingResume || isPendingKajian || isPendingUser}
           renderCell={renderCell}
           totalPages={dataResume?.pagination?.totalPages}
           showSearch={false}

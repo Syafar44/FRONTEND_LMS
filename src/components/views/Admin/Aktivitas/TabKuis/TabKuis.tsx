@@ -25,22 +25,28 @@ const TabKuis = () => {
     dataUser,
     isPendingUser,
 
-    filteredData,
+    paginatedData,
 
-    searchSubCompetency,
-    searchUser,
     sortOrder,
-    setSearchSubCompetency,
-    setSearchUser,
     setSortOrder,
     handleDownloadExcel,
+    totalPages,
+
+    fullName,
+    search,
   } = useTabKuis()
   
-  const { setUrl } = useChangeUrl();
+  const { 
+    setUrlAktivitas,
+    handleChangeFullName,
+    handleSearch,
+    handleClearFullname,
+    handleClearSearch,
+    } = useChangeUrl();
 
   useEffect(() => {
     if (isReady) {
-      setUrl();
+      setUrlAktivitas();
     }
   }, [isReady]);
   
@@ -100,14 +106,16 @@ const TabKuis = () => {
           <Input
             type="text"
             placeholder="Cari bedasarkan Sub Judul..."
-            value={searchSubCompetency}
-            onChange={(e) => setSearchSubCompetency(e.target.value)}
+            value={search ? String(search) : undefined}
+            onChange={e => handleSearch(e)}
+            onClear={handleClearSearch}
           />
           <Input
             type="text"
             placeholder="Cari nama user..."
-            value={searchUser}
-            onChange={(e) => setSearchUser(e.target.value)}
+            value={fullName ? String(fullName) : undefined}
+            onChange={e => handleChangeFullName(e.target.value)}
+            onClear={handleClearFullname}
           />
         </div>
         <div className="flex gap-2">
@@ -128,11 +136,11 @@ const TabKuis = () => {
       {Object.keys(query).length > 0 && (
         <DataTable
           columns={COLUMN_LISTS}
-          data={filteredData || []}
+          data={paginatedData || []}
           emptyContent="Score is empty"
           isLoading={isPendingScore || isRefetchingScore || isPendingSubCompetency || isPendingSubCompetency || isPendingUser}
           renderCell={renderCell}
-          totalPages={dataScore?.pagination?.totalPages}
+          totalPages={totalPages}
           showSearch={false}
         />
       )}

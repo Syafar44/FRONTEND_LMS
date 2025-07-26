@@ -9,9 +9,10 @@ const endpoint = {
   MEDIA: "/media",
   NOTIFICATION: "/notification",
   RESUME: "/resume",
-  SUB_COMPETENCY: "/subcompetency",
-  SCORE: "/score",
   SAVE: "/save",
+  SCORE: "/score",
+  SUB_COMPETENCY: "/subcompetency",
+  SUNNAH: "/sunnah",
   VIDEO: "/video",
 
 };

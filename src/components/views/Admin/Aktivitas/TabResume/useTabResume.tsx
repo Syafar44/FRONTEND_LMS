@@ -13,6 +13,7 @@ import { useMemo, useState } from "react";
 const useTabResume = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const router = useRouter();
+  const { fullName, search } = router.query
   const { currentLimit, currentPage, currentSearch } = useChangeUrl();
 
   const getResume = async () => {
@@ -67,8 +68,6 @@ const useTabResume = () => {
     enabled: router.isReady,
   });
 
-  const [searchUser, setSearchUser] = useState("");
-  const [searchKajian, setSearchKajian] = useState("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const filteredData = useMemo(() => {
@@ -77,9 +76,9 @@ const useTabResume = () => {
     return dataResume.data
       .filter((resume: IResume) => {
         const user: IProfile | undefined = dataUser.data.find((u: IProfile) => u._id === resume.createdBy);
-        const kajian = dataKajian.data.find((k: IKajian) => k._id === resume.kajian);
-        const matchUser = user?.fullName?.toLowerCase().includes(searchUser.toLowerCase());
-        const matchKajian = kajian?.title?.toLowerCase().includes(searchKajian.toLowerCase());
+        const resKajian = dataKajian.data.find((k: IKajian) => k._id === resume.kajian);
+        const matchUser = user?.fullName?.toLowerCase().includes(fullName as string);
+        const matchKajian = resKajian?.title?.toLowerCase().includes(search as string);
         return matchUser && matchKajian;
       })
       .sort((a: IResume, b: IResume) => {
@@ -87,7 +86,7 @@ const useTabResume = () => {
         const dateB = new Date(b.createdAt as string).getTime();
         return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
       });
-  }, [dataResume, dataUser, dataKajian, searchUser, searchKajian, sortOrder]);
+  }, [dataResume, dataUser, dataKajian, fullName, search, sortOrder]);
 
   const handleDownloadExcel = () => {
   if (!filteredData || filteredData.length === 0) return;
@@ -125,14 +124,12 @@ const useTabResume = () => {
     isRefetchingUser,
 
     filteredData,
-
-    searchKajian,
-    searchUser,
     sortOrder,
-    setSearchKajian,
-    setSearchUser,
     setSortOrder,
     handleDownloadExcel,
+
+    fullName,
+    search,
   };
 };
 

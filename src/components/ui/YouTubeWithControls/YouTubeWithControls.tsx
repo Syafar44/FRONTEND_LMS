@@ -27,7 +27,7 @@ const YouTubeWithControls = (props: PropTypes) => {
         setIsPlay,
         hasWatchedToEnd,
         containerRef,
-    } = useYouTubeWithControls(selectionId)
+    } = useYouTubeWithControls(selectionId, subCompetency)
 
     return (
         <div className="grid gap-5 w-full">
@@ -73,11 +73,11 @@ const YouTubeWithControls = (props: PropTypes) => {
                 {isPlay && (
                     <Button onPress={handleFullscreen} variant="ghost" isIconOnly className="shadow-lg"><GoScreenFull size={20} /></Button>
                 )}
-                {(isView || hasWatchedToEnd) && (
+                {(isView) && (
                     <Button 
                         className="text-primary bg-gray-700" 
                         isDisabled={isPending}
-                        onPress={() => router.push(`/kuis/${subCompetency}`)}
+                        onPress={() => router.push(`/kuis/${subCompetency}?sub=${selectionId}`)}
                         >
                             Kerjakan Kuis
                     </Button>

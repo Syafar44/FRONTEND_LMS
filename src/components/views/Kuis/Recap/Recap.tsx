@@ -60,7 +60,7 @@ const Recap = () => {
                     </section>
                     <div className="flex justify-end">
                         <Button
-                            onPress={() => window.location.href = `/kelas-kompetensi/core/${dataCompetency?._id}`}
+                            onPress={() => window.location.href = `/kelas-kompetensi/core/${dataCompetency?._id}?sub=${dataSub?._id}`}
                             className="bg-primary text-black px-10">
                             Kembali
                         </Button>

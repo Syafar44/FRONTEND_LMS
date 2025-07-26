@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 const useTabKuis = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const router = useRouter();
+  const { fullName, search } = router.query
 
   const {
   setUrl,
@@ -76,12 +77,10 @@ const useTabKuis = () => {
     enabled: router.isReady,
   });
 
-  const [searchUser, setSearchUser] = useState("");
-  const [searchCompetency, setSearchCompetency] = useState("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const filteredData = useMemo(() => {
-    if (!dataScore?.data || !dataSubCompetency?.data || !dataCompetency?.data || !dataUser?.data) return [];
+    if (isPendingScore || isPendingSubCompetency || isPendingCompetency || isPendingUser) return [];
 
     const result: {
       mainTitle: string;
@@ -89,38 +88,49 @@ const useTabKuis = () => {
       totalPoin: number;
       id: string;
       competencyId: string;
+      percentage: number;
     }[] = [];
 
     dataCompetency.data.forEach((competency: ICompetency) => {
-      const subList = dataSubCompetency.data.filter((sub: ISubCompetency) => sub.byCompetency === competency._id);
-
+      const subList = dataSubCompetency.data.filter((sub: ISubCompetency) => String(sub.byCompetency) === String(competency._id));
+      const subCount = subList.length || 1;
       dataUser.data.forEach((user: IProfile) => {
         let totalPoin = 0;
+        let hasScore = false;
 
         subList.forEach((sub: ISubCompetency) => {
-          const score = dataScore.data.find((s: IScore) => s.bySubCompetency === sub._id && s.createdBy === user._id);
+          const score = dataScore.data.find(
+            (s: IScore) =>
+              String(s.bySubCompetency) === String(sub._id) &&
+              String(s.createdBy) === String(user._id)
+          );
           if (score) {
             const poin = (Number(score.total_score) / Number(score.total_question)) * 100;
             totalPoin += poin;
+            hasScore = true;
           }
         });
 
-        result.push({
-          mainTitle: `${competency.title}`,
-          userName: `${user.fullName}`,
-          totalPoin,
-          id: `${user._id}_${competency._id}`,
-          competencyId: `${competency._id}`,
-        });
+        if (hasScore) {
+          const percentage = Number((totalPoin / subCount).toFixed(2));
+          result.push({
+            mainTitle: `${competency.title}`,
+            userName: `${user.fullName}`,
+            totalPoin,
+            id: `${user._id}_${competency._id}`,
+            competencyId: `${competency._id}`,
+            percentage,
+          });
+        }
       });
     });
 
     return result.filter((item) => {
-      const matchUser = item.userName.toLowerCase().includes(searchUser.toLowerCase());
-        const matchCompetency = item.mainTitle.toLowerCase().includes(searchCompetency.toLowerCase());
-        return matchUser && matchCompetency;
-      });
-  }, [dataScore, dataSubCompetency, dataCompetency, dataUser, searchUser, searchCompetency]);
+      const matchUser = !fullName || item.userName.toLowerCase().includes((fullName as string).toLowerCase());
+      const matchCompetency = !search || item.mainTitle.toLowerCase().includes((search as string).toLowerCase());
+      return matchUser && matchCompetency;
+    });
+  }, [dataScore, dataSubCompetency, dataCompetency, dataUser, fullName, search]);
 
   const totalPages = Math.ceil(filteredData.length / Number(currentLimit));
 
@@ -162,10 +172,6 @@ const useTabKuis = () => {
 
     filteredData,
 
-    searchUser,
-    setSearchUser,
-    searchCompetency,
-    setSearchCompetency,
     sortOrder,
     setSortOrder,
 
@@ -178,6 +184,9 @@ const useTabKuis = () => {
     paginatedData,
     totalPages,
     handleDownloadExcel,
+
+    search,
+    fullName,
   };
 };
 

@@ -42,7 +42,7 @@ const DetailKajian = () => {
                             onPress={() => router.push(`/kajian-online/resume/${dataKajian?._id}`)}
                                 className="bg-accent text-primary"
                             >
-                                Kerjakan Kuis
+                                Isi Resume
                             </Button>
                         </div>
                     )}

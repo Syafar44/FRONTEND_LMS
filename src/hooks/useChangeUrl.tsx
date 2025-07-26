@@ -43,6 +43,17 @@ const useChangeUrl = () => {
     });
   };
 
+  const setUrlAktivitas = () => {
+    router.replace({
+      query: {
+        limit: currentLimit || LIMIT_DEFAULT,
+        page: currentPage || PAGE_DEFAULT,
+        search: currentSearch || "",
+        fullName: currentFullName || "",
+      },
+    });
+  };
+
   const handleChangePage = (page: number) => {
     router.push({
       query: {
@@ -93,6 +104,18 @@ const useChangeUrl = () => {
         query: {
           ...router.query,
           department,
+          page: PAGE_DEFAULT,
+        },
+      });
+    }, DELAY);
+  };
+
+  const handleChangeKajian = (kajian: string) => {
+    debounce(() => {
+      router.push({
+        query: {
+          ...router.query,
+          kajian,
           page: PAGE_DEFAULT,
         },
       });
@@ -172,6 +195,16 @@ const useChangeUrl = () => {
     });
   };
 
+  const handleClearKajian = () => {
+    router.push({
+      query: {
+        ...router.query,
+        kajian: "",
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
   const handleClearMonth = () => {
     router.push({
       query: {
@@ -193,6 +226,9 @@ const useChangeUrl = () => {
   };
   
   return {
+    setUrl,
+    setUrlExplore,
+    setUrlAktivitas,
     currentLimit,
     currentPage,
     currentSearch,
@@ -201,22 +237,22 @@ const useChangeUrl = () => {
     currentDepartment,
     currentMonth,
     currentYear,
-    setUrl,
     handleChangePage,
     handleChangeLimit,
     handleSearch,
     handleChangeFullName,
     handleChangeEmail,
     handleChangeDepartment,
+    handleChangeKajian,
     handleChangeMonth,
     handleChangeYear,
     handleClearSearch,
     handleClearFullname,
     handleClearEmail,
     handleClearDepartment,
+    handleClearKajian,
     handleClearMonth,
     handleClearYear,
-    setUrlExplore,
   };
 };
 

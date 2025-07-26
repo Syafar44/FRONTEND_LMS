@@ -9,27 +9,30 @@ import { Button, Input } from "@heroui/react";
 const TabRekap = () => {
   const { push, isReady, query } = useRouter();
   const { 
-    dataScore,
     isPendingScore,
     isRefetchingScore,
     isPendingSubCompetency,
     isPendingUser,
-    filteredData,
-    searchCompetency,
-    searchUser,
-    setSearchCompetency,
-    setSearchUser,
 
     paginatedData,
     totalPages,
     handleDownloadExcel,
+
+    search,
+    fullName,
   } = useTabRekap()
   
-  const { setUrl } = useChangeUrl();
+  const { 
+    setUrlAktivitas,
+    handleChangeFullName,
+    handleSearch,
+    handleClearFullname,
+    handleClearSearch,
+    } = useChangeUrl();
 
   useEffect(() => {
     if (isReady) {
-      setUrl();
+      setUrlAktivitas();
     }
   }, [isReady]);
 
@@ -42,6 +45,8 @@ const TabRekap = () => {
         return <h2>{score.mainTitle as string}</h2>;
         case "createdBy":
           return <h2>{score.userName as string}</h2>;
+        case "percentage":
+          return <h2>{`${Number(score.percentage).toFixed(0)}`}</h2>;
         case "poin":
           return <h2>{`${score.totalPoin}`}</h2>;
         default:
@@ -58,14 +63,16 @@ const TabRekap = () => {
           <Input
             type="text"
             placeholder="Cari bedasarkan Materi..."
-            value={searchCompetency}
-            onChange={(e) => setSearchCompetency(e.target.value)}
+            value={search ? String(search) : undefined}
+            onChange={e => handleSearch(e)}
+            onClear={handleClearSearch}
           />
           <Input
             type="text"
             placeholder="Cari nama user..."
-            value={searchUser}
-            onChange={(e) => setSearchUser(e.target.value)}
+            value={fullName ? String(fullName) : undefined}
+            onChange={e => handleChangeFullName(e.target.value)}
+            onClear={handleClearFullname}
           />
         </div>
         <div>

@@ -9,4 +9,13 @@ interface ILkp {
     date?: Date | string;
 }
 
-export type { ILkp }
+interface ILkpSunnah {
+    _id?: string;
+    dhuha?: string;
+    al_quran?: string;
+    rawatib?: number;
+    createdBy?: string;
+    date?: Date | string;
+}
+
+export type { ILkp, ILkpSunnah }

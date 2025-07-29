@@ -19,8 +19,8 @@ const DetailCompetency = () => {
     } = useDetailCompetency();
 
     const dataSub = subCompetencyById;
-    const isPending =
-    isPendingSubCompetencyById || isPendingCompetency || isPendingHistoryKuis || isPendingVideo
+
+    const isPending = isPendingSubCompetencyById || isPendingCompetency || isPendingHistoryKuis || isPendingVideo
 
     return (
         <>

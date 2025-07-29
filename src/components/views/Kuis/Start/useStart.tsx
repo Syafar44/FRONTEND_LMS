@@ -158,6 +158,8 @@ const useStart = () => {
         queryFn: getCompleted,
         enabled: !!router.isReady
     })
+
+    console.log(id)
     
     const handleRecap = useCallback(async () => {
         if (!id || !jumlahSoal || !subCompetency || !subCompetency.byCompetency) {
@@ -202,11 +204,13 @@ const useStart = () => {
                                 await saveServices.addSave({
                                     competency: `${subCompetency.byCompetency}`,
                                     progress: 1,
+                                    history: `${id}`
                                 });
                             } else {
-                                    // Sudah ada progress, tambahkan +1
-                                    await saveServices.updateSave(`${dataSave._id}`, {
+                                // Sudah ada progress, tambahkan +1
+                                await saveServices.updateSave(`${dataSave._id}`, {
                                     progress: Number(dataSave.progress ?? 0) + 1,
+                                    history: `${id}`
                                 });
                             }
                         }

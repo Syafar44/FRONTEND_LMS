@@ -13,6 +13,7 @@ interface PropTypes {
   onPressButtonDelete?: () => void;
   hideButtonDelete?: boolean;
   hideButtonUpdate?: boolean;
+  textButton?: string;
 }
 
 const DropdownAction = (props: PropTypes) => {
@@ -22,6 +23,7 @@ const DropdownAction = (props: PropTypes) => {
     onPressButtonDelete,
     hideButtonUpdate = false,
     hideButtonDelete = false,
+    textButton = "Detail"
   } = props;
   return (
     <Dropdown>
@@ -32,7 +34,7 @@ const DropdownAction = (props: PropTypes) => {
       </DropdownTrigger>
       <DropdownMenu>
         <DropdownItem key="detail-event-button" onPress={onPressButtonDetail}>
-          Detail
+          {textButton}
         </DropdownItem>
         {!hideButtonUpdate ? (
           <DropdownItem key="detail-event-button" onPress={onPressButtonUpdate}>

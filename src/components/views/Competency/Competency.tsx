@@ -122,6 +122,7 @@ const Competency = () => {
                                         isAccess={allAccess ? true : isAccess}
                                         isCompleted={isCompeted}
                                         isCountdown={isWaitOver}
+                                        history={dataSave?.history}
                                     />
                                 )
                             })}

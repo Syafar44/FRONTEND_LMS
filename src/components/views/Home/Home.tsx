@@ -144,7 +144,12 @@ const Home = () => {
                     {dataSave ? (
                         <div className="grid md:grid-cols-3 xl:grid-cols-4">
                             {!isPendingSave && !isPendingCompetency ? (
-                                <CardCourse competency={dataCompetency?.main_competency} data={dataCompetency} progress={progress}/>
+                                <CardCourse 
+                                    competency={dataCompetency?.main_competency} 
+                                    data={dataCompetency} 
+                                    progress={progress}
+                                    history={dataSave?.history}
+                                />
                             ) : (
                                 <Skeleton className="w-full h-[200px] rounded-lg" />
                             )}

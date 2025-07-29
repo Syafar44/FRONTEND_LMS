@@ -1,15 +1,14 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailCore from "@/components/views/Admin/DetailSubCompetency/DetailCore";
-
+import DetailSubCompetency from "@/components/views/Admin/DetailSubCompetency";
 
 const AdminDetailCoreCompetencyPage = () => {
   return (
     <DashboardLayout
-      title="DetailCore Competency"
-      description="List of all DetailCore Categories, create new Competency, and manage existing DetailCore."
+      title="Detail Core Competency"
+      description="List of all Detail Core Categories, create new Competency, and manage existing Detail Core."
       type="admin"
     >
-      <DetailCore />
+      <DetailSubCompetency />
     </DashboardLayout>
   );
 };

@@ -1,14 +1,15 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import Core from "@/components/views/Admin/KuisCompetency/Core";
+import KuisCompetency from "@/components/views/Admin/KuisCompetency";
+
 
 const AdminCoreCompetencyPage = () => {
   return (
     <DashboardLayout
-      title="Core Competency"
-      description="List of all Core Categories, create new Competency, and manage existing Core."
+      title="Kuis Core Competency"
+      description="List of all Kuis Core Competency, create new Kuis Competency, and manage existing Core."
       type="admin"
     >
-      <Core />
+      <KuisCompetency />
     </DashboardLayout>
   );
 };

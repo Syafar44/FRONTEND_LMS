@@ -83,7 +83,7 @@ const useTabKuis = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const filteredData = useMemo(() => {
-  if (!dataScore?.data || !dataUser?.data || !dataSubCompetency?.data) return [];
+  if (isPendingScore || isPendingSubCompetency || isPendingCompetency || isPendingUser) return [];
 
   return dataScore.data
     .filter((score: IScore) => {

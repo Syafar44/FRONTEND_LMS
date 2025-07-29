@@ -11,9 +11,9 @@ interface ILkp {
 
 interface ILkpSunnah {
     _id?: string;
-    dhuha?: string;
+    dhuha?: number;
     al_quran?: string;
-    rawatib?: number;
+    rawatib?: string;
     createdBy?: string;
     date?: Date | string;
 }

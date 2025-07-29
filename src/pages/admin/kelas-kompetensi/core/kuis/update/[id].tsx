@@ -1,16 +1,14 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailCore from "@/components/views/Admin/DetailKuisCompetency/DetailCore";
-
-
+import DetailKuisCompetency from "@/components/views/Admin/DetailKuisCompetency";
 
 const AdminDetailKuisCoreCompetencyPage = () => {
   return (
     <DashboardLayout
       title="Detail Kuis Core Competency"
-      description="List of all DetailCore Categories, create new Competency, and manage existing DetailCore."
+      description="List of all Detail Core Competency, create new Competency, and manage existing Detail Core."
       type="admin"
     >
-      <DetailCore />
+      <DetailKuisCompetency />
     </DashboardLayout>
   );
 };

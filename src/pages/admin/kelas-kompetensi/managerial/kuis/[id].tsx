@@ -1,16 +1,16 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import Managerial from "@/components/views/Admin/KuisCompetency/Managerial/Managerial";
+import KuisCompetency from "@/components/views/Admin/KuisCompetency";
 
-const AdminCoreCompetencyPage = () => {
+const AdminManagerialCompetencyPage = () => {
   return (
     <DashboardLayout
-      title="Core Competency"
-      description="List of all Core Categories, create new Competency, and manage existing Core."
+      title="Kuis Managerial Competency"
+      description="List of all Kuis Managerial Competency, create new Kuis Competency, and manage existing Managerial."
       type="admin"
     >
-      <Managerial />
+      <KuisCompetency />
     </DashboardLayout>
   );
 };
 
-export default AdminCoreCompetencyPage;
+export default  AdminManagerialCompetencyPage;

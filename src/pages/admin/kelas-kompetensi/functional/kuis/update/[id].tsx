@@ -1,14 +1,14 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailFunctional from "@/components/views/Admin/DetailKuisCompetency/DetailFunctional";
+import DetailKuisCompetency from "@/components/views/Admin/DetailKuisCompetency";
 
 const AdminDetailKuisFunctionalCompetencyPage = () => {
   return (
     <DashboardLayout
       title="Detail Kuis Functional Competency"
-      description="List of all DetailFunctional Categories, create new Competency, and manage existing DetailFunctional."
+      description="List of all Detail Functional Competency, create new Competency, and manage existing Detail Functional."
       type="admin"
     >
-      <DetailFunctional />
+      <DetailKuisCompetency />
     </DashboardLayout>
   );
 };

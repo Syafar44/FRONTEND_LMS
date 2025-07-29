@@ -3,6 +3,7 @@ interface ISave {
     competency?: string;
     workingOn?: boolean;
     progress: number;
+    history?: string;
     createdAt?: string | DateValue;
 }
 

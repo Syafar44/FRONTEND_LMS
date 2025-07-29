@@ -10,6 +10,11 @@ const useRecap = () => {
     const router = useRouter()
     const { id } = router.query
 
+    useEffect(() => {
+        localStorage.removeItem('jawaban_kuis')
+        localStorage.removeItem('kuis_timer_start')
+    }, [router.isReady])
+
     const getScore = async () => {
         const res = await scoreServices.getScoreBySubCompetency(`${id}`)
         const { data } = res

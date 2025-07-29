@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import Swal from 'sweetalert2'
 import LkpSunnahServices from "@/services/lkpSunnah.service";
+import { useState } from "react";
 
 const useLkp = () => {
     const router = useRouter()
@@ -52,9 +53,9 @@ const useLkp = () => {
     });
 
     const schemaAddLkpSunnah = yup.object().shape({
-        dhuha: yup.string(),
+        dhuha: yup.number(),
         al_quran: yup.string(),
-        rawatib: yup.number(),
+        rawatib: yup.string(),
     });
 
     const {
@@ -65,6 +66,8 @@ const useLkp = () => {
         setValue: setValueAddLkp,
       } = useForm({
         resolver: yupResolver(schemaAddLkp),
+        defaultValues: {
+        },
       });
 
     const Absen = async (payload: ILkp) => {
@@ -151,7 +154,15 @@ const useLkp = () => {
         }
     })
 
-    const handleAbsenSunnah = (payload: ILkpSunnah) => mutateAddLkpSunnah(payload)
+    const [ selectRawatib, setSelectRawatib ] = useState([""])
+
+    const handleAbsenSunnah = (payload: ILkpSunnah) => {
+        const data ={
+            ...payload,
+            rawatib: `${selectRawatib.join(",")}`
+        }
+        mutateAddLkpSunnah(data)
+    }
 
     return {
         dataLkp,
@@ -179,6 +190,9 @@ const useLkp = () => {
         errorsAddLkpSunnah,
         resetAddLkpSunnah,
         setValueAddLkpSunnah,
+
+        selectRawatib,
+        setSelectRawatib,
     }
 }
 

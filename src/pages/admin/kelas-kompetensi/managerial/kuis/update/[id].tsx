@@ -1,14 +1,14 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailManagerial from "@/components/views/Admin/DetailKuisCompetency/DetailManagerial";
+import DetailKuisCompetency from "@/components/views/Admin/DetailKuisCompetency";
 
 const AdminDetailKuisManagerialCompetencyPage = () => {
   return (
     <DashboardLayout
       title="Detail Kuis Managerial Competency"
-      description="List of all DetailManagerial Categories, create new Competency, and manage existing DetailManagerial."
+      description="List of all Detail Managerial Competency, create new Competency, and manage existing Detail Managerial."
       type="admin"
     >
-      <DetailManagerial />
+      <DetailKuisCompetency />
     </DashboardLayout>
   );
 };

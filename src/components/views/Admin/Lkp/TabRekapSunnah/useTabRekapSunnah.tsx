@@ -43,8 +43,8 @@ const useTabRekapSunnah = () => {
 
       const formatted = data.map((rekap: any) => ({
         Nama: rekap.createdBy.fullName,
-        Dhuha: rekap.dhuha,
-        Rawatib: `${rekap.rawatib} Rakaat`,
+        Dhuha: `${rekap.dhuha} Rakaat`,
+        Rawatib: rekap.rawatib,
         Al_Quran: rekap.al_quran,
         Tanggal: rekap.date,
       }));

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useLkp from "./useLkp";
-import { Button, Card, CardBody, Input, Radio, RadioGroup, Skeleton, Spinner } from "@heroui/react";
+import { Button, Card, CardBody, Checkbox, CheckboxGroup, Input, Radio, RadioGroup, Skeleton, Spinner } from "@heroui/react";
 import { Controller } from "react-hook-form";
 
 const LkpAbsensi = () => {
@@ -28,6 +28,9 @@ const LkpAbsensi = () => {
     refetchLkpSunnah,
     resetAddLkpSunnah,
     setValueAddLkpSunnah,
+
+    selectRawatib,
+    setSelectRawatib,
   } = useLkp()
 
 
@@ -41,17 +44,29 @@ const LkpAbsensi = () => {
     {
       value: "Tidak mengerjakan",
     },
+    {
+      value: "Tidak Sholat karena haid (Perempuan)",
+    },
   ]
 
-  const Dhuha = [
+  const rawatib = [
     {
-      value: "2 Rakaat",
+      value: "2 Raka'at Qabliyah Shubuh",
     },
     {
-      value: "4 Rakaat",
+      value: "2/4 Raka'at Qabliyah Dzuhur",
     },
     {
-      value: "8 Rakaat",
+      value: "2 Raka'at Ba'diyah Dzuhur",
+    },
+    {
+      value: "2/4 Raka'at Qabliyah Ashar",
+    },
+    {
+      value: "2 Raka'at Ba'diyah Magrib",
+    },
+    {
+      value: "2 Raka'at Ba'diyah Isya",
     },
   ]
   
@@ -73,9 +88,8 @@ const LkpAbsensi = () => {
     setValueAddLkp("ashar", `${dataLkp?.ashar}`)
     setValueAddLkp("magrib", `${dataLkp?.magrib}`)
     setValueAddLkp("isya", `${dataLkp?.isya}`)
-    setValueAddLkpSunnah("dhuha", `${dataLkpSunnah?.dhuha}`)
     setValueAddLkpSunnah("al_quran", `${dataLkpSunnah?.al_quran}`)
-    setValueAddLkpSunnah("rawatib", Number(dataLkpSunnah?.rawatib ?? 0))
+    setValueAddLkpSunnah("dhuha", Number(dataLkpSunnah?.dhuha ?? 0))
   }, [dataLkp])
 
   useEffect(() => {
@@ -203,7 +217,9 @@ const LkpAbsensi = () => {
                     >
                       {Sholat.map((item: { value: string }, idx: number) => (
                         <Radio key={idx} value={item.value}>
-                          {item.value}
+                          <p className="text-sm">
+                            {item.value}
+                          </p>
                         </Radio>
                       ))}
                     </RadioGroup>
@@ -222,34 +238,30 @@ const LkpAbsensi = () => {
           <h2 className="text-lg font-bold">IBADAH SUNNAH</h2>
           <form onSubmit={handleSubmitAddLkpSunnah(handleAbsenSunnah)} className="grid gap-5">
             <Card>
-              <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkpSunnah.dhuha && 'bg-red-500/20'}`}>
-              <h2 className="font-bold text-center text-sm">SHOLAT DHUHA</h2>
-                <Controller 
-                  name="dhuha"
-                  control={controlAddLkpSunnah}
-                  render={({field}) => (
-                    <RadioGroup 
-                      {...field}
-                      isInvalid={errorsAddLkpSunnah.dhuha !== undefined}
-                      errorMessage={errorsAddLkpSunnah.dhuha?.message}
-                    >
-                      {Dhuha.map((item: { value: string }, idx: number) => (
-                        <Radio key={idx} value={item.value}>
-                          <p>
-                            {item.value}
-                          </p>
-                        </Radio>
-                      ))}
-                    </RadioGroup>
-                  )}
-                />
+              <CardBody
+                className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${
+                  errorsAddLkpSunnah.rawatib && "bg-red-500/20"
+                }`}
+              >
+                <h2 className="font-bold text-center text-sm">SHOLAT RAWATIB</h2>
+                  <CheckboxGroup
+                    color="primary"
+                    value={selectRawatib}
+                    onValueChange={setSelectRawatib}
+                  >
+                    {rawatib.map((item: { value: string }, idx: number) => (
+                      <Checkbox key={idx} value={item.value}>
+                        {item.value}
+                      </Checkbox>
+                    ))}
+                  </CheckboxGroup>
               </CardBody>
             </Card>
             <Card>
-              <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkpSunnah.rawatib && 'bg-red-500/20'}`}>
-                <h2 className="font-bold text-center text-sm">SHOLAT RAWATIB</h2>
+              <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkpSunnah.dhuha && 'bg-red-500/20'}`}>
+                <h2 className="font-bold text-center text-sm">SHOLAT DHUHA</h2>
                 <Controller 
-                  name="rawatib"
+                  name="dhuha"
                   control={controlAddLkpSunnah}
                   render={({field}) => (
                     <div className="flex items-center justify-between gap-3 border rounded-xl p-3 shadow-sm">
@@ -308,7 +320,8 @@ const LkpAbsensi = () => {
             <Button 
               type="submit" 
               className="bg-primary font-bold text-md disabled:bg-gray-900"
-              isDisabled={isPendingAddLkp}
+              isDisabled={isPendingAddLkpSunnah}
+              disabled={isPendingAddLkpSunnah}
             >
               {isPendingAddLkpSunnah ? <Spinner size='sm' /> : "Kirim"}
             </Button>

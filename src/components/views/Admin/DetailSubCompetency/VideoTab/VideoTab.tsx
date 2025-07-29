@@ -10,8 +10,8 @@ import {
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { ISubCompetency } from "@/types/Competency";
-import YouTube from "react-youtube";
 import useVideoTab from "./useVideoTab";
+import YouTube from "react-youtube";
 
 interface PropTypes {
   currentVideo: string;
@@ -40,7 +40,7 @@ const VideoTab = (props: PropTypes) => {
       <CardHeader className="flex-col items-center">
         <h1 className="w-full text-xl font-bold">Sub Competency Video</h1>
         <p className="w-full text-small text-default-400">
-          Manage Video of this sub competency. You can update the video link
+          Manage Video of this Sub Competency. You can update the video link
         </p>
       </CardHeader>
       <CardBody>

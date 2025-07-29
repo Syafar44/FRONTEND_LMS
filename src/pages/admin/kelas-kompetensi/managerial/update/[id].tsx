@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailManagerial from "@/components/views/Admin/DetailCompetency/DetailManagerial";
+import DetailCompetency from "@/components/views/Admin/DetailCompetency";
 
 const AdminDetailManagerialCompetencyPage = () => {
   return (
@@ -8,7 +8,7 @@ const AdminDetailManagerialCompetencyPage = () => {
       description="List of all DetailManagerial Categories, create new Competency, and manage existing DetailManagerial."
       type="admin"
     >
-      <DetailManagerial />
+      <DetailCompetency />
     </DashboardLayout>
   );
 };

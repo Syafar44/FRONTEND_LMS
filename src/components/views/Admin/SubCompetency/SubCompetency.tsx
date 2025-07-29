@@ -60,6 +60,7 @@ const SubCompetency = () => {
         case "actions":
           return (
             <DropdownAction
+              textButton="List Kuis"
               onPressButtonDetail={() =>
                 push(`/admin/kelas-kompetensi/${pathSegments[3]}/kuis/${subCompetency._id}`)
               }

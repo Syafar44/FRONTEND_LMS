@@ -133,9 +133,9 @@ const TabRekapSunnah = () => {
           return (
             <h2>{department}</h2>
           );
-        case "rawatib":
+        case "dhuha":
           return (
-            <h2>{`${rekap.rawatib} Rakaat`}</h2>
+            <h2>{`${rekap.dhuha} Rakaat`}</h2>
           );
           let borderSubuh = "";
           switch (rekap.subuh) {

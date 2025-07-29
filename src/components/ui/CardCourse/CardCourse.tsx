@@ -44,7 +44,7 @@ const CardCourse = (props: PropTypes) => {
                     <RiTimerLine size={100} className="font-bold text-primary "/>   
                 </div>
             )}
-            <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}?sub=${history}` : `/kajian-online/${data?._id}`} className="grid gap-3 p-3">
+            <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}${history !== undefined ? `?sub=${history}` : ""}` : `/kajian-online/${data?._id}`} className="grid gap-3 p-3">
                 {data?.image === undefined ? (
                     <Image src={"https://res.cloudinary.com/doyafjjum/image/upload/v1752723514/y9DpT_eac19z.jpg"} alt={"Load Image"} className="w-full h-auto rounded-lg" width={1000} height={1000} />
                 ) :(

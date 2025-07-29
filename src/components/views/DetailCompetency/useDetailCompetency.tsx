@@ -1,5 +1,6 @@
 import useChangeUrl from "@/hooks/useChangeUrl"
 import competencyServices from "@/services/competency.service"
+import saveServices from "@/services/save.service"
 import scoreServices from "@/services/score.service"
 import subCompetencyServices from "@/services/subCompetency.service"
 import videoServices from "@/services/video.service"
@@ -48,6 +49,20 @@ const useDetailCompetency = () => {
         enabled:!!query.id 
     })
 
+    const getSave = async () => {
+        const res = await saveServices.getSaveByUser()
+        const { data } = res
+        return data.data
+    }
+
+    const {
+        data: dataSave,
+    } = useQuery({
+        queryKey: ["Save"],
+        queryFn: getSave,
+        enabled: !!isReady
+    })
+
     const handleSub = (id: string) => {
         replace({
             pathname: pathname,
@@ -59,10 +74,11 @@ const useDetailCompetency = () => {
     }
 
     const firstId = competency?.[0]?._id
+    console.log(dataSave)
 
     const getSubCompetencyById = async () => {
         const res = await subCompetencyServices.getSubCompetencyById(
-            query.sub ? `${query.sub}` : `${firstId}`
+            dataSave !== null ? `${query.sub}` : `${firstId}`
         );
         const { data } = res
         return data.data

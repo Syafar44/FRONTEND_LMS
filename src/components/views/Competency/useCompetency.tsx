@@ -45,7 +45,7 @@ const useCompetency = () => {
     } = useQuery({
         queryKey: ["get-course", currentLimit, currentPage, currentSearch],
         queryFn: getCourse,
-        enabled: !!router.isReady
+        enabled: !!router.isReady && !!dataUser?.access
     })
 
     const getSave = async () => {

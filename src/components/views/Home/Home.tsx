@@ -121,7 +121,7 @@ const Home = () => {
                         color="default"
                         size="lg"
                         variant="bordered"
-                        placeholder="Daftar Kompetensi Utama"
+                        placeholder="Daftar Kompetensi"
                         onChange={(e) => handleChange(e.target.value)}
                         >
                         {competency.map((item) => (

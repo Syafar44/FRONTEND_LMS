@@ -78,7 +78,7 @@ const useDetailCompetency = () => {
 
     const getSubCompetencyById = async () => {
         const res = await subCompetencyServices.getSubCompetencyById(
-            dataSave !== null ? `${query.sub}` : `${firstId}`
+            dataSave !== null || undefined ? `${query.sub}` : `${firstId}`
         );
         const { data } = res
         return data.data

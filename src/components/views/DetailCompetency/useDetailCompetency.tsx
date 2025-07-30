@@ -74,11 +74,15 @@ const useDetailCompetency = () => {
     }
 
     const firstId = competency?.[0]?._id
-    console.log(dataSave)
+    
+    useEffect(() => {
+        if (dataSave === null && firstId) {
+            handleSub(firstId)
+        }
+    }, [isReady, dataCompetency, dataSave, firstId])
 
     const getSubCompetencyById = async () => {
-        const res = await subCompetencyServices.getSubCompetencyById(
-            dataSave !== null || undefined ? `${query.sub}` : `${firstId}`
+        const res = await subCompetencyServices.getSubCompetencyById(`${query.sub}`
         );
         const { data } = res
         return data.data
@@ -90,7 +94,7 @@ const useDetailCompetency = () => {
     } = useQuery({
         queryKey: ["getSubCompetencyById", query.sub, firstId],
         queryFn: getSubCompetencyById,
-        enabled: !!query.sub || !!firstId,
+        enabled: !!query.sub,
     })
 
     const getHistoryKuis = async () => {

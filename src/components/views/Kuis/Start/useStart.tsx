@@ -8,6 +8,7 @@ import { IScore } from "@/types/Score"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
+import Swal from "sweetalert2"
 
 const LOCAL_STORAGE_KEY = "jawaban_kuis"
 const TOTAL_TIME = 300
@@ -158,8 +159,6 @@ const useStart = () => {
         queryFn: getCompleted,
         enabled: !!router.isReady
     })
-
-    console.log(id)
     
     const handleRecap = useCallback(async () => {
         if (!id || !jumlahSoal || !subCompetency || !subCompetency.byCompetency) {
@@ -181,6 +180,15 @@ const useStart = () => {
 
             const hasPassedBefore = dataScore?.some((item: IScore) => item.isPass) ?? false;
 
+            Swal.fire({
+                title: 'Selesai',
+                text: 'Anda telah menyelesaikan kuis ini.',
+                icon: 'success',
+                confirmButtonText: 'Lihat Hasil',
+                customClass: {
+                    confirmButton: 'bg-primary text-black hover:bg-gray-700 hover:text-white font-semibold py-2 px-4 rounded',
+                }
+            })
             // 1. Simpan skor saat ini
             await scoreServices.addScore({
                 bySubCompetency: `${id}`,
@@ -188,26 +196,19 @@ const useStart = () => {
                 total_question: total,
                 total_score: score,
             });
-
-            // 2. Kalau belum selesai semua subkompetensi (belum completed)
             if (!hasCompleted) {
-                // Belum sub terakhir ATAU belum lulus
                 if (!isLastSub) {
-                    // Jika belum pernah lulus
                     if (!hasPassedBefore) {
-                        // Jika gagal memenuhi skor
                         if(!isPass) {
                             await videoServices.deleteVideo(`${dataVideo?._id}`)
                         } else {
                             if (!dataSave) {
-                                // Belum ada progress, buat baru
                                 await saveServices.addSave({
                                     competency: `${subCompetency.byCompetency}`,
                                     progress: 1,
                                     history: `${id}`
                                 });
                             } else {
-                                // Sudah ada progress, tambahkan +1
                                 await saveServices.updateSave(`${dataSave._id}`, {
                                     progress: Number(dataSave.progress ?? 0) + 1,
                                     history: `${id}`
@@ -216,13 +217,10 @@ const useStart = () => {
                         }
                     }
                 } else {
-                    // Sudah sub terakhir dan lulus → selesaikan kompetensi
                     await saveServices.deleteSave(`${dataSave?._id}`);
                     await completedServices.addCompleted(`${subCompetency.byCompetency}`);
                 }
             }
-
-    // 3. Cleanup dan redirect
             setIsLoading(true);
             localStorage.removeItem(TIMER_STORAGE_KEY);
             router.replace(`/kuis/recap/${id}`);

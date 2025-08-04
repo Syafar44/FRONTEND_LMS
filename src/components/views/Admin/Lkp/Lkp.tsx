@@ -9,9 +9,6 @@ const Lkp = () => {
       <Tab key="rekap-wajib" title="Ibadah Wajib">
         <TabRekap />
       </Tab>
-      <Tab key="rekap-sunnah" title="Ibadah Sunnah">
-        <TabRekapSunnah />
-      </Tab>
     </Tabs>
   );
 };

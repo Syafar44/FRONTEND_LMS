@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useLkp from "./useLkp";
-import { Button, Card, CardBody, Checkbox, CheckboxGroup, Input, Radio, RadioGroup, Skeleton, Spinner } from "@heroui/react";
+import { Button, Card, CardBody, Radio, RadioGroup, Skeleton, Spinner } from "@heroui/react";
 import { Controller } from "react-hook-form";
 
 const LkpAbsensi = () => {
@@ -17,20 +17,6 @@ const LkpAbsensi = () => {
     refetchLkp,
     resetAddLkp,
     setValueAddLkp,
-
-    dataLkpSunnah,
-    isPendingAddLkpSunnah,
-    handleAbsenSunnah,
-    controlAddLkpSunnah,
-    errorsAddLkpSunnah,
-    handleSubmitAddLkpSunnah,
-    isSuccessAddLkpSunnah,
-    refetchLkpSunnah,
-    resetAddLkpSunnah,
-    setValueAddLkpSunnah,
-
-    selectRawatib,
-    setSelectRawatib,
   } = useLkp()
 
 
@@ -47,40 +33,7 @@ const LkpAbsensi = () => {
     {
       value: "Tidak Sholat karena haid (Perempuan)",
     },
-  ]
-
-  const rawatib = [
-    {
-      value: "2 Raka'at Qabliyah Shubuh",
-    },
-    {
-      value: "2/4 Raka'at Qabliyah Dzuhur",
-    },
-    {
-      value: "2 Raka'at Ba'diyah Dzuhur",
-    },
-    {
-      value: "2/4 Raka'at Qabliyah Ashar",
-    },
-    {
-      value: "2 Raka'at Ba'diyah Magrib",
-    },
-    {
-      value: "2 Raka'at Ba'diyah Isya",
-    },
-  ]
-  
-  const al_quran = [
-    {
-      value: "1 Halaman",
-    },
-    {
-      value: "2 Halaman",
-    },
-    {
-      value: "Lebih dari 2 Halaman",
-    },
-  ]  
+  ] 
 
   useEffect(() => {
     setValueAddLkp("subuh", `${dataLkp?.subuh}`)
@@ -88,18 +41,14 @@ const LkpAbsensi = () => {
     setValueAddLkp("ashar", `${dataLkp?.ashar}`)
     setValueAddLkp("magrib", `${dataLkp?.magrib}`)
     setValueAddLkp("isya", `${dataLkp?.isya}`)
-    setValueAddLkpSunnah("al_quran", `${dataLkpSunnah?.al_quran}`)
-    setValueAddLkpSunnah("dhuha", Number(dataLkpSunnah?.dhuha ?? 0))
   }, [dataLkp])
 
   useEffect(() => {
-    if(isSuccessAddLkp || isSuccessAddLkpSunnah) {
+    if(isSuccessAddLkp) {
       resetAddLkp()
       refetchLkp()
-      resetAddLkpSunnah()
-      refetchLkpSunnah()
     }
-  }, [isSuccessAddLkp, isSuccessAddLkpSunnah])
+  }, [isSuccessAddLkp])
 
   return (
     <section className="max-w-[600px]">
@@ -233,97 +182,6 @@ const LkpAbsensi = () => {
               isDisabled={isPendingAddLkp}
             >
               {isPendingAddLkp ? <Spinner size='sm' /> : "Kirim"}
-            </Button>
-          </form>
-          <h2 className="text-lg font-bold">IBADAH SUNNAH</h2>
-          <form onSubmit={handleSubmitAddLkpSunnah(handleAbsenSunnah)} className="grid gap-5">
-            <Card>
-              <CardBody
-                className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${
-                  errorsAddLkpSunnah.rawatib && "bg-red-500/20"
-                }`}
-              >
-                <h2 className="font-bold text-center text-sm">SHOLAT RAWATIB</h2>
-                  <CheckboxGroup
-                    color="primary"
-                    value={selectRawatib}
-                    onValueChange={setSelectRawatib}
-                  >
-                    {rawatib.map((item: { value: string }, idx: number) => (
-                      <Checkbox key={idx} value={item.value}>
-                        {item.value}
-                      </Checkbox>
-                    ))}
-                  </CheckboxGroup>
-              </CardBody>
-            </Card>
-            <Card>
-              <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkpSunnah.dhuha && 'bg-red-500/20'}`}>
-                <h2 className="font-bold text-center text-sm">SHOLAT DHUHA</h2>
-                <Controller 
-                  name="dhuha"
-                  control={controlAddLkpSunnah}
-                  render={({field}) => (
-                    <div className="flex items-center justify-between gap-3 border rounded-xl p-3 shadow-sm">
-                      <span className="text-center font-semibold text-lg">
-                        {field.value || 0} Rakaat
-                      </span>
-                      <div className="flex gap-3">
-                        <Button
-                          type="button"
-                          isIconOnly
-                          onPress={() => field.onChange(Math.max(0, (field.value || 0) - 1))}
-                          className="px-3 py-1 bg-primary rounded-full text-lg"
-                          isDisabled={(field.value ?? 0) == 0}
-                        >
-                          −
-                        </Button>
-                        <Button
-                          type="button"
-                          isIconOnly
-                          onPress={() => field.onChange((field.value || 0) + 1)}
-                          className="px-3 py-1 bg-primary rounded-full text-lg"
-                          isDisabled={(field.value ?? 0) == 12}
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                />
-              </CardBody>
-            </Card>
-            <Card>
-              <CardBody className={`bg-white shadow-lg p-5 rounded-xl grid gap-3 ${errorsAddLkpSunnah.al_quran && 'bg-red-500/20'}`}>
-                <h2 className="font-bold text-center text-sm">MEMBACA AL-QUR&apos;AN</h2>
-                <Controller 
-                  name="al_quran"
-                  control={controlAddLkpSunnah}
-                  render={({field}) => (
-                    <RadioGroup 
-                      {...field} 
-                      isInvalid={errorsAddLkpSunnah.al_quran !== undefined}
-                      errorMessage={errorsAddLkpSunnah.al_quran?.message}
-                    >
-                      {al_quran.map((item: { value: string }, idx: number) => (
-                        <Radio key={idx} value={item.value}>
-                          <p>
-                            {item.value}
-                          </p>
-                        </Radio>
-                      ))}
-                    </RadioGroup>
-                  )}
-                />
-              </CardBody>
-            </Card>
-            <Button 
-              type="submit" 
-              className="bg-primary font-bold text-md disabled:bg-gray-900"
-              isDisabled={isPendingAddLkpSunnah}
-              disabled={isPendingAddLkpSunnah}
-            >
-              {isPendingAddLkpSunnah ? <Spinner size='sm' /> : "Kirim"}
             </Button>
           </form>
         </div>

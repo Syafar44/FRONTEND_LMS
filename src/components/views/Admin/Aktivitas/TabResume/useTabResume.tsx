@@ -8,18 +8,20 @@ import { IResume } from "@/types/Resume";
 import { exportToExcel } from "@/utils/exportExcel";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const useTabResume = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const router = useRouter();
-  const { fullName, search } = router.query
-  const { currentLimit, currentPage, currentSearch } = useChangeUrl();
+  const { currentLimit, currentPage, currentSearch, currentFullName } = useChangeUrl();
 
   const getResume = async () => {
     let params = `limit=${currentLimit}&page=${currentPage}`;
     if (currentSearch) {
       params += `&search=${currentSearch}`;
+    }
+    if (currentFullName) {
+      params += `&fullName=${currentFullName}`;
     }
     const res = await resumeServices.getResumeAll(params)
     const { data } = res;
@@ -32,7 +34,7 @@ const useTabResume = () => {
     isRefetching: isRefetchingResume,
     refetch: refetchResume
   } = useQuery({
-    queryKey: ["Resume", currentPage, currentLimit, currentSearch],
+    queryKey: ["Resume", currentPage, currentLimit, currentSearch, currentFullName],
     queryFn: () => getResume(),
     enabled: router.isReady && !!currentPage && !!currentLimit,
   });
@@ -68,43 +70,32 @@ const useTabResume = () => {
     enabled: router.isReady,
   });
 
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const getResumeExport = async () => {
+    const res = await resumeServices.exportResume()
+    const { data } = res;
+    return data.data;
+  }
 
-  const filteredData = useMemo(() => {
-    if (!dataResume?.data || !dataUser?.data || !dataKajian?.data) return [];
-
-    return dataResume.data
-      .filter((resume: IResume) => {
-        const user: IProfile | undefined = dataUser.data.find((u: IProfile) => u._id === resume.createdBy);
-        const resKajian = dataKajian.data.find((k: IKajian) => k._id === resume.kajian);
-        const matchUser = user?.fullName?.toLowerCase().includes(fullName as string);
-        const matchKajian = resKajian?.title?.toLowerCase().includes(search as string);
-        return matchUser && matchKajian;
-      })
-      .sort((a: IResume, b: IResume) => {
-        const dateA = new Date(a.createdAt as string).getTime();
-        const dateB = new Date(b.createdAt as string).getTime();
-        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-      });
-  }, [dataResume, dataUser, dataKajian, fullName, search, sortOrder]);
-
-  const handleDownloadExcel = () => {
-  if (!filteredData || filteredData.length === 0) return;
-
-  const formatted = filteredData.map((resume: IResume) => {
-    const user = dataUser?.data?.find((u: IProfile) => u._id === resume.createdBy);
-    const kajian = dataKajian?.data?.find((k: IKajian) => k._id === resume.kajian);
-
-    return {
-      "JUDUL": kajian?.title || "-",
-      "RESUME": resume.resume || "-",
-      "PUBLISH": new Date(resume.createdAt!).toLocaleString(),
-      "USER": user?.fullName || "-",
-    };
+  const {
+    data: dataExport,
+  } = useQuery({
+    queryKey: ["EXPORT"],
+    queryFn: () => getResumeExport(),
+    enabled: !!router.isReady,
   });
 
-  exportToExcel(formatted, "Data-Resume");
-};
+  const handleDownloadExcel = () => {
+    if (!dataExport || dataExport.length === 0) return;
+    const formatted = dataExport.map((resume: IResume) => ({
+      "JUDUL": resume?.kajianTitle ?? "-",
+      "RESUME": resume?.resume ?? "-",
+      "PUBLISH": resume?.publishDate ? new Date(resume.publishDate).toLocaleString() : "-",
+      "USER": resume?.fullName ?? "-",
+      "DEPARTMENT": resume?.department ?? "-",
+    }));
+
+    exportToExcel(formatted, "Data-Resume");
+  };
 
 
   return {
@@ -122,14 +113,10 @@ const useTabResume = () => {
     dataUser,
     isPendingUser,
     isRefetchingUser,
-
-    filteredData,
-    sortOrder,
-    setSortOrder,
     handleDownloadExcel,
 
-    fullName,
-    search,
+    currentFullName,
+    currentSearch,
   };
 };
 

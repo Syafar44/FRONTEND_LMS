@@ -12,6 +12,7 @@ const resumeServices = {
   updateResume: (id: string, payload: IResume) =>
     instance.put(`${endpoint.RESUME}/${id}`, payload),
   getResumeByKajian: (kajian: string) => instance.get(`${endpoint.RESUME}/${kajian}/kajian`),
+  exportResume: (params?: string) => instance.get(`${endpoint.RESUME}-export?${params}`),
 };
 
 export default resumeServices;

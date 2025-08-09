@@ -5,28 +5,21 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import { COLUMN_LISTS } from "./TabResume.constants";
 import useTabResume from "./useTabResume";
 import { convertTime } from "@/utils/date";
-import { IKajian } from "@/types/Kajian";
-import { IProfile } from "@/types/Auth";
 import { Button, Input } from "@heroui/react";
 
 const TabResume = () => {
   const { push, isReady, query } = useRouter();
+  
   const { 
     dataResume,
     isPendingResume,
     isRefetchingResume,
     dataKajian,
     isPendingKajian,
-    dataUser,
     isPendingUser,
-    filteredData,
-    sortOrder,
-    setSortOrder,
-
     handleDownloadExcel,
-
-    search,
-    fullName,
+    currentFullName,
+    currentSearch,
   } = useTabResume()
   
   const { 
@@ -43,19 +36,21 @@ const TabResume = () => {
     }
   }, [isReady]);
 
-  
-  const getKajianTitle = (kajianId: string) => {
-    const kajian = dataKajian?.data?.find((item: IKajian) => item._id === kajianId);
-    return kajian?.title;
-  };
-
-  const getUserById = (userId: string) => {
-    const user = dataUser?.data?.find((item: IProfile) => item._id === userId)
-    return user?.fullName
+  interface ResumeRow {
+    [key: string]: any;
+    createdAt?: string;
+    kajian?: {
+      title?: string;
+      [key: string]: any;
+    };
+    createdBy?: {
+      fullName?: string;
+      [key: string]: any;
+    };
   }
 
   const renderCell = useCallback(
-    (resume: Record<string, unknown>, columnKey: Key) => {
+    (resume: ResumeRow, columnKey: Key) => {
       const cellValue = resume[columnKey as keyof typeof resume];
 
       switch (columnKey) {
@@ -65,17 +60,17 @@ const TabResume = () => {
           );
         case "title":
           return (
-            <h2>{getKajianTitle(`${resume.kajian}`)}</h2>
+            <h2>{resume.kajian?.title}</h2>
           );
         case "createdBy":
           return (
-            <h2>{getUserById(`${resume.createdBy}`)}</h2>
+            <h2>{resume.createdBy?.fullName}</h2>
           );
         default:
           return cellValue as ReactNode;
       }
     },
-    [push, getKajianTitle, dataKajian],
+    [push, dataKajian],
   );
 
   return (
@@ -85,25 +80,19 @@ const TabResume = () => {
           <Input
             type="text"
             placeholder="Cari bedasarkan kajian..."
-            value={search ? String(search) : undefined}
+            value={currentSearch ? String(currentSearch) : undefined}
             onChange={e => handleSearch(e)}
             onClear={handleClearSearch}
           />
           <Input
             type="text"
             placeholder="Cari nama user..."
-            value={fullName ? String(fullName) : undefined}
+            value={currentFullName ? String(currentFullName) : undefined}
             onChange={e => handleChangeFullName(e.target.value)}
             onClear={handleClearFullname}
           />
         </div>
         <div className="flex gap-2">
-          <Button
-            onPress={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
-            className="bg-primary"
-          >
-            Sort: {sortOrder === "asc" ? "Terlama" : "Terbaru"}
-          </Button>
           <Button
             onPress={handleDownloadExcel}
             className="bg-primary"
@@ -115,7 +104,7 @@ const TabResume = () => {
       {Object.keys(query).length > 0 && (
         <DataTable
           columns={COLUMN_LISTS}
-          data={filteredData || []}
+          data={dataResume?.data || []}
           emptyContent="Resume is empty"
           isLoading={isPendingResume || isRefetchingResume || isPendingKajian || isPendingUser}
           renderCell={renderCell}

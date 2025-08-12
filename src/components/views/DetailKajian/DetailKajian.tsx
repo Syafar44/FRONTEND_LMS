@@ -37,12 +37,12 @@ const DetailKajian = () => {
                         )}
                     </div>
                     {isView && (
-                        <div className="flex justify-end">
+                        <div className="flex w-full">
                             <Button
-                            onPress={() => router.push(`/kajian-online/resume/${dataKajian?._id}`)}
-                                className="bg-accent text-primary"
+                                onPress={() => router.push(`/kajian-online/resume/${dataKajian?._id}`)}
+                                className="bg-accent text-primary w-full shadow-md"
                             >
-                                Isi Resume
+                                ISI RESUME
                             </Button>
                         </div>
                     )}

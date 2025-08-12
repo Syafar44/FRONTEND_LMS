@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import resumeServices from "@/services/resume.service";
 import kajianServices from "@/services/kajian.service";
+import authServices from "@/services/auth.service";
 
 const useResume = () => {
     const router = useRouter()
@@ -18,6 +19,21 @@ const useResume = () => {
       kajian: yup.string(),
       resume: yup.string().required("Please input resume"),
     });
+
+    const getUser = async () => {
+        const res = await authServices.getProfile()
+        const { data } = res;
+        return data.data;
+    }
+
+    const {
+        data: dataUser,
+        isPending: isPendingUser,
+    } = useQuery({
+        queryKey: ["User"],
+        queryFn: () => getUser(),
+        enabled: true,
+    })
 
     const getKajianById = async () => {
         const res = await kajianServices.getKajianById(`${id}`)
@@ -84,7 +100,10 @@ const useResume = () => {
         isSuccessMutateAddResume,
 
         dataKajian,
-        isPendingDataKajian,                       
+        isPendingDataKajian,   
+        
+        dataUser,
+        isPendingUser,
     }
 }
 

@@ -1,14 +1,15 @@
 import PageHead from "@/components/commons/PageHead"
 import DashboardLayout from "@/components/layouts/DashboardLayout"
+import SubDashboardLayout from "@/components/layouts/SubDashboardLayout/SubDashboardLayout"
 import Resume from "@/components/views/DetailKajian/Resume"
 
 
 const ResumePage = () => {
     return (
-        <>
-        <PageHead title="resume kajian" />
-        <Resume />
-        </>
+        <SubDashboardLayout>
+            <PageHead title="resume kajian" />
+            <Resume />
+        </SubDashboardLayout>
     )
 }
 

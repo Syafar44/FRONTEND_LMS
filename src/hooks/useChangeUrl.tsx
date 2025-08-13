@@ -35,7 +35,7 @@ const useChangeUrl = () => {
       query: {
         limit: currentLimit || LIMIT_DEFAULT,
         page: currentPage || PAGE_DEFAULT,
-        fullName: currentFullName || "",
+        search: currentSearch || "",
         department: currentDepartment || "",
         month: currentMonth || "",
         year: currentYear || DEFAULT_YEAR,

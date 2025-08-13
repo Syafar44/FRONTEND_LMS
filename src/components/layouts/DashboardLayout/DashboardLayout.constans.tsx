@@ -1,5 +1,5 @@
 import { BsTools } from "react-icons/bs";
-import { FaRegCircleUser } from "react-icons/fa6";
+import { FaBell, FaRegCircleUser } from "react-icons/fa6";
 import { HiUserGroup } from "react-icons/hi";
 import { IoBookOutline, IoSettingsOutline } from "react-icons/io5";
 import { LuBrain, LuClipboardCheck } from "react-icons/lu";
@@ -23,6 +23,12 @@ const SIDEBAR_ADMIN = [
     label: "Lembar Kepatuhan Pribadi",
     href: "/admin/lkp",
     icon: <LuClipboardCheck />,
+  },
+  {
+    key: "notifikasi",
+    label: "Notifikasi",
+    href: "/admin/notification",
+    icon: <FaBell />,
   },
   {
     key: "administrasi",

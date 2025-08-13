@@ -22,11 +22,11 @@ const TabRekap = () => {
   
   const { 
     setUrlExplore,
-    handleChangeFullName,
+    handleSearch,
     handleChangeDepartment,
     handleChangeMonth,
     handleChangeYear,
-    handleClearFullname,
+    handleClearSearch,
     handleClearDepartment,
     handleClearMonth,
     handleClearYear,
@@ -66,8 +66,8 @@ const TabRekap = () => {
             className="max-w-[250px]"
             value={search ? String(search) : undefined}
             placeholder="Nama Lengkap"
-            onChange={e => handleChangeFullName(e.target.value)}
-            onClear={handleClearFullname}
+            onChange={e => handleSearch(e)}
+            onClear={handleClearSearch}
           />
           <Input
             type="text"
@@ -117,7 +117,7 @@ const TabRekap = () => {
           </Select>
         </div>
     )
-  }, [handleChangeFullName, handleChangeDepartment, handleChangeMonth, handleChangeYear, handleClearFullname, handleClearDepartment, handleClearMonth, handleClearYear, year])
+  }, [handleSearch, handleChangeDepartment, handleChangeMonth, handleChangeYear, handleClearSearch, handleClearDepartment, handleClearMonth, handleClearYear, year])
 
   const renderCell = useCallback(
     (rekap: Record<string, unknown>, columnKey: Key) => {

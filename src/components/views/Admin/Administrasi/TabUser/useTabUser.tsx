@@ -39,6 +39,7 @@ const useTabUser = () => {
       const formatted = data.map((user: any) => ({
         Nama: user.fullName,
         Email: user.email,
+        Department: user.department,
         Access: user.access,
         Role: user.role,
       }));

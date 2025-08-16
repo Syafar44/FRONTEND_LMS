@@ -2,8 +2,6 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import authServices from "@/services/auth.service";
 import kajianServices from "@/services/kajian.service";
 import resumeServices from "@/services/resume.service";
-import { IProfile } from "@/types/Auth";
-import { IKajian } from "@/types/Kajian";
 import { IResume } from "@/types/Resume";
 import { exportToExcel } from "@/utils/exportExcel";
 import { useQuery } from "@tanstack/react-query";
@@ -13,12 +11,13 @@ import { useState } from "react";
 const useTabResume = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const router = useRouter();
-  const { currentLimit, currentPage, currentSearch, currentFullName } = useChangeUrl();
+  const [kajian, setKajian] = useState<string | undefined>(undefined);
+  const { currentLimit, currentPage, currentFullName } = useChangeUrl();
 
   const getResume = async () => {
     let params = `limit=${currentLimit}&page=${currentPage}`;
-    if (currentSearch) {
-      params += `&search=${currentSearch}`;
+    if (kajian) {
+      params += `&kajian=${kajian}`;
     }
     if (currentFullName) {
       params += `&fullName=${currentFullName}`;
@@ -34,7 +33,7 @@ const useTabResume = () => {
     isRefetching: isRefetchingResume,
     refetch: refetchResume
   } = useQuery({
-    queryKey: ["Resume", currentPage, currentLimit, currentSearch, currentFullName],
+    queryKey: ["Resume", currentPage, currentLimit, currentFullName, kajian],
     queryFn: () => getResume(),
     enabled: router.isReady && !!currentPage && !!currentLimit,
   });
@@ -51,7 +50,7 @@ const useTabResume = () => {
   } = useQuery({
     queryKey: ["Kajian"],
     queryFn: () => getKajian(),
-    enabled: router.isReady,
+    enabled: !!router.isReady,
   });
 
   const getUser = async () => {
@@ -71,15 +70,17 @@ const useTabResume = () => {
   });
 
   const getResumeExport = async () => {
-    const res = await resumeServices.exportResume()
+    let params = `kajian=${kajian}`
+    const res = await resumeServices.exportResume(params)
     const { data } = res;
     return data.data;
   }
 
   const {
     data: dataExport,
+    refetch: refetchResumeExport,
   } = useQuery({
-    queryKey: ["EXPORT"],
+    queryKey: ["EXPORT", kajian],
     queryFn: () => getResumeExport(),
     enabled: !!router.isReady,
   });
@@ -96,7 +97,6 @@ const useTabResume = () => {
 
     exportToExcel(formatted, "Data-Resume");
   };
-
 
   return {
     dataResume,
@@ -116,7 +116,10 @@ const useTabResume = () => {
     handleDownloadExcel,
 
     currentFullName,
-    currentSearch,
+
+    refetchResumeExport,
+    kajian,
+    setKajian,
   };
 };
 

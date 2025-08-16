@@ -5,7 +5,8 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import { COLUMN_LISTS } from "./TabResume.constants";
 import useTabResume from "./useTabResume";
 import { convertTime } from "@/utils/date";
-import { Button, Input } from "@heroui/react";
+import { Button, Input, Select, SelectItem } from "@heroui/react";
+import { IKajian } from "@/types/Kajian";
 
 const TabResume = () => {
   const { push, isReady, query } = useRouter();
@@ -19,20 +20,20 @@ const TabResume = () => {
     isPendingUser,
     handleDownloadExcel,
     currentFullName,
-    currentSearch,
+
+    kajian,
+    setKajian,
   } = useTabResume()
   
   const { 
-    setUrlAktivitas,
+    setUrl,
     handleChangeFullName,
-    handleSearch,
     handleClearFullname,
-    handleClearSearch,
     } = useChangeUrl();
 
   useEffect(() => {
     if (isReady) {
-      setUrlAktivitas();
+      setUrl();
     }
   }, [isReady]);
 
@@ -70,20 +71,29 @@ const TabResume = () => {
           return cellValue as ReactNode;
       }
     },
-    [push, dataKajian],
+    [push],
   );
+
+  const listKajian = dataKajian?.data || [];
 
   return (
     <section>
       <section className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col sm:flex-row gap-2">
-          <Input
-            type="text"
-            placeholder="Cari bedasarkan kajian..."
-            value={currentSearch ? String(currentSearch) : undefined}
-            onChange={e => handleSearch(e)}
-            onClear={handleClearSearch}
-          />
+          <Select
+            className="max-w-xs"
+            placeholder="Pilih kajian"
+            selectedKeys={kajian ? new Set([kajian]) : new Set()}
+            variant="bordered"
+            onSelectionChange={(keys) => {
+              const value = Array.from(keys)[0] as string; 
+              setKajian(value);
+            }}
+          >
+            {listKajian.map((kajian: IKajian) => (
+              <SelectItem key={kajian._id}>{kajian.title}</SelectItem>
+            ))}
+          </Select>
           <Input
             type="text"
             placeholder="Cari nama user..."

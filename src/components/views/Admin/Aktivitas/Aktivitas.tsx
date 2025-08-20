@@ -11,7 +11,7 @@ const Aktivitas = () => {
   return (
     <Tabs aria-label="Options" onSelectionChange={handleTabChange}>
       <Tab key="resume" title="Resume Kajian">
-        <TabResume />
+        <TabResume /> 
       </Tab>
       <Tab key="kuis" title="Recap Competency">
         <TabKuis />

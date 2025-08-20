@@ -104,37 +104,48 @@ const useTabKuis = () => {
 
     const formatted = dataExport.flatMap((user: any) => {
       if (user.scoreData && user.scoreData.length > 0) {
-        return user.scoreData.map((score: any) => {
-          const poin = score.total_question
-            ? (Number(score.total_score) / Number(score.total_question)) * 100
-            : 0;
+        const validScores = user.scoreData.filter(
+          (score: any) =>
+            score.subCompetencyData &&
+            score.subCompetencyData.title &&
+            score.subCompetencyData.competencyData?.title
+        );
 
-          return {
-            "USER": user.fullName || "-",
-            "DEPARTMENT": user.department || "-",
-            "COMPETENCY": score.subCompetencyData?.competencyData?.title || "-",
-            "SUB COMPETENCY": score.subCompetencyData?.title || "-",
-            "POIN": poin,
-            "STATUS": score.isPass ? "Lulus" : "Tidak Lulus",
-            "PUBLISH": score.createdAt
-              ? new Date(score.createdAt).toLocaleString()
-              : "-",
-          };
-        });
-      } else {
-        return [
-          {
-            "USER": user.fullName || "-",
-            "DEPARTMENT": user.department || "-",
-            "COMPETENCY": "-",
-            "SUB COMPETENCY": "-",
-            "POIN": 0,
-            "STATUS": "Belum Mengerjakan",
-            "PUBLISH": "-",
-          },
-        ];
+        if (validScores.length > 0) {
+          return validScores.map((score: any) => {
+            const poin = score.total_question
+              ? (Number(score.total_score) / Number(score.total_question)) * 100
+              : 0;
+
+            return {
+              USER: user.fullName || "-",
+              DEPARTMENT: user.department || "-",
+              COMPETENCY: score.subCompetencyData?.competencyData?.title || "-",
+              "SUB COMPETENCY": score.subCompetencyData?.title || "-",
+              POIN: poin,
+              STATUS: score.isPass ? "Lulus" : "Tidak Lulus",
+              PUBLISH: score.createdAt
+                ? new Date(score.createdAt).toLocaleString()
+                : "-",
+            };
+          });
+        }
       }
+
+      // ✅ fallback kalau user belum punya score valid sama sekali
+      return [
+        {
+          USER: user.fullName || "-",
+          DEPARTMENT: user.department || "-",
+          COMPETENCY: "-",
+          "SUB COMPETENCY": "-",
+          POIN: 0,
+          STATUS: "Belum Mengerjakan",
+          PUBLISH: "-",
+        },
+      ];
     });
+
 
     if (!dataExportFinal || dataExportFinal.length === 0) return;
 
@@ -143,7 +154,6 @@ const useTabKuis = () => {
       "COMPETENCY": item.competency || "-",
       "NILAI TOTAL": item.percentage ? `${item.percentage}%` : "0",
       "DEPARTMENT": item.department || "-",
-
     }));
 
     exportToExcel(

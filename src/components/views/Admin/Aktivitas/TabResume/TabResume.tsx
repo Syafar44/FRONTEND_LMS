@@ -79,9 +79,9 @@ const TabResume = () => {
   return (
     <section>
       <section className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-[600px]">
           <Select
-            className="max-w-xs"
+            className="w-full"
             placeholder="Pilih kajian"
             selectedKeys={kajian ? new Set([kajian]) : new Set()}
             variant="bordered"
@@ -95,6 +95,7 @@ const TabResume = () => {
             ))}
           </Select>
           <Input
+          className="w-full"
             type="text"
             placeholder="Cari nama user..."
             value={currentFullName ? String(currentFullName) : undefined}

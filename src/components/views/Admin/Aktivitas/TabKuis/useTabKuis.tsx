@@ -1,24 +1,25 @@
 import useChangeUrl from "@/hooks/useChangeUrl";
-import authServices from "@/services/auth.service";
 import competencyServices from "@/services/competency.service";
 import scoreServices from "@/services/score.service";
-import subCompetencyServices from "@/services/subCompetency.service";
-import { IProfile } from "@/types/Auth";
-import { ICompetency, ISubCompetency } from "@/types/Competency";
-import { IScore } from "@/types/Score";
 import { exportToExcel } from "@/utils/exportExcel";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 const useTabKuis = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const router = useRouter();
-  const { fullName, search } = router.query
+
   const { currentLimit, currentPage} = useChangeUrl();
+  const [competency, setCompetency] = useState<string | undefined>(undefined);
+  const [subCompetency, setSubCompetency] = useState<string | undefined>(undefined);
 
   const getScore = async () => {
-    const res = await scoreServices.getScoreAll()
+    let params = `limit=${currentLimit}&page=${currentPage}`;
+    if (competency) {
+      params += `&competency=${competency}`;
+    }
+    const res = await scoreServices.getScoreAll(params)
     const { data } = res;
     return data;
   };
@@ -29,24 +30,9 @@ const useTabKuis = () => {
     isRefetching: isRefetchingScore,
     refetch: refetchScore
   } = useQuery({
-    queryKey: ["Score", currentPage, currentLimit],
+    queryKey: ["Score", currentPage, currentLimit, competency, subCompetency],
     queryFn: () => getScore(),
-    enabled: router.isReady && !!currentPage && !!currentLimit,
-  });
-
-  const getSubCompetency = async() => {
-    const res = await subCompetencyServices.getAllSubCompetency()
-    const { data } = res
-    return data
-  } 
-
-  const {
-    data: dataSubCompetency,
-    isPending: isPendingSubCompetency,
-  } = useQuery({
-    queryKey: ["SubCompetency"],
-    queryFn: () => getSubCompetency(),
-    enabled: router.isReady,
+    enabled: !!router.isReady && !!currentPage && !!currentLimit,
   });
 
   const getCompetency = async() => {
@@ -58,76 +44,116 @@ const useTabKuis = () => {
   const {
     data: dataCompetency,
     isPending: isPendingCompetency,
+    isRefetching: isRefetchingCompetency,
   } = useQuery({
     queryKey: ["Competency"],
     queryFn: () => getCompetency(),
-    enabled: router.isReady,
+    enabled: !!router.isReady,
   });
 
-  const getUser = async () => {
-    const res = await authServices.getAllUsers()
+  const getScoreExport = async () => {
+    let params = "limit=9999&page=1";
+    if (competency) {
+      params += `&competency=${competency}`;
+    }
+    const res = await scoreServices.getExportScore(params)
     const { data } = res;
-    return data;
+    return data.data;
   }
 
   const {
-    data: dataUser,
-    isPending: isPendingUser,
-    isRefetching: isRefetchingUser,
+    data: dataExport,
+    refetch: refetchExport,
   } = useQuery({
-    queryKey: ["Users"],
-    queryFn: () => getUser(),
-    enabled: router.isReady,
+    queryKey: ["EXPORT", competency],
+    queryFn: () => getScoreExport(),
+    enabled: !!router.isReady,
   });
 
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const getScoreFinal = async () => {
+    let params = "limit=9999&page=1";
+    if (competency) {
+      params += `&competencyId=${competency}`;
+    }
+    const res = await scoreServices.getScoreFinal(params)
+    const { data } = res;
+    return data.data;
+  }
 
-  const filteredData = useMemo(() => {
-  if (isPendingScore || isPendingSubCompetency || isPendingCompetency || isPendingUser) return [];
+  const {
+    data: dataExportFinal,
+    refetch: refetchExportFinal,
+  } = useQuery({
+    queryKey: ["FINAL", competency],
+    queryFn: () => getScoreFinal(),
+    enabled: !!router.isReady && !!competency,
+  });
 
-  return dataScore.data
-    .filter((score: IScore) => {
-      const user: IProfile | undefined = dataUser.data.find((u: IProfile) => u._id === score.createdBy);
-      const SubCompetency = dataSubCompetency.data.find((s: ISubCompetency) => s._id === score.bySubCompetency);
+  useEffect(() => {
+    if (isRefetchingCompetency) {
+      refetchExport();
+      refetchExportFinal();
+    }
+  })
 
-      const matchUser = user?.fullName?.toLowerCase().includes((fullName as string).toLowerCase());
-      const matchSubCompetency = SubCompetency?.title?.toLowerCase().includes((search as string).toLowerCase());
-      return matchUser && matchSubCompetency;
-    })
-    .sort((a: IScore, b: IScore) => {
-      const dateA = new Date(a.createdAt as string).getTime();
-      const dateB = new Date(b.createdAt as string).getTime();
-      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-    });
-  }, [dataScore, dataUser, dataSubCompetency, fullName, search, sortOrder]);
-
-  const totalPages = Math.ceil(filteredData.length / Number(currentLimit));
-
-  const paginatedData = filteredData.slice(
-    (Number(currentPage) - 1) * Number(currentLimit),
-    Number(currentPage) * Number(currentLimit)
-  );
+  console.log("dataExport", dataExport);
+  console.log("dataExportFinal", dataExportFinal);
 
   const handleDownloadExcel = () => {
-    if (!filteredData || filteredData.length === 0) return;
+    if (!dataExport || dataExport.length === 0) return;
 
-    const formatted = filteredData.map((score: IScore) => {
-      const subCompetency = dataSubCompetency?.data?.find((s: ISubCompetency) => s._id === score.bySubCompetency);
-      const competency = dataCompetency?.data?.find((c: ICompetency) => c._id === subCompetency?.byCompetency);
-      const user = dataUser?.data?.find((u: IProfile) => u._id === score.createdBy);
+    const formatted = dataExport.flatMap((user: any) => {
+      if (user.scoreData && user.scoreData.length > 0) {
+        return user.scoreData.map((score: any) => {
+          const poin = score.total_question
+            ? (Number(score.total_score) / Number(score.total_question)) * 100
+            : 0;
 
-      return {
-        "SUB JUDUL": subCompetency?.title || "-",
-        "JUDUL UTAMA": competency?.title || "-",
-        "POIN": `${(Number(score.total_score) / Number(score.total_question)) * 100}` || 0,
-        "PUBLISH": new Date(score.createdAt!).toLocaleString(),
-        "USER": user?.fullName || "-",
-      };
+          return {
+            "USER": user.fullName || "-",
+            "DEPARTMENT": user.department || "-",
+            "COMPETENCY": score.subCompetencyData?.competencyData?.title || "-",
+            "SUB COMPETENCY": score.subCompetencyData?.title || "-",
+            "POIN": poin,
+            "STATUS": score.isPass ? "Lulus" : "Tidak Lulus",
+            "PUBLISH": score.createdAt
+              ? new Date(score.createdAt).toLocaleString()
+              : "-",
+          };
+        });
+      } else {
+        return [
+          {
+            "USER": user.fullName || "-",
+            "DEPARTMENT": user.department || "-",
+            "COMPETENCY": "-",
+            "SUB COMPETENCY": "-",
+            "POIN": 0,
+            "STATUS": "Belum Mengerjakan",
+            "PUBLISH": "-",
+          },
+        ];
+      }
     });
 
-    exportToExcel(formatted, "Data-Kuis");
-  };
+    if (!dataExportFinal || dataExportFinal.length === 0) return;
 
+    const formattedFinal = dataExportFinal.map((item: {department: string, fullName: string, percentage: number, competency: string}) => ({
+      "USER": item.fullName || "-",
+      "COMPETENCY": item.competency || "-",
+      "NILAI TOTAL": item.percentage ? `${item.percentage}%` : "0",
+      "DEPARTMENT": item.department || "-",
+
+    }));
+
+    exportToExcel(
+      [
+        { name: "Detail", data: formatted },
+        { name: "Rekap Nilai", data: formattedFinal },
+      ],
+      "Data-Kuis"
+    );
+  };
 
   return {
     dataScore,
@@ -141,24 +167,12 @@ const useTabKuis = () => {
     dataCompetency,
     isPendingCompetency,
 
-    dataSubCompetency,
-    isPendingSubCompetency,
-
-    dataUser,
-    isPendingUser,
-    isRefetchingUser,
-
-    filteredData,
-
-    sortOrder,
-    setSortOrder,
     handleDownloadExcel,
 
-    paginatedData,
-    totalPages,
-
-    search,
-    fullName,
+    competency,
+    setCompetency,
+    subCompetency,
+    setSubCompetency,
   };
 };
 

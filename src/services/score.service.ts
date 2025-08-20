@@ -4,7 +4,7 @@ import { IScore } from "@/types/Score";
 
 
 const scoreServices = {
-  getScoreAll: () => instance.get(`${endpoint.SCORE}`),
+  getScoreAll: (params?: string) => instance.get(`${endpoint.SCORE}?${params}`),
   getScoreAllByUser: () => instance.get(`${endpoint.SCORE}-user`),
   getScoreById: (id: string) => instance.get(`${endpoint.SCORE}/${id}`),
   addScore: (payload: IScore) =>
@@ -13,6 +13,8 @@ const scoreServices = {
   updateScore: (id: string, payload: IScore) =>
     instance.put(`${endpoint.SCORE}/${id}`, payload),
   getScoreBySubCompetency: (subCompetency: string) => instance.get(`${endpoint.SCORE}/${subCompetency}/subCompetency`),
+  getExportScore: (params?: string) => instance.get(`${endpoint.SCORE}-export?${params}`),
+  getScoreFinal: (params?: string) => instance.get(`${endpoint.SCORE}-final?${params}`),
 };
 
 export default scoreServices;

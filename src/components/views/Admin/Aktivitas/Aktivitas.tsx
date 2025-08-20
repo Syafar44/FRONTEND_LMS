@@ -1,7 +1,6 @@
 import { Tab, Tabs } from "@heroui/react";
 
 import TabKuis from "./TabKuis";
-import TabRekap from "./TabRekap";
 import TabResume from "./TabResume";
 import useAktivitas from "./useAktivitas";
 
@@ -14,11 +13,8 @@ const Aktivitas = () => {
       <Tab key="resume" title="Resume Kajian">
         <TabResume />
       </Tab>
-      <Tab key="kuis" title="Kuis Competency">
+      <Tab key="kuis" title="Recap Competency">
         <TabKuis />
-      </Tab>
-      <Tab key="rekap" title="Rekap Nilai">
-        <TabRekap />
       </Tab>
     </Tabs>
   );

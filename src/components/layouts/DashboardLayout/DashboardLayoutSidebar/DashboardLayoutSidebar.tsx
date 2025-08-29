@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { JSX } from "react";
 import { CiLogout, CiViewList } from "react-icons/ci";
 import { IoGridOutline } from "react-icons/io5";
+import { PiGridFourLight, PiListDashesLight } from "react-icons/pi";
 
 interface SidebarItem {
   key: string;
@@ -50,7 +51,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
             className={cn("my-1 h-12 text-2xl", {
               "bg-primary ": router.pathname.startsWith(type === "admin" ? "/admin/dashboard" : "/home"),
             })}
-            startContent={<IoGridOutline />}
+            startContent={<PiGridFourLight />}
             textValue={"Dashboard"}
             aria-labelledby={"Dashboard"}
             aria-describedby={"Dashboard"}
@@ -70,7 +71,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
                 Kelas Kompetensi
               </p>
             }
-            startContent={<CiViewList size={25} />}
+            startContent={<PiListDashesLight size={25} />}
           >
             {subSidebarItems?.map((item) => {
               return (

@@ -41,4 +41,15 @@ const convertTime = (isoDate: string) => {
   return `${date} WITA`;
 };
 
-export { toDateStandard, toInputDate, convertTime };
+const convertDate = (isoDate: string) => {
+  const dateObject = new Date(isoDate);
+
+  const date = dateObject.toLocaleString("id-ID", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  return `${date}`;
+};
+
+export { toDateStandard, toInputDate, convertTime, convertDate };

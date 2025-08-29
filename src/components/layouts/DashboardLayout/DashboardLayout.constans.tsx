@@ -1,40 +1,35 @@
-import { BsTools } from "react-icons/bs";
-import { FaBell, FaRegCircleUser } from "react-icons/fa6";
-import { HiUserGroup } from "react-icons/hi";
-import { IoBookOutline, IoSettingsOutline } from "react-icons/io5";
-import { LuBrain, LuClipboardCheck } from "react-icons/lu";
-import { SlCalender } from "react-icons/sl";
+import { PiBookOpenLight, PiCertificateLight, PiUserCircleLight, PiClipboardTextLight, PiBrainLight, PiToolboxLight, PiGearLight, PiUsersThreeLight, PiStackLight, PiBellRingingLight } from "react-icons/pi";
 
 const SIDEBAR_ADMIN = [
   {
     key: "kajian online",
     label: "Kajian Online",
     href: "/admin/kajian-online",
-    icon: <IoBookOutline />,
+    icon: <PiBookOpenLight />,
   },
   {
     key: "aktivitas",
     label: "Aktivitas",
     href: "/admin/aktivitas",
-    icon: <SlCalender />,
+    icon: <PiStackLight />,
   },
   {
     key: "lkp",
     label: "Lembar Kepatuhan Pribadi",
     href: "/admin/lkp",
-    icon: <LuClipboardCheck />,
+    icon: <PiClipboardTextLight />,
   },
   {
     key: "notifikasi",
     label: "Notifikasi",
     href: "/admin/notification",
-    icon: <FaBell />,
+    icon: <PiBellRingingLight />,
   },
   {
     key: "administrasi",
     label: "Administrasi",
     href: "/admin/administrasi",
-    icon: <FaRegCircleUser />,
+    icon: <PiUserCircleLight />,
   },
 ];
 
@@ -43,19 +38,25 @@ const SIDEBAR_MEMBER = [
     key: "kajian online",
     label: "Kajian Online",
     href: "/kajian-online",
-    icon: <IoBookOutline />,
+    icon: <PiBookOpenLight />,
   },
   {
     key: "lkp",
     label: "Lembar Kepatuhan Pribadi",
     href: "/lkp",
-    icon: <LuClipboardCheck />,
+    icon: <PiClipboardTextLight />,
   },
   {
     key: "pengaturan",
     label: "Pengaturan",
     href: "/setting",
-    icon: <IoSettingsOutline />,
+    icon: <PiGearLight />,
+  },
+  {
+    key: "certificate",
+    label: "Sertifikat",
+    href: "/certificate",
+    icon: <PiCertificateLight />,
   },
 ];
 
@@ -64,19 +65,19 @@ const SUB_SIDBAR_MEMBER = [
     key: "core kompetensi",
     label: "Core Competency",
     href: "/kelas-kompetensi/core",
-    icon: <LuBrain size={20} />,
+    icon: <PiBrainLight size={20} />,
   },
   {
     key: "functional kompetensi",
     label: "Functional Competency",
     href: "/kelas-kompetensi/functional",
-    icon: <BsTools size={20}/>,
+    icon: <PiToolboxLight size={20}/>,
   },
   {
     key: "managerial kompetensi",
     label: "Managerial Competency",
     href: "/kelas-kompetensi/managerial",
-    icon: <HiUserGroup size={20}/>,
+    icon: <PiUsersThreeLight size={20}/>,
   },
 ]
 
@@ -85,19 +86,19 @@ const SUB_SIDBAR_ADMIN = [
     key: "core kompetensi",
     label: "Core Competency",
     href: "/admin/kelas-kompetensi/core",
-    icon: <LuBrain size={20} />,
+    icon: <PiBrainLight size={20} />,
   },
   {
     key: "functional kompetensi",
     label: "Functional Competency",
     href: "/admin/kelas-kompetensi/functional",
-    icon: <BsTools size={20}/>,
+    icon: <PiToolboxLight size={20}/>,
   },
   {
     key: "managerial kompetensi",
     label: "Managerial Competency",
     href: "/admin/kelas-kompetensi/managerial",
-    icon: <HiUserGroup size={20}/>,
+    icon: <PiUsersThreeLight size={20}/>,
   },
 ]
 

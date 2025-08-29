@@ -1,6 +1,7 @@
 const endpoint = {
   AUTH: "/auth",
   CATEGORY: "/category",
+  CERTIFICATE: "/certification",
   COMPETENCY: "/competency",
   COMPLETED: "/completed",
   KAJIAN: "/kajian",

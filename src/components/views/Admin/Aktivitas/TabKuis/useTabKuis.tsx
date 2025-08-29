@@ -96,9 +96,6 @@ const useTabKuis = () => {
     }
   })
 
-  console.log("dataExport", dataExport);
-  console.log("dataExportFinal", dataExportFinal);
-
   const handleDownloadExcel = () => {
     if (!dataExport || dataExport.length === 0) return;
 

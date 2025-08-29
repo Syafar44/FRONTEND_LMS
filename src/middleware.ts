@@ -18,6 +18,11 @@ export async function middleware(request: NextRequest) {
   }
   
   if (!token && !isAuthPage) {
+     // ✅ Izinkan akses publik untuk /certificate/v8gu3r
+    if (pathname === "/certificate/v8gu3r") {
+      return NextResponse.next();
+    }
+
     const url = new URL("/auth/login", request.url);
     url.searchParams.set("callbackUrl", request.nextUrl.pathname);
     return NextResponse.redirect(url);

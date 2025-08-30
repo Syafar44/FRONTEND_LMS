@@ -21,7 +21,7 @@ const DetailCertificate = () => {
   const link = `https://lms.panglimaroqiiqugroup.com/certificate/${res?.id}`
 
   return (
-    <div className="relative flex flex-col 2xl:flex-row gap-5 items-center">
+    <div className="relative flex flex-col 2xl:flex-row gap-5 items-center h-screen">
       {/* Kanvas sertifikat */}
       {!isPendingCertificateDetail ? (
         <>  
@@ -128,10 +128,10 @@ const DetailCertificate = () => {
                   hideSymbol
                   size="sm"
                   variant="bordered"
-                  className="w-full max-w-[500px] shadow-md"
+                  className="w-full max-w-[300px] shadow-md"
                   codeString={link} // yang dicopy tetap full
                 >
-                  <span className="w-[300px] sm:w-full inline-flex items-center">
+                  <span className="w-[230px] sm:w-full inline-flex items-center">
                     {/* kiri: auto-ellipsis saat sempit */}
                     <span className="truncate">{link.slice(0, -10)}</span>
                     {/* kanan: tetap tampil */}

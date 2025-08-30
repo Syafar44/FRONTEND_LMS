@@ -23,7 +23,6 @@ const useCertificate = () => {
         queryKey: ["Certificate", currentPage, currentLimit],
         queryFn: () => getCertificate(),
         enabled: router.isReady && !!currentPage && !!currentLimit,
-
     });
 
     return {

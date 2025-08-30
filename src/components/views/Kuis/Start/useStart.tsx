@@ -1,9 +1,11 @@
+import certificateServices from "@/services/certificate.service"
 import completedServices from "@/services/completed.service"
 import kuisCompetencyServices from "@/services/kuisCompetency.service"
 import saveServices from "@/services/save.service"
 import scoreServices from "@/services/score.service"
 import subCompetencyServices from "@/services/subCompetency.service"
 import videoServices from "@/services/video.service"
+import { ISubCompetency } from "@/types/Competency"
 import { IScore } from "@/types/Score"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
@@ -159,6 +161,27 @@ const useStart = () => {
         queryFn: getCompleted,
         enabled: !!router.isReady
     })
+
+    const getCertificate = async () => {
+        let params = `limit=999999999999&page=1`;
+        const res = await certificateServices.getCertificateByUser(params);
+        const { data } = res
+        return data.data
+    }
+
+    const {
+        data: dataCertificate,
+        isPending: isPendingCertificate,
+    } = useQuery({
+        queryKey: ["Certificate"],
+        queryFn: () => getCertificate(),
+        enabled: router.isReady,
+    });
+
+    const isCompleted = dataCertificate?.some(
+            (item: { competency: { _id: string } }) =>
+                item.competency._id === (subCompetency as ISubCompetency)?.byCompetency
+        )
     
     const handleRecap = useCallback(async () => {
         if (!id || !jumlahSoal || !subCompetency || !subCompetency.byCompetency) {
@@ -219,6 +242,9 @@ const useStart = () => {
                 } else {
                     await saveServices.deleteSave(`${dataSave?._id}`);
                     await completedServices.addCompleted(`${subCompetency.byCompetency}`);
+                    if(!isCompleted) {
+                        await certificateServices.addCertificate({competency: `${subCompetency.byCompetency}`})
+                    }
                 }
             }
             setIsLoading(true);

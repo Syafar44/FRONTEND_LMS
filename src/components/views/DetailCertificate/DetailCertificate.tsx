@@ -143,11 +143,11 @@ const DetailCertificate = () => {
           </div>
         </>
       ) : (
-        <div className="bg-secondary h-full w-full rounded-md">
+        <div className="h-full w-full rounded-md">
           <div className="flex justify-center items-center gap-2 my-40">
-            <span className="p-4 flex gap-2 bg-white rounded-md">
+            <span className="p-4 flex gap-2 bg-secondary rounded-md">
               <Spinner size="sm" color="default"/>
-              <p className="text-nowrap">Memverifikasi Sertifikat..</p>
+              <p className="text-nowrap text-white">Memverifikasi Sertifikat..</p>
             </span>
           </div>
         </div>

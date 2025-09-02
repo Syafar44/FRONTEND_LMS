@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   }
   
   if (!token && !isAuthPage) {
-    if (pathname === "/certificate/") {
+    if (pathname.startsWith("/certificate/")) {
       return NextResponse.next();
     }
 

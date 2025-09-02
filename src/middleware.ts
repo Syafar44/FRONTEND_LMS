@@ -18,8 +18,7 @@ export async function middleware(request: NextRequest) {
   }
   
   if (!token && !isAuthPage) {
-     // ✅ Izinkan akses publik untuk /certificate/v8gu3r
-    if (pathname === "/certificate/v8gu3r") {
+    if (pathname === "/certificate/") {
       return NextResponse.next();
     }
 

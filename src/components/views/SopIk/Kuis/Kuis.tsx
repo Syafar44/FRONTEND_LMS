@@ -49,19 +49,23 @@ const Kuis = () => {
                         <li>Durasi ujian: 25 menit</li>
                     </ul>
                     <h3>Selamat Mengerjakan!</h3>
-                    {!isPendingScore && (
-                        <div className="w-full border border-red-400 flex justify-between p-5 gap-10 rounded-lg bg-red-400/20">
-                            <h3 className="text-danger">
-                                Mohon menunggu untuk mengambil kuis kembali
-                            </h3>
-                            <p className="text-nowrap font-bold text-red-500">
-                                {timeLeft}
-                            </p>
-                        </div>
+                    {(!isPendingScore || !dataScore) && (
+                        <>
+                            {timeLeft !== "selesai" && (    
+                                <div className="w-full border border-red-400 flex justify-between p-5 gap-10 rounded-lg bg-red-400/20">
+                                    <h3 className="text-danger">
+                                        Mohon menunggu untuk mengambil kuis kembali
+                                    </h3>
+                                    <p className="text-nowrap font-bold text-red-500">
+                                        {timeLeft}
+                                    </p>
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
                 <div className="flex justify-end">
-                    <Button isDisabled={(isPendingScore || isPendingSopIk) || (timeLeft !== "selesai")} onPress={() => router.push(`/sopdanik/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
+                    <Button isDisabled={(isPendingScore || isPendingSopIk) || !(timeLeft === "selesai")} onPress={() => router.push(`/sopdanik/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
                 </div>
             </section>
             <section className="grid gap-5">

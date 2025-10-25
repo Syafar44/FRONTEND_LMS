@@ -11,9 +11,6 @@ const Start = () => {
         setRadioSelect,
         handleSelect,
         jumlahSoal,
-        router,
-        score,
-
         handleRecap,
         remainingTime,
         formattedTime,
@@ -36,22 +33,22 @@ const Start = () => {
             </div>
             <div className="flex flex-col md:flex-row gap-5 md:gap-10 md:p-5">
                 <div className="grid gap-5 md:border-r">
-                    <div className="border-y p-5 grid grid-cols-5 gap-y-2 gap-x-5 md:border-none">
-                    {Array.from({ length: jumlahSoal ?? 0 }, (_, index) => {
-                        const isActive = index < numberSoal - 1;
-                        return (
-                            <Button
-                                key={index}
-                                variant="bordered"
-                                isIconOnly
-                                className={`p-5 text-xl transition-colors duration-200 ${
-                                isActive ? 'border-green-500 text-green-500' : ''
-                                }`}
-                            >
-                                {index + 1}
-                            </Button>
-                        );
-                    })}
+                    <div className="border-y p-5 grid grid-cols-5 gap-y-2 gap-x-5 md:border-none h-[130px] overflow-y-scroll md:h-auto md:overflow-auto">
+                        {Array.from({ length: jumlahSoal ?? 0 }, (_, index) => {
+                            const isActive = index < numberSoal - 1;
+                            return (
+                                <Button
+                                    key={index}
+                                    variant="bordered"
+                                    isIconOnly
+                                    className={`p-5 text-xl transition-colors duration-200 ${
+                                    isActive ? 'border-green-500 text-green-500' : ''
+                                    }`}
+                                >
+                                    {index + 1}
+                                </Button>
+                            );
+                        })}
                     </div>
                 </div>
                 <section className="grid gap-5 md:w-[800px]">    

@@ -1,4 +1,4 @@
-import kuisCompetencyServices from "@/services/kuisCompetency.service";
+import useChangeUrl from "@/hooks/useChangeUrl";
 import kuisSopIkServices from "@/services/kuisSopIk.service";
 import sopIkServices from "@/services/sopIk.service";
 import { useQuery } from "@tanstack/react-query";
@@ -10,9 +10,14 @@ const useKuisSopIk = () => {
   const router = useRouter();
   const pathSegments = router.pathname.split('/');
   const { id } = router.query
+  const { currentLimit, currentPage, currentSearch } = useChangeUrl()
 
   const getAllKuisByIdSopIk = async () => {
-    const res = await kuisSopIkServices.getKuisSopIkBySopIk(`${id}`)
+    let params = `limit=${currentLimit}&page=${currentPage}`;
+    if (currentSearch) {
+      params += `&search=${currentSearch}`;
+    }
+    const res = await kuisSopIkServices.getKuisSopIkBySopIk(`${id}`, params)
     const { data } = res;
     return data;
   };
@@ -23,7 +28,7 @@ const useKuisSopIk = () => {
     isRefetching: isRefetchingKuis,
     refetch: refetchKuis,
   } = useQuery({
-    queryKey: ["KuisSopIk", id],
+    queryKey: ["KuisSopIk", id, currentLimit, currentPage, currentSearch],
     queryFn: getAllKuisByIdSopIk,
     enabled: router.isReady && !!id,
   });
@@ -58,6 +63,8 @@ const useKuisSopIk = () => {
     isPendingSopIk,
 
     pathSegments,
+
+    isReady: router.isReady,
   };
 };
 

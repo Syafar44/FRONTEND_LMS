@@ -35,7 +35,8 @@ const useStart = () => {
     }
 
     const getKuis = async() => {
-        const res = await kuisSopIkServices.getKuisSopIkBySopIk(`${id}`)
+        const params = `limit=${99999}`
+        const res = await kuisSopIkServices.getKuisSopIkBySopIk(`${id}`, params)
         const { data } = res
         setJumlahSoal(data.data.length)
         if (listSoal.length === 0) {

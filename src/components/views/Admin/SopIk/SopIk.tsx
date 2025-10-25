@@ -8,7 +8,6 @@ import { COLUMN_LISTS } from "./SopIk.constants";
 import useSopIk from "./useSopIk";
 import DeleteSopIkModal from "./DeleteSopIkModal";
 import AddSopIkModal from "./AddSopIkModal";
-import { convertTime } from "@/utils/date";
 
 const SopIk = () => {
   const { push, isReady, query } = useRouter();
@@ -20,8 +19,6 @@ const SopIk = () => {
 
     selectedId,
     setSelectedId,
-
-    pathSegments,
   } = useSopIk()
 
   const addSopIkModal = useDisclosure();

@@ -7,7 +7,6 @@ import { useState } from "react";
 const useSopIk = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const router = useRouter();
-  const pathSegments = router.pathname.split('/');
   const { currentLimit, currentPage, currentSearch } = useChangeUrl();
 
   const getSopIk = async () => {
@@ -39,8 +38,6 @@ const useSopIk = () => {
 
     selectedId,
     setSelectedId,
-
-    pathSegments,
   };
 };
 

@@ -8,8 +8,6 @@ import { useEffect } from "react"
 const useKuis = () => {
     const router = useRouter()
     const { slug } =  router.query
-
-    console.log(slug)
     
     useEffect(() => {
         localStorage.removeItem('kuis_timer_start')

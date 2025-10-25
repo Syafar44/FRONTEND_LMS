@@ -1,13 +1,14 @@
 import DataTable from "@/components/ui/DataTable";
 import { useDisclosure } from "@heroui/react";
 import { useRouter } from "next/router";
-import { Key, ReactNode, useCallback } from "react";
+import { Key, ReactNode, useCallback, useEffect } from "react";
 import DropdownAction from "@/components/commons/DropdownAction";
 import { COLUMN_LISTS } from "./KuisSopIk.constants";
 import useKuisSopIk from "./useKuisSopIk";
 import DeleteKuisModal from "./DeleteKuisModal";
 import AddKuisModal from "./AddKuisModal";
 import { convertTime } from "@/utils/date";
+import useChangeUrl from "@/hooks/useChangeUrl";
 
 const KuisSopIk = () => {
   const { push, query } = useRouter();
@@ -20,13 +21,21 @@ const KuisSopIk = () => {
     setSelectedId,
     dataSopIk,
     isPendingSopIk,
-    pathSegments,
+    isReady,
   } = useKuisSopIk()
+
+  const { setUrl } = useChangeUrl()
 
   const title = dataSopIk?.title
   
   const addKuisModal = useDisclosure();
   const deleteCoreModal = useDisclosure();
+
+    useEffect(() => {
+      if (isReady) {
+        setUrl();
+      }
+    }, [isReady]);
 
   const renderCell = useCallback(
     (kuis: Record<string, unknown>, columnKey: Key) => {
@@ -50,7 +59,7 @@ const KuisSopIk = () => {
             <DropdownAction
               hideButtonUpdate={true}
               onPressButtonDetail={() =>
-                push(`/admin/kelas-kompetensi/${pathSegments[3]}/kuis/update/${kuis._id}`)
+                push(`/admin/sopdanik/kuis/update/${kuis._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${kuis._id}`);

@@ -1,4 +1,5 @@
 import useChangeUrl from "@/hooks/useChangeUrl";
+import scoreSopIkServices from "@/services/scoreSopIk.service";
 import sopIkServices from "@/services/sopIk.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";

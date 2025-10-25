@@ -2,6 +2,7 @@ import { Button } from "@heroui/react"
 import useKuis from "./useKuis"
 import { IScore } from "@/types/Score"
 import { convertTime } from "@/utils/date"
+import { useEffect, useState } from "react"
 
 const Kuis = () => {
     const {
@@ -11,7 +12,30 @@ const Kuis = () => {
         dataSopIk,
         isPendingSopIk,
         isPendingScore,
+        targetTime,
     } = useKuis()
+    const [timeLeft, setTimeLeft] = useState("");
+
+    useEffect(() => {
+        if (!targetTime) return;
+        const utcDate = new Date(targetTime);
+        const localOffset = utcDate.getTimezoneOffset() * 60 * 1000;
+        const targetDate = new Date(utcDate.getTime() - localOffset);
+        const availableDate = new Date(targetDate.getTime() + 25 * 60 * 1000);
+        const timer = setInterval(() => {
+            const now = new Date();
+            const diff = availableDate.getTime() - now.getTime();
+            if (diff <= 0) {
+                clearInterval(timer);
+                setTimeLeft("selesai");
+                return;
+            }
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            setTimeLeft(`${minutes}m ${seconds}d`);
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [targetTime]);
 
     return (
         <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">
@@ -24,11 +48,20 @@ const Kuis = () => {
                         <li>Syarat nilai kelulusan : 80%</li>
                         <li>Durasi ujian: 25 menit</li>
                     </ul>
-                    {/* <p>Apabila tidak memenuhi syarat kelulusan, maka Anda harus menonton ulang video untuk mengulang pengerjaan kuis kembali. Manfaatkan waktu tersebut untuk mempelajari kembali kompetensi sebelumnya, ya.</p> */}
                     <h3>Selamat Mengerjakan!</h3>
+                    {!isPendingScore && (
+                        <div className="w-full border border-red-400 flex justify-between p-5 gap-10 rounded-lg bg-red-400/20">
+                            <h3 className="text-danger">
+                                Mohon menunggu untuk mengambil kuis kembali
+                            </h3>
+                            <p className="text-nowrap font-bold text-red-500">
+                                {timeLeft}
+                            </p>
+                        </div>
+                    )}
                 </div>
                 <div className="flex justify-end">
-                    <Button isDisabled={isPendingScore || isPendingSopIk} onPress={() => router.push(`/sopdanik/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
+                    <Button isDisabled={(isPendingScore || isPendingSopIk) || (timeLeft !== "selesai")} onPress={() => router.push(`/sopdanik/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
                 </div>
             </section>
             <section className="grid gap-5">

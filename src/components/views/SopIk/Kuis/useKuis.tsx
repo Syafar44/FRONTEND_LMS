@@ -1,6 +1,6 @@
-import scoreServices from "@/services/score.service"
 import scoreSopIkServices from "@/services/scoreSopIk.service"
 import sopIkServices from "@/services/sopIk.service"
+import { convertStandarTime } from "@/utils/date"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -39,6 +39,23 @@ const useKuis = () => {
         enabled: !!dataSopIk?._id
     })
 
+    const getScoreLasted = async () => {
+        const res = await scoreSopIkServices.getScoreAllByUser()
+        const { data } = res
+        return data.data
+    }
+
+    const {
+        data: dataScoreLasted,
+        isPending: isPendingScoreLasted,
+    } = useQuery({
+        queryKey: ["getScoreLasted"],
+        queryFn: getScoreLasted,
+        enabled: !!router.isReady
+    })
+
+    const targetTime = dataScoreLasted?.[0]?.createdAt
+
     return {
         id: dataSopIk?._id,
         dataSopIk,
@@ -46,6 +63,9 @@ const useKuis = () => {
         router,
         dataScore,
         isPendingScore,
+        dataScoreLasted,
+        isPendingScoreLasted,
+        targetTime,
     }
 }
 

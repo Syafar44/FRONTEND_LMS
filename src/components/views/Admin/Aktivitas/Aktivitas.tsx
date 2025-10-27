@@ -3,6 +3,7 @@ import { Tab, Tabs } from "@heroui/react";
 import TabKuis from "./TabKuis";
 import TabResume from "./TabResume";
 import useAktivitas from "./useAktivitas";
+import TabScore from "./TabScore";
 
 const Aktivitas = () => {
 
@@ -15,6 +16,9 @@ const Aktivitas = () => {
       </Tab>
       <Tab key="kuis" title="Recap Competency">
         <TabKuis />
+      </Tab>
+      <Tab key="sopik" title="Recap Sop & IK">
+        <TabScore />
       </Tab>
     </Tabs>
   );

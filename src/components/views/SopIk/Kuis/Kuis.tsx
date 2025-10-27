@@ -24,7 +24,7 @@ const Kuis = () => {
             <section className="grid gap-5">
                 <div className="grid gap-5">
                     <h1 className="text-xl font-bold">Informasi</h1>
-                    <p>{dataSopIk?.description} </p>
+                    <p>{dataSopIk?.description}</p>
                     <p>Terdapat pertanyaan yang harus dikerjakan dalam ujian. Beberapa ketentuan yang harus diperhatikan sebagai berikut:</p>
                     <ul className="list-disc list-inside pl-5">
                         <li>Syarat nilai kelulusan : 80%</li>

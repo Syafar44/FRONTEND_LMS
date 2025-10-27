@@ -2,7 +2,6 @@ import { Button } from "@heroui/react"
 import useKuis from "./useKuis"
 import { IScore } from "@/types/Score"
 import { convertTime } from "@/utils/date"
-import { useEffect, useState } from "react"
 
 const Kuis = () => {
     const {
@@ -12,32 +11,13 @@ const Kuis = () => {
         dataSopIk,
         isPendingSopIk,
         isPendingScore,
-        targetTime,
+        remainingTime,
+        formattedTime,
     } = useKuis()
-    const [timeLeft, setTimeLeft] = useState("selesai");
 
-    useEffect(() => {
-        if (!targetTime) return;
-        const utcDate = new Date(targetTime);
-        const localOffset = utcDate.getTimezoneOffset() * 60 * 1000;
-        const targetDate = new Date(utcDate.getTime() - localOffset);
-        const availableDate = new Date(targetDate.getTime() + 25 * 60 * 1000);
-        const timer = setInterval(() => {
-            const now = new Date();
-            const diff = availableDate.getTime() - now.getTime();
-            if (diff <= 0) {
-                clearInterval(timer);
-                setTimeLeft("selesai");
-                return;
-            }
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-            setTimeLeft(`${minutes}m ${seconds}d`);
-        }, 1000);
-        return () => clearInterval(timer);
-    }, [targetTime]);
+    console.log("remainingTime", remainingTime)
 
-    const timeDone = timeLeft === "selesai"
+    const timeDone = remainingTime !== 0
 
     return (
         <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">
@@ -51,23 +31,19 @@ const Kuis = () => {
                         <li>Durasi ujian: 25 menit</li>
                     </ul>
                     <h3>Selamat Mengerjakan!</h3>
-                    { !isPendingScore && (
-                        <>
-                            {timeLeft !== "selesai" && (    
-                                <div className="w-full border border-red-400 flex justify-between p-5 gap-10 rounded-lg bg-red-400/20">
-                                    <h3 className="text-danger">
-                                        Mohon menunggu untuk mengambil kuis kembali
-                                    </h3>
-                                    <p className="text-nowrap font-bold text-red-500">
-                                        {timeLeft}
-                                    </p>
-                                </div>
-                            )}
-                        </>
-                    )}
+                        {timeDone && (    
+                            <div className="w-full border border-red-400 flex justify-between p-5 gap-10 rounded-lg bg-red-400/20">
+                                <h3 className="text-danger">
+                                    Mohon menunggu untuk mengambil kuis kembali
+                                </h3>
+                                <p className="text-nowrap font-bold text-red-500">
+                                    {formattedTime}
+                                </p>
+                            </div>
+                        )}
                 </div>
                 <div className="flex justify-end">
-                    <Button isDisabled={(isPendingScore || isPendingSopIk) || !timeDone} onPress={() => router.push(`/sopdanik/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
+                    <Button isDisabled={isPendingScore || isPendingSopIk || timeDone} onPress={() => router.push(`/sopdanik/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
                 </div>
             </section>
             <section className="grid gap-5">

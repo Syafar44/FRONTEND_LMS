@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
 import Swal from "sweetalert2"
+import { COUNTDOWN } from "../useKuis"
 
 const LOCAL_STORAGE_KEY = "jawaban_kuis"
 const TOTAL_TIME = 300 * 5
@@ -127,6 +128,8 @@ const useStart = () => {
                 total_score: score,
             });
             setIsLoading(true);
+            const now = Date.now();
+            localStorage.setItem(COUNTDOWN, now.toString());
             localStorage.removeItem(TIMER_STORAGE_KEY);
             router.replace(`/sopdanik/kuis/recap/${id}`);
         } catch (error) {

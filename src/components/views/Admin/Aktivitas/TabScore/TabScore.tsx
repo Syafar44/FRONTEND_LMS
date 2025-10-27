@@ -16,8 +16,8 @@ const TabScore = () => {
     isPendingScore,
     isRefetchingScore,
 
-    dataCompetency,
-    isPendingCompetency,
+    dataSopIk,
+    isPendingSopIk,
 
     handleDownloadExcel,
     sopik,
@@ -79,7 +79,7 @@ const TabScore = () => {
     [push],
   );
 
-  const listCompetency = dataCompetency?.data || [];
+  const listCompetency = dataSopIk?.data || [];
 
   return (
     <section>
@@ -115,7 +115,7 @@ const TabScore = () => {
           columns={COLUMN_LISTS}
           data={dataScore?.data || []}
           emptyContent="Score is empty"
-          isLoading={isPendingScore || isRefetchingScore }
+          isLoading={isPendingScore || isRefetchingScore || isPendingSopIk }
           renderCell={renderCell}
           totalPages={dataScore?.pagination?.totalPages}
           showSearch={false}

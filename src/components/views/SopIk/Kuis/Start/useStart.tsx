@@ -102,11 +102,13 @@ const useStart = () => {
     })
     
     const handleRecap = useCallback(async () => {
-        if (!id || !jumlahSoal || !subCompetency || !subCompetency) {
+        if (!id || !jumlahSoal || !subCompetency) {
             return;
         }
+        if (isLoading) return;
 
         try {
+            setIsLoading(true);
             const score = Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0;
             const total = Number(jumlahSoal);
             const percent = (score / total) * 100;
@@ -127,13 +129,14 @@ const useStart = () => {
                 total_question: total,
                 total_score: score,
             });
-            setIsLoading(true);
             const now = Date.now();
             localStorage.setItem(COUNTDOWN, now.toString());
             localStorage.removeItem(TIMER_STORAGE_KEY);
             router.replace(`/sopdanik/kuis/recap/${id}`);
         } catch (error) {
             console.error("Gagal menyelesaikan recap:", error);
+        } finally {
+            setIsLoading(false);
         }
     }, [
         id,

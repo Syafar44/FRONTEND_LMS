@@ -34,19 +34,19 @@ const useTabScore = () => {
     enabled: !!router.isReady && !!currentPage && !!currentLimit,
   });
 
-  const getCompetency = async() => {
+  const getSopIk = async() => {
     const res = await sopIkServices.getAllSopIk()
     const { data } = res
     return data
   } 
 
   const {
-    data: dataCompetency,
-    isPending: isPendingCompetency,
-    isRefetching: isRefetchingCompetency,
+    data: dataSopIk,
+    isPending: isPendingSopIk,
+    isRefetching: isRefetchingSopIk,
   } = useQuery({
-    queryKey: ["Competency"],
-    queryFn: () => getCompetency(),
+    queryKey: ["SopIk"],
+    queryFn: () => getSopIk(),
     enabled: !!router.isReady,
   });
 
@@ -79,19 +79,9 @@ const useTabScore = () => {
     return data.data;
   }
 
-  const {
-    data: dataExportFinal,
-    refetch: refetchExportFinal,
-  } = useQuery({
-    queryKey: ["FINAL", sopik],
-    queryFn: () => getScoreFinal(),
-    enabled: !!router.isReady && !!sopik,
-  });
-
   useEffect(() => {
-    if (isRefetchingCompetency) {
+    if (isRefetchingSopIk) {
       refetchExport();
-      refetchExportFinal();
     }
   })
 
@@ -146,8 +136,8 @@ const useTabScore = () => {
     selectedId,
     setSelectedId,
 
-    dataCompetency,
-    isPendingCompetency,
+    dataSopIk,
+    isPendingSopIk,
 
     handleDownloadExcel,
 

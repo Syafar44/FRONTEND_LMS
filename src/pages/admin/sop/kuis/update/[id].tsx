@@ -1,16 +1,16 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailKuisSopIK from "@/components/views/Admin/DetailKuisSopIK";
+import DetailKuisSop from "@/components/views/Admin/DetailKuisSop";
 
-const AdminDetailKuisSopIKPage = () => {
+const AdminDetailKuisSopPage = () => {
   return (
     <DashboardLayout
       title="Detail Kuis Core Competency"
       description="List of all Detail Core Competency, create new Competency, and manage existing Detail Core."
       type="admin"
     >
-      <DetailKuisSopIK />
+      <DetailKuisSop />
     </DashboardLayout>
   );
 };
 
-export default AdminDetailKuisSopIKPage;
+export default AdminDetailKuisSopPage;

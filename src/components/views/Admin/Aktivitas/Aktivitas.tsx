@@ -4,6 +4,8 @@ import TabKuis from "./TabKuis";
 import TabResume from "./TabResume";
 import useAktivitas from "./useAktivitas";
 import TabScore from "./TabScore";
+import TabScoreSop from "./TabScoreSop";
+import TabScoreIk from "./TabScoreIk";
 
 const Aktivitas = () => {
 
@@ -17,8 +19,14 @@ const Aktivitas = () => {
       <Tab key="kuis" title="Recap Competency">
         <TabKuis />
       </Tab>
-      <Tab key="sopik" title="Recap Sop & IK">
+      <Tab key="sopik" title="Recap Sop & Ik">
         <TabScore />
+      </Tab>
+      <Tab key="sop" title="Recap Sop">
+        <TabScoreSop />
+      </Tab>
+      <Tab key="ik" title="Recap Ik">
+        <TabScoreIk />
       </Tab>
     </Tabs>
   );

@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailSopIk from "@/components/views/Admin/DetailSopIk";
+import DetailIk from "@/components/views/Admin/DetailIk";
 
 const DetailAdminSopIkPage = () => {
     return (
@@ -8,7 +8,7 @@ const DetailAdminSopIkPage = () => {
             description="Ini adalah halaman untuk mengedit SOP & IK kepada pengguna"
             type="admin"
         >
-            <DetailSopIk />
+            <DetailIk />
         </DashboardLayout>
     );
 };

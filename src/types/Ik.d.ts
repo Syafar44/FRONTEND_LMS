@@ -1,7 +1,7 @@
 interface IIk {
     _id?: string
-    title: string
-    description: string
+    title?: string
+    description?: string
     file?: string
     duration?: string
     countdown?: string

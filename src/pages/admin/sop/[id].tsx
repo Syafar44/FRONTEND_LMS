@@ -1,16 +1,16 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailSopIk from "@/components/views/Admin/DetailSopIk";
+import DetailSop from "@/components/views/Admin/DetailSop";
 
-const DetailAdminSopIkPage = () => {
+const DetailAdminSopPage = () => {
     return (
         <DashboardLayout
             title="Detail SOP & IK LMS Panglima"
             description="Ini adalah halaman untuk mengedit SOP & IK kepada pengguna"
             type="admin"
         >
-            <DetailSopIk />
+            <DetailSop />
         </DashboardLayout>
     );
 };
 
-export default DetailAdminSopIkPage;
+export default DetailAdminSopPage;

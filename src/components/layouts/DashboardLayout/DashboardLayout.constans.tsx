@@ -40,12 +40,12 @@ const SIDEBAR_ADMIN = [
 ];
 
 const SIDEBAR_MEMBER = [
-  {
-    key: "sop&ik",
-    label: "SOP & IK",
-    href: "/sopdanik",
-    icon: <PiIdentificationBadge />,
-  },
+  // {
+  //   key: "sop&ik",
+  //   label: "SOP & IK",
+  //   href: "/sopdanik",
+  //   icon: <PiIdentificationBadge />,
+  // },
   {
     key: "kajian online",
     label: "Kajian Online",

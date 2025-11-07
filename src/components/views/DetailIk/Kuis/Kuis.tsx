@@ -18,8 +18,6 @@ const Kuis = () => {
 
     const timeDone = remainingTime !== 0
 
-    console.log("dataIk", dataIk)
-
     return (
         <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">
             <section className="grid gap-5">

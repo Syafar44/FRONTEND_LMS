@@ -4,7 +4,7 @@ import Ik from "@/components/views/Ik"
 
 const IkPage = () => {
     return (
-        <DashboardLayout title="Ik Online" type="user">
+        <DashboardLayout title="Instruksi Kerja (IK)" type="user">
             <Ik />
         </DashboardLayout>
     )

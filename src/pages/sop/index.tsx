@@ -3,7 +3,7 @@ import Sop from "@/components/views/Sop"
 
 const SopPage = () => {
     return (
-        <DashboardLayout title="SOP" type="user">
+        <DashboardLayout title="Standard Operating Procedure (SOP)" type="user">
             <Sop />
         </DashboardLayout>
     )

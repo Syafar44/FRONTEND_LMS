@@ -132,7 +132,7 @@ const useStart = () => {
             const now = Date.now();
             localStorage.setItem('countdown', now.toString());
             localStorage.removeItem(TIMER_STORAGE_KEY);
-            router.replace(`/Ik/kuis/recap/${id}`);
+            router.replace(`/ik/kuis/recap/${id}`);
         } catch (error) {
             console.error("Gagal menyelesaan recap:", error);
         } finally {

@@ -2,7 +2,6 @@ import instance from "@/libs/axios/instance";
 import endpoint from "./endpoint.constant";
 import { IScoreSopIk } from "@/types/SopIk";
 
-
 const scoreSopIkServices = {
   getScoreAll: (params?: string) => instance.get(`${endpoint.SCORE_SOP_IK}?${params}`),
   getScoreAllByUser: () => instance.get(`${endpoint.SCORE_SOP_IK}-user`),

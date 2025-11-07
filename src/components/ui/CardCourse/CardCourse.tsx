@@ -31,10 +31,10 @@ const CardCourse = (props: PropTypes) => {
         history,
     } = props
 
-  return (
+return (
     <Card>
         <CardBody className="relative p-0">
-             {(!isCompleted && (isLock || isAccess === false)) && (
+            {(!isCompleted && (isLock || isAccess === false)) && (
                 <div className="bg-white/30 absolute h-full w-full top-0 border z-40 flex justify-center items-center">
                         <BiSolidLock size={100} className="font-bold text-primary "/>
                 </div>
@@ -44,7 +44,7 @@ const CardCourse = (props: PropTypes) => {
                     <RiTimerLine size={100} className="font-bold text-primary "/>   
                 </div>
             )}
-            <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}${history !== undefined ? `?sub=${history}` : ""}` : `/kajian-online/${data?._id}`} className="grid gap-3 p-3">
+            <Link href={type === "course" ? `/kelas-kompetensi/${competency}/${data?._id}${history !== undefined ? `?sub=${history}` : ""}` : type === 'kajian' ? `/kajian-online/${data?._id}` : `/ik/${data?._id}`} className="grid gap-3 p-3">
                 {data?.image === undefined ? (
                     <Image src={"https://res.cloudinary.com/doyafjjum/image/upload/v1752723514/y9DpT_eac19z.jpg"} alt={"Load Image"} className="w-full h-auto rounded-lg" width={1000} height={1000} />
                 ) :(

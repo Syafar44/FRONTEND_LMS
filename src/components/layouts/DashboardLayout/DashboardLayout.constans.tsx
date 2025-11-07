@@ -1,4 +1,4 @@
-import { PiBookOpenLight, PiCertificateLight, PiUserCircleLight, PiClipboardTextLight, PiBrainLight, PiToolboxLight, PiGearLight, PiUsersThreeLight, PiStackLight, PiBellRingingLight, PiIdentificationBadge } from "react-icons/pi";
+import { PiBookOpenLight, PiCertificateLight, PiUserCircleLight, PiClipboardTextLight, PiBrainLight, PiToolboxLight, PiGearLight, PiUsersThreeLight, PiStackLight, PiBellRingingLight, PiIdentificationBadge, PiBookBookmark, PiGear } from "react-icons/pi";
 
 const SIDEBAR_ADMIN = [
   {
@@ -114,4 +114,34 @@ const SUB_SIDBAR_ADMIN = [
   },
 ]
 
-export { SIDEBAR_ADMIN, SIDEBAR_MEMBER, SUB_SIDBAR_ADMIN, SUB_SIDBAR_MEMBER };
+const SUB_SIDBAR2_MEMBER = [
+  {
+    key: "sop",
+    label: "SOP",
+    href: "/sop",
+    icon: <PiBookBookmark size={20} />,
+  },
+  {
+    key: "ik",
+    label: "IK",
+    href: "/ik",
+    icon: <PiGear size={20} />,
+  },
+]
+
+const SUB_SIDBAR2_ADMIN = [
+  {
+    key: "sop",
+    label: "SOP",
+    href: "/admin/sop",
+    icon: <PiBookBookmark size={20} />,
+  },
+  {
+    key: "ik",
+    label: "IK",
+    href: "/admin/ik",
+    icon: <PiGear size={20} />,
+  },
+]
+
+export { SIDEBAR_ADMIN, SIDEBAR_MEMBER, SUB_SIDBAR_ADMIN, SUB_SIDBAR_MEMBER, SUB_SIDBAR2_ADMIN, SUB_SIDBAR2_MEMBER };

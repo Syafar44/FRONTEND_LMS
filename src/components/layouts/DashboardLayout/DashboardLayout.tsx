@@ -1,7 +1,7 @@
 import PageHead from "@/components/commons/PageHead";
 import { ReactNode, useState } from "react";
 import DashboardLayoutSidebar from "./DashboardLayoutSidebar";
-import { SIDEBAR_ADMIN, SIDEBAR_MEMBER, SUB_SIDBAR_ADMIN, SUB_SIDBAR_MEMBER } from "./DashboardLayout.constans";
+import { SIDEBAR_ADMIN, SIDEBAR_MEMBER, SUB_SIDBAR2_ADMIN, SUB_SIDBAR2_MEMBER, SUB_SIDBAR_ADMIN, SUB_SIDBAR_MEMBER } from "./DashboardLayout.constans";
 import { Navbar, NavbarMenuToggle } from "@heroui/react";
 
 interface PropTypes {
@@ -23,6 +23,7 @@ const DashboardLayout = (props: PropTypes) => {
           type={type}
           sidebarItems={type === "admin" ? SIDEBAR_ADMIN : SIDEBAR_MEMBER}
           subSidebarItems={type === "admin" ? SUB_SIDBAR_ADMIN : SUB_SIDBAR_MEMBER}
+          subSidebar2Items={type === "admin" ? SUB_SIDBAR2_ADMIN : SUB_SIDBAR2_MEMBER}
           isOpen={open}
         />
         <div className="h-screen w-full overflow-y-auto p-5 lg:p-8">

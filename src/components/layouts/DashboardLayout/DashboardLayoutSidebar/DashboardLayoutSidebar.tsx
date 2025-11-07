@@ -6,9 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { JSX } from "react";
-import { CiLogout, CiViewList } from "react-icons/ci";
-import { IoGridOutline } from "react-icons/io5";
-import { PiGridFourLight, PiListDashesLight } from "react-icons/pi";
+import { CiLogout } from "react-icons/ci";
+import { PiGridFourLight, PiIdentificationBadge, PiListDashesLight } from "react-icons/pi";
 
 interface SidebarItem {
   key: string;
@@ -21,11 +20,12 @@ interface PropTypes {
   type: string
   sidebarItems: SidebarItem[];
   subSidebarItems?: SidebarItem[];
+  subSidebar2Items?: SidebarItem[];
   isOpen: boolean;
 }
 
 const DashboardLayoutSidebar = (props: PropTypes) => {
-  const { sidebarItems, subSidebarItems, isOpen, type } = props;
+  const { sidebarItems, subSidebarItems, subSidebar2Items, isOpen, type } = props;
   const router = useRouter();
   return (
     <div
@@ -74,6 +74,36 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
             startContent={<PiListDashesLight size={25} />}
           >
             {subSidebarItems?.map((item) => {
+              return (
+                <Button
+                  key={item.key}
+                  fullWidth
+                  variant="light"
+                  onPress={() => window.location.href = item.href}
+                  className={cn("w-full rounded-md flex justify-start mb-2", {
+                    "bg-primary ": router.pathname.startsWith(`${item.href}`),
+                  })}
+                  startContent={item.icon}
+                >
+                  {item.label}
+                </Button>
+              )
+            })}
+          </AccordionItem>
+        </Accordion>
+        <Accordion key="kelas-kompetensi">
+          <AccordionItem 
+            className="mt-2 px-2 rounded-lg w-full -translate-x-1"
+            key="kelas-kompetensi"
+            aria-label="Kelas Kompetensi"
+            title={
+              <p className="flex items-center text-sm">
+                SOP IK
+              </p>
+            }
+            startContent={<PiIdentificationBadge size={25} />}
+          >
+            {subSidebar2Items?.map((item) => {
               return (
                 <Button
                   key={item.key}

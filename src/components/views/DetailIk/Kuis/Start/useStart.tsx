@@ -9,6 +9,7 @@ import Swal from "sweetalert2"
 const LOCAL_STORAGE_KEY = "jawaban_kuis"
 const TOTAL_TIME = 300 * 2
 const TIMER_STORAGE_KEY = "kuis_timer_start"
+const COUNTDOWN = "countdown_ik"
 
 const useStart = () => {
     const router = useRouter()
@@ -130,7 +131,7 @@ const useStart = () => {
                 total_score: score,
             });
             const now = Date.now();
-            localStorage.setItem('countdown', now.toString());
+            localStorage.setItem(COUNTDOWN, now.toString());
             localStorage.removeItem(TIMER_STORAGE_KEY);
             router.replace(`/ik/kuis/recap/${id}`);
         } catch (error) {

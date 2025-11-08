@@ -9,6 +9,7 @@ import Swal from "sweetalert2"
 const LOCAL_STORAGE_KEY = "jawaban_kuis"
 const TOTAL_TIME = 300 * 2
 const TIMER_STORAGE_KEY = "kuis_timer_start"
+const COUNTDOWN = "countdown_sop"
 
 const useStart = () => {
     const router = useRouter()
@@ -130,7 +131,7 @@ const useStart = () => {
                 total_score: score,
             });
             const now = Date.now();
-            localStorage.setItem('countdown', now.toString());
+            localStorage.setItem(COUNTDOWN, now.toString());
             localStorage.removeItem(TIMER_STORAGE_KEY);
             router.replace(`/sop/kuis/recap/${id}`);
         } catch (error) {
@@ -146,7 +147,7 @@ const useStart = () => {
         router
     ]);
 
-    const [remainingTime, setRemainingTime] = useState(TOTAL_TIME)
+    const [remainingTime, setRemainingTime] = useState(Number(subCompetency?.duration))
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -163,7 +164,7 @@ const useStart = () => {
         const interval = setInterval(() => {
             const now = Date.now();
             const elapsedSeconds = Math.floor((now - start) / 1000);
-            const remaining = TOTAL_TIME - elapsedSeconds;
+            const remaining = Number(subCompetency?.duration) - elapsedSeconds;
 
             if (remaining <= 0) {
                 handleRecap();

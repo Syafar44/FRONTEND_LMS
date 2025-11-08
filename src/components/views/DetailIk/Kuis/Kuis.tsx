@@ -18,6 +18,8 @@ const Kuis = () => {
 
     const timeDone = remainingTime !== 0
 
+    console.log("dataIk:", dataIk);
+
     return (
         <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">
             <section className="grid gap-5">
@@ -35,15 +37,19 @@ const Kuis = () => {
                         <li>Durasi ujian: 10 menit</li>
                     </ul>
                     <h3>Selamat Mengerjakan!</h3>
-                        {timeDone && (    
-                            <div className="w-full border border-red-400 flex justify-between p-5 gap-10 rounded-lg bg-red-400/20">
-                                <h3 className="text-danger">
-                                    Mohon menunggu untuk mengambil kuis kembali
-                                </h3>
-                                <p className="text-nowrap font-bold text-red-500">
-                                    {formattedTime}
-                                </p>
-                            </div>
+                        {!isPendingIk && (
+                            <>
+                                {timeDone && (    
+                                    <div className="w-full border border-red-400 flex justify-between p-5 gap-10 rounded-lg bg-red-400/20">
+                                        <h3 className="text-danger">
+                                            Mohon menunggu untuk mengambil kuis kembali
+                                        </h3>
+                                        <p className="text-nowrap font-bold text-red-500">
+                                            {formattedTime}
+                                        </p>
+                                    </div>
+                                )}
+                            </>
                         )}
                 </div>
                 <div className="flex justify-end">

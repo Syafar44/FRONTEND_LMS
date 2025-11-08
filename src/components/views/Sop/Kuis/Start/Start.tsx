@@ -28,7 +28,7 @@ const Start = () => {
                     <p className="md:text-xl">{subCompetency?.title}</p>
                 </div>
                 <h1 className={`md:pr-10 md:text-2xl ${remainingTime <= 60 ? 'text-red-500' : ''}`}>
-                    {formattedTime}
+                    {(!isPendingSubCompetency ? formattedTime : "memuat waktu...")}
                 </h1>
             </div>
             <div className="flex flex-col md:flex-row gap-5 md:gap-10 md:p-5">

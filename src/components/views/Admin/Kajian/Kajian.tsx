@@ -46,9 +46,12 @@ const Kajian = () => {
         case "actions":
           return (
             <DropdownAction
-              hideButtonUpdate={true}
-              onPressButtonDetail={() =>
+              textButton="List Kuis"
+              onPressButtonUpdate={() =>
                 push(`/admin/kajian-online/${kajian._id}`)
+              }
+              onPressButtonDetail={() =>
+                push(`/admin/kajian-online/kuis/${kajian._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${kajian._id}`);

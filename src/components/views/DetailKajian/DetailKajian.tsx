@@ -1,6 +1,5 @@
 import { Button, Skeleton } from "@heroui/react";
 import useDetailKajian from "./useDetailKajian";
-import PageHead from "@/components/commons/PageHead";
 import YouTube from "react-youtube";
 
 const DetailKajian = () => {
@@ -39,10 +38,10 @@ const DetailKajian = () => {
                     {isView && (
                         <div className="flex w-full">
                             <Button
-                                onPress={() => router.push(`/kajian-online/resume/${dataKajian?._id}`)}
+                                onPress={() => router.push(`/kajian-online/kuis/${dataKajian?._id}`)}
                                 className="bg-accent text-primary w-full shadow-md"
                             >
-                                ISI RESUME
+                                Kerjakan Kuis
                             </Button>
                         </div>
                     )}

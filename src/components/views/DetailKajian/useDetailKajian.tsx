@@ -1,11 +1,7 @@
-import useChangeUrl from "@/hooks/useChangeUrl"
 import kajianServices from "@/services/kajian.service"
-import scoreServices from "@/services/score.service"
-import videoServices from "@/services/video.service"
-import { IScore } from "@/types/Score"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 const useDetailKajian = () => {
     const router = useRouter()

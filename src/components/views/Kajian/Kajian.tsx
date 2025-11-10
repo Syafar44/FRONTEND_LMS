@@ -6,7 +6,7 @@ import CardCourse from "@/components/ui/CardCourse"
 import useChangeUrl from "@/hooks/useChangeUrl"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { IKajian } from "@/types/Kajian"
+import { IKajian, IScoreKajian } from "@/types/Kajian"
 import { IResume } from "@/types/Resume"
 
 const Kajian = () => {
@@ -15,6 +15,8 @@ const Kajian = () => {
         isPendingKajian,
         isFetchingKajian,
         dataResume,
+        dataScore,
+        isPendingScore,
     } = useKajian()
 
     const {
@@ -32,7 +34,11 @@ const Kajian = () => {
         }
       }, [isReady]);
 
-    const isPending =  isPendingKajian
+    const isPending =  isPendingKajian || isPendingScore
+
+    console.log("dataKajian", dataKajian);
+    console.log("dataResume", dataResume);
+    console.log("dataScore", dataScore);
 
     return (
         <div className="grid gap-5">
@@ -49,12 +55,17 @@ const Kajian = () => {
                     <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-4">
                         {dataKajian?.data.map((kajian: IKajian) => {
                             const resume = dataResume ? dataResume?.data.some((item: IResume) => item.kajian === kajian._id) : false
+                            const score = dataScore?.data?.some(
+                                (item: IScoreKajian) =>
+                                    item.byKajian === kajian._id &&
+                                    (item.total_score / item.total_question) * 100 >= 80
+                                ) || false;
                             return (
                             <CardCourse
                                 key={kajian._id}
                                 data={kajian}
                                 type="kajian"
-                                isPass={resume}
+                                isPass={resume || score}
                             />)
                         })}
                         <div className="flex justify-center md:justify-end">

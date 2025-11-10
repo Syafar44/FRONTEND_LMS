@@ -16,8 +16,8 @@ const useResume = () => {
     const { setToaster } = useContext(ToasterContext);
 
     const schema = yup.object().shape({
-      kajian: yup.string(),
-      resume: yup.string().required("Please input resume"),
+        kajian: yup.string(),
+        resume: yup.string().required("Please input resume"),
     });
 
     const getUser = async () => {

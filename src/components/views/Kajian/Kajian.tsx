@@ -36,10 +36,6 @@ const Kajian = () => {
 
     const isPending =  isPendingKajian || isPendingScore
 
-    console.log("dataKajian", dataKajian);
-    console.log("dataResume", dataResume);
-    console.log("dataScore", dataScore);
-
     return (
         <div className="grid gap-5">
             <section>

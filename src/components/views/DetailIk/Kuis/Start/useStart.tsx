@@ -54,8 +54,6 @@ const useStart = () => {
         enabled: !!id
     });
 
-    console.log("dataKuis:", dataKuis);
-
     const handleSelect = (select: number, finish: boolean) => {
         if (!finish) {
             setNumberSoal((prev) => prev + 1)

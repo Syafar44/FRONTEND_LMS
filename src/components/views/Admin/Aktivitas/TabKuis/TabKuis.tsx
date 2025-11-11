@@ -97,7 +97,6 @@ const TabKuis = () => {
             variant="bordered"
             onSelectionChange={(keys) => {
               const value = Array.from(keys)[0] as string; 
-              console.log(value)
               setCompetency(value);
             }}
           >

@@ -11,11 +11,8 @@ const DetailCertificate = () => {
     isPendingCertificateDetail,
   } = useDetailCertificate();
 
-  console.log("dataCertificateDetail", dataCertificateDetail)
-
   const res = dataCertificateDetail
 
-  console.log("res", res?.id)
 
 
   const link = `https://lms.panglimaroqiiqugroup.com/certificate/${res?.id}`

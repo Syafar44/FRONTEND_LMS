@@ -11,8 +11,6 @@ const DetailIk = () => {
     isPendingMutateUpdateIk,
     isSuccessMutateUpdateIk,
   } = useDetailIk();
-
-  console.log("dataIk", dataIk);
   return (
     <Tabs aria-label="Options">
       <Tab key="video" title="Video">

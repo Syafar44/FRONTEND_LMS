@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import useHome from "./useHome";
 import Swal from "sweetalert2";
+import { IScoreKajian } from "@/types/Kajian";
 
 const Home = () => {
     const router = useRouter()
@@ -29,9 +30,19 @@ const Home = () => {
         required,
 
         dataLkp,
+
+        dataScore,
+        isPendingScore,
     } = useHome()
 
     const isPass = dataResume?.isPass
+
+    const isPassScore = dataScore?.some(
+        (item: IScoreKajian) =>
+            item.byKajian === dataKajian?._id 
+        &&
+            (item.total_score / item.total_question) * 100 >= 80
+        ) || false;
     
     const competency = [
         {
@@ -166,7 +177,7 @@ const Home = () => {
                 <h3 className="font-bold text-lg">Kajian Minggu Ini</h3>
                 <div className="grid md:grid-cols-3 xl:grid-cols-4">
                     {!isPendingKajian ? (
-                        <CardCourse type="kajian" data={dataKajian} isPass={isPass}/>
+                        <CardCourse type="kajian" data={dataKajian} isPass={isPass || isPassScore}/>
                     ): (
                         <Skeleton className="w-full h-[200px] rounded-lg" />
                     )}

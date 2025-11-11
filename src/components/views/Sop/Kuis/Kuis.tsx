@@ -22,10 +22,6 @@ const Kuis = () => {
         window.open(`${dataSop.file}`, "_blank");
     };
 
-    console.log("timeDone", timeDone);
-
-    console.log("formattedTime", formattedTime);
-
     return (
         <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">
             <section className="grid gap-5">

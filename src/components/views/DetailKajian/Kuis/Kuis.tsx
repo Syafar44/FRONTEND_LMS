@@ -16,7 +16,6 @@ const Kuis = () => {
     } = useKuis()
 
     const timeDone = remainingTime !== 0
-    console.log("dataKajian", dataKajian);
 
     return (
         <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">

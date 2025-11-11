@@ -62,8 +62,6 @@ const Certificate = () => {
     [push],
   );
 
-  console.log("dataCertificate", dataCertificate?.data)
-
   return (
     <section>
       {Object.keys(query).length > 0 && (

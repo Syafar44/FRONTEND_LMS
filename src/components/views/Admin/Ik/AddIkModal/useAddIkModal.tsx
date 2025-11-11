@@ -107,11 +107,7 @@ const useAddIkModal = () => {
     return match ? match[1] : undefined;
   };
 
-  console.log("errors", errors)
-
   const handleAddIk = (data: IIk) => {
-
-    console.log("data video", data.video);
     const payload = {
       ...data,
       file: `https://drive.google.com/uc?export=download&id=${extractDriveId(`${data.file}`)}`,

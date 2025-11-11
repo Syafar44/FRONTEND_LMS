@@ -15,8 +15,6 @@ const Kuis = () => {
         formattedTime,
     } = useKuis()
 
-    console.log("remainingTime", remainingTime)
-
     const timeDone = remainingTime !== 0
 
     return (

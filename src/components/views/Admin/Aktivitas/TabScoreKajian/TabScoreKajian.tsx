@@ -52,7 +52,6 @@ const TabScoreKajian = () => {
   const renderCell = useCallback(
     (score: ScoreType, columnKey: Key) => {
       const cellValue = score[columnKey as keyof typeof score];
-      console.log("score", score)
 
       switch (columnKey) {
         case "createdAt":
@@ -91,7 +90,6 @@ const TabScoreKajian = () => {
             variant="bordered"
             onSelectionChange={(keys) => {
               const value = Array.from(keys)[0] as string; 
-              console.log(value)
               setKajian(value);
             }}
           >

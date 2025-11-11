@@ -31,8 +31,6 @@ const Ik = () => {
 
     const isPending =  isPendingIk
 
-    console.log("dataIk", dataIk);
-
     return (
         <div className="grid gap-5">
             <section>

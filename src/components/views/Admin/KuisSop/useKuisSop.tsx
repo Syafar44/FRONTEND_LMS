@@ -33,8 +33,6 @@ const useKuisSop = () => {
     enabled: router.isReady && !!id,
   });
 
-  console.log("dataKuis", dataKuis?.data)
-
   const getSop = async () => {
     const res = await sopServices.getSopById(`${id}`)
     const { data } = res;

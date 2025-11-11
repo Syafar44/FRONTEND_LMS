@@ -33,8 +33,6 @@ const useKuisSopIk = () => {
     enabled: router.isReady && !!id,
   });
 
-  console.log("dataKuis", dataKuis?.data)
-
   const getSopIk = async () => {
     const res = await sopIkServices.getSopIkById(`${id}`)
     const { data } = res;

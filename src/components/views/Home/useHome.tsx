@@ -4,6 +4,7 @@ import kajianServices from "@/services/kajian.service";
 import LkpServices from "@/services/lkp.service";
 import resumeServices from "@/services/resume.service";
 import saveServices from "@/services/save.service";
+import scoreKajianServices from "@/services/scoreKajian.service";
 import subCompetencyServices from "@/services/subCompetency.service";
 import { ICompetency } from "@/types/Competency";
 import { useQuery } from "@tanstack/react-query";
@@ -117,6 +118,18 @@ const useHome = () => {
     enabled: !!router.isReady || !!dataUser
   })
 
+  const getAllScore = async() => {
+      const res = await scoreKajianServices.getScoreAllByUser()
+      const { data } = res
+      return data.data
+  }
+  
+  const { data: dataScore, isPending: isPendingScore } = useQuery({
+      queryKey: ["getAllScore", router.isReady],
+      queryFn: getAllScore,
+      enabled: !!router.isReady
+  })
+
   const access = dataUser?.data?.access;
 
   const required = Array.isArray(dataAllCompetency?.data)
@@ -162,6 +175,9 @@ const useHome = () => {
     required,
 
     dataLkp,
+
+    dataScore,
+    isPendingScore,
   };
 };
 

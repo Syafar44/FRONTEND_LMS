@@ -74,8 +74,6 @@ const useTabScoreKajian = () => {
       refetchExport();
     }
   })
-  console.log("kajian", kajian);
-  console.log("dataExport", dataExport);
 
   const handleDownloadExcel = () => {
   if (!dataExport || dataExport.length === 0) return;

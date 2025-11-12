@@ -1,12 +1,12 @@
 import { PiBookOpenLight, PiCertificateLight, PiUserCircleLight, PiClipboardTextLight, PiBrainLight, PiToolboxLight, PiGearLight, PiUsersThreeLight, PiStackLight, PiBellRingingLight, PiIdentificationBadge, PiBookBookmark, PiGear } from "react-icons/pi";
 
 const SIDEBAR_ADMIN = [
-  {
-    key: "sop&ik",
-    label: "SOP & IK",
-    href: "/admin/sopdanik",
-    icon: <PiIdentificationBadge />,
-  },
+  // {
+  //   key: "sop&ik",
+  //   label: "SOP & IK",
+  //   href: "/admin/sopdanik",
+  //   icon: <PiIdentificationBadge />,
+  // },
   {
     key: "kajian online",
     label: "Kajian Online",

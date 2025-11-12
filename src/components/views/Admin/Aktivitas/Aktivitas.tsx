@@ -16,15 +16,15 @@ const Aktivitas = () => {
       <Tab key="kajian" title="Recap Kajian">
         <TabScoreKajian /> 
       </Tab>
-      <Tab key="resume" title="Resume Kajian">
+      {/* <Tab key="resume" title="Resume Kajian">
         <TabResume /> 
-      </Tab>
+      </Tab> */}
       <Tab key="kuis" title="Recap Competency">
         <TabKuis />
       </Tab>
-      <Tab key="sopik" title="Recap Sop & Ik">
+      {/* <Tab key="sopik" title="Recap Sop & Ik">
         <TabScore />
-      </Tab>
+      </Tab> */}
       <Tab key="sop" title="Recap Sop">
         <TabScoreSop />
       </Tab>

@@ -38,11 +38,17 @@ const useStart = () => {
         const params = `limit=${99999}`
         const res = await kuisKajianServices.getKuisKajianByKajian(`${id}`, params)
         const { data } = res
-        setJumlahSoal(data.data.length)
+
+        const semuaSoal = data.data;
+        const MAX_SOAL = 5;
+
+        setJumlahSoal(Math.min(semuaSoal.length, MAX_SOAL));
+
         if (listSoal.length === 0) {
-            const soalDiacak = acakArray(data.data)
-            setListSoal(soalDiacak)
-            return soalDiacak[numberSoal - 1]
+            const soalDiacak = acakArray(semuaSoal)
+            const limaSoal = soalDiacak.slice(0, MAX_SOAL);
+            setListSoal(limaSoal)
+            return limaSoal[numberSoal - 1]
         } else {
             return listSoal[numberSoal - 1]
         }

@@ -36,3 +36,4 @@ const Aktivitas = () => {
 };
 
 export default Aktivitas;
+

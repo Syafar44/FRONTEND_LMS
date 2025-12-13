@@ -160,7 +160,7 @@ const TabRegister = () => {
                     }}
                     >
                     {access_list.map((item) => (
-                        <SelectItem key={item.key} value={item.key}>
+                        <SelectItem key={String(item.key)}>
                             {item.label}
                         </SelectItem>
                     ))}

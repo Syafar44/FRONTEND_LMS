@@ -94,7 +94,7 @@ const DataTable = (props: PropTypes) => {
             disallowEmptySelection
           >
             {LIMIT_LISTS.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
+              <SelectItem key={String(item.value)}>
                 {item.label}
               </SelectItem>
             ))}

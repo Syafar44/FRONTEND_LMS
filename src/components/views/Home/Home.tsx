@@ -136,7 +136,7 @@ const Home = () => {
                         onChange={(e) => handleChange(e.target.value)}
                         >
                         {competency.map((item) => (
-                            <SelectItem key={item.label} value={item.label}>
+                            <SelectItem key={String(item.label)}>
                                 {item.label}
                             </SelectItem>
                         ))}

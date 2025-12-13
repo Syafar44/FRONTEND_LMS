@@ -186,16 +186,16 @@ const InfoTab = (props: PropTypes) => {
                       onChange(value.anchorKey)
                     }}
                   >
-                    <SelectItem key="1" value="1">
+                    <SelectItem key="1">
                       1
                     </SelectItem>
-                    <SelectItem key="2" value="2">
+                    <SelectItem key="2">
                       2
                     </SelectItem>
-                    <SelectItem key="3" value="3">
+                    <SelectItem key="3">
                       3
                     </SelectItem>
-                    <SelectItem key="4" value="4">
+                    <SelectItem key="4">
                       4
                     </SelectItem>
                   </Select>

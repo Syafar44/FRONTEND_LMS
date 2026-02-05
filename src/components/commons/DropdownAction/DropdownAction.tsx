@@ -8,7 +8,7 @@ import {
 import { CiMenuKebab } from "react-icons/ci";
 
 interface PropTypes {
-  onPressButtonDetail: () => void;
+  onPressButtonDetail?: () => void;
   onPressButtonUpdate?: () => void;
   onPressButtonDelete?: () => void;
   hideButtonDelete?: boolean;

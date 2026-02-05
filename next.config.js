@@ -8,7 +8,6 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = {
   reactStrictMode: true,
-  turbopack: {},
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "img.youtube.com" },

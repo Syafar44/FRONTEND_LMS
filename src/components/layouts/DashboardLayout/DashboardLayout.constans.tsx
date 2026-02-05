@@ -1,12 +1,6 @@
-import { PiBookOpenLight, PiCertificateLight, PiUserCircleLight, PiClipboardTextLight, PiBrainLight, PiToolboxLight, PiGearLight, PiUsersThreeLight, PiStackLight, PiBellRingingLight, PiIdentificationBadge, PiBookBookmark, PiGear } from "react-icons/pi";
+import { PiBookOpenLight, PiCertificateLight, PiUserCircleLight, PiClipboardTextLight, PiBrainLight, PiToolboxLight, PiGearLight, PiUsersThreeLight, PiStackLight, PiBellRingingLight, PiBookBookmark, PiGear, PiClipboardText } from "react-icons/pi";
 
 const SIDEBAR_ADMIN = [
-  // {
-  //   key: "sop&ik",
-  //   label: "SOP & IK",
-  //   href: "/admin/sopdanik",
-  //   icon: <PiIdentificationBadge />,
-  // },
   {
     key: "kajian online",
     label: "Kajian Online",
@@ -40,12 +34,6 @@ const SIDEBAR_ADMIN = [
 ];
 
 const SIDEBAR_MEMBER = [
-  // {
-  //   key: "sop&ik",
-  //   label: "SOP & IK",
-  //   href: "/sopdanik",
-  //   icon: <PiIdentificationBadge />,
-  // },
   {
     key: "kajian online",
     label: "Kajian Online",
@@ -127,6 +115,12 @@ const SUB_SIDBAR2_MEMBER = [
     href: "/ik",
     icon: <PiGear size={20} />,
   },
+  {
+    key: "sopIk",
+    label: "POST TEST MINGGUAN",
+    href: "/post-test",
+    icon: <PiClipboardText size={20} />,
+  },
 ]
 
 const SUB_SIDBAR2_ADMIN = [
@@ -141,6 +135,12 @@ const SUB_SIDBAR2_ADMIN = [
     label: "IK",
     href: "/admin/ik",
     icon: <PiGear size={20} />,
+  },
+  {
+    key: "sopIk",
+    label: "POST TEST MINGGUAN",
+    href: "/admin/post-test",
+    icon: <PiClipboardText size={20} />,
   },
 ]
 

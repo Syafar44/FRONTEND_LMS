@@ -59,7 +59,7 @@ const KuisKajian = () => {
             <DropdownAction
               hideButtonUpdate={true}
               onPressButtonDetail={() =>
-                push(`/admin/Kajian/kuis/update/${kuis._id}`)
+                push(`/admin/kajian-online/kuis/update/${kuis._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${kuis._id}`);

@@ -41,10 +41,10 @@ const SopIk = () => {
             <DropdownAction
               textButton="List Kuis"
               onPressButtonDetail={() =>
-                push(`/admin/sopdanik/kuis/${sopIk._id}`)
+                push(`/admin/post-test/kuis/${sopIk._id}`)
               }
               onPressButtonUpdate={() =>
-                push(`/admin/sopdanik/${sopIk._id}`)
+                push(`/admin/post-test/${sopIk._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${sopIk._id}`);
@@ -63,10 +63,10 @@ const SopIk = () => {
     <section>
       {Object.keys(query).length > 0 && (
         <DataTable
-          buttonTopContentLabel="Create SOP & IK"
+          buttonTopContentLabel="Create POST TEST MINGGUAN"
           columns={COLUMN_LISTS}
           data={dataSopIk?.data || []}
-          emptyContent="SOP & IK is empty"
+          emptyContent="POST TEST MINGGUAN is empty"
           isLoading={isLoadingSopIk || isRefetchingSopIk}
           onClickButtonTopContent={addSopIkModal.onOpen}
           renderCell={renderCell}

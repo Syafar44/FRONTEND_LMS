@@ -44,7 +44,7 @@ const useDetailKuisSopIK = () => {
       refetchKuisSopIk();
       setToaster({
         type: "success",
-        message: "Success update Kuis SOP & IK",
+        message: "Success update Kuis",
       });
     },
   });

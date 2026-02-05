@@ -46,9 +46,9 @@ const InfoTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4 lg:w-1/2">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">SOP & IK Information</h1>
+        <h1 className="w-full text-xl font-bold">POST TEST MINGGUAN Information</h1>
         <p className="w-full text-small text-default-400">
-          Manage information of this SOP & IK
+          Manage information of this POST TEST MINGGUAN
         </p>
       </CardHeader>
       <CardBody>

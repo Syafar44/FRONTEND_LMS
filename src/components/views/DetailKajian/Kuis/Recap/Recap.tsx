@@ -58,7 +58,7 @@ const Recap = () => {
                     </section>
                     <div className="flex justify-end">
                         <Button
-                            onPress={() => window.location.href = `/kajian-online/kuis/${dataSub?._id}`}
+                            onPress={() => window.location.href = totalScore >= 80 ? '/kajian-online' : `/kajian-online/kuis/${dataSub?._id}`}
                             className="bg-primary text-black px-10">
                             Kembali
                         </Button>

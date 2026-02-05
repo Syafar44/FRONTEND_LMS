@@ -1,6 +1,7 @@
 import { Tab, Tabs } from "@heroui/react";
 import TabRegister from "./TabRegister";
 import TabUser from "./TabUser";
+import TabAsesmen from "./TabAsesmen";
 
 const Administrasi = () => {
   return (
@@ -9,7 +10,10 @@ const Administrasi = () => {
         <TabRegister />
       </Tab>
       <Tab key="Daftar User" title="Daftar User">
-        <TabUser/>
+        <TabUser />
+      </Tab>
+      <Tab key="Assesmen" title="Assesmen">
+        <TabAsesmen />
       </Tab>
     </Tabs>
   );

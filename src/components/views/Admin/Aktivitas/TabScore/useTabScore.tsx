@@ -86,45 +86,53 @@ const useTabScore = () => {
   })
 
   const handleDownloadExcel = () => {
-  if (!dataExport || dataExport.length === 0) return;
+    if (!dataExport || dataExport.length === 0) return;
 
-  const formatted = dataExport.flatMap((user: any) => {
-    // Jika user punya data skor
-    if (Array.isArray(user.scoreData) && user.scoreData.length > 0) {
-      return user.scoreData.map((score: any) => {
-        const poin =
-          Number(score.total_question) > 0
-            ? (Number(score.total_score) / Number(score.total_question)) * 100
-            : 0;
+    const filteredData = dataExport.filter((user: any) =>
+      user.department
+        ?.toLowerCase()
+        .includes("roti gembung panglima")
+    );
 
-        return {
+    const formatted = filteredData.flatMap((user: any) => {
+      if (Array.isArray(user.scoreData) && user.scoreData.length > 0) {
+        return user.scoreData.map((score: any) => {
+          const poin =
+            Number(score.total_question) > 0
+              ? (Number(score.total_score) / Number(score.total_question)) * 100
+              : 0;
+
+          return {
+            USER: user.fullName || "-",
+            DEPARTMENT: user.department || "-",
+            "POST TEST MINGGUAN": score.sopIkData?.title || "-",
+            POIN: Number.isFinite(poin) ? poin.toFixed(0) : "0",
+            STATUS: score.isPass ? "Lulus" : "Tidak Lulus",
+            PUBLISH: score.createdAt
+              ? new Date(score.createdAt).toLocaleString()
+              : "-",
+          };
+        });
+      }
+
+      return [
+        {
           USER: user.fullName || "-",
           DEPARTMENT: user.department || "-",
-          "SOP & IK": score.sopIkData?.title || "-", // disesuaikan dengan field hasil aggregate kamu
-          POIN: Number.isFinite(poin) ? poin.toFixed(0) : "0",
-          STATUS: score.isPass ? "Lulus" : "Tidak Lulus",
-          PUBLISH: score.createdAt
-            ? new Date(score.createdAt).toLocaleString()
-            : "-",
-        };
-      });
-    }
+          "POST TEST MINGGUAN": "-",
+          POIN: "0",
+          STATUS: "Belum Mengerjakan",
+          PUBLISH: "-",
+        },
+      ];
+    });
 
-    // Jika user belum punya skor sama sekali
-    return [
-      {
-        USER: user.fullName || "-",
-        DEPARTMENT: user.department || "-",
-        "SOP & IK": "-",
-        POIN: "0",
-        STATUS: "Belum Mengerjakan",
-        PUBLISH: "-",
-      },
-    ];
-  });
+    exportToExcel(
+      [{ name: "Data Kuis POST TEST MINGGUAN", data: formatted }],
+      "Data-Kuis POST TEST MINGGUAN"
+    );
+  };
 
-  exportToExcel([{ name: "Data Kuis SOP & IK", data: formatted }], "Data-Kuis SOP & IK");
-};
 
 
   return {

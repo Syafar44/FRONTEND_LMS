@@ -2,6 +2,7 @@ import { Button } from "@heroui/react"
 import useKuis from "./useKuis"
 import { IScore } from "@/types/Score"
 import { convertTime } from "@/utils/date"
+import { IScoreSopIk } from "@/types/SopIk"
 
 const Kuis = () => {
     const {
@@ -17,6 +18,12 @@ const Kuis = () => {
 
     const timeDone = remainingTime !== 0
 
+    const score = dataScore?.some(
+        (item: IScoreSopIk) =>
+            item.bySopIk === dataSopIk._id &&
+            (item.total_score / item.total_question) * 100 >= 80
+        ) || false;
+
     return (
         <div className="grid gap-5 mx-auto max-w-[800px] md:p-5">
             <section className="grid gap-5">
@@ -26,7 +33,7 @@ const Kuis = () => {
                     <p>Terdapat pertanyaan yang harus dikerjakan dalam ujian. Beberapa ketentuan yang harus diperhatikan sebagai berikut:</p>
                     <ul className="list-disc list-inside pl-5">
                         <li>Syarat nilai kelulusan : 80%</li>
-                        <li>Durasi ujian: 25 menit</li>
+                        <li>Durasi ujian: 30 menit</li>
                     </ul>
                     <h3>Selamat Mengerjakan!</h3>
                         {timeDone && (    
@@ -41,7 +48,7 @@ const Kuis = () => {
                         )}
                 </div>
                 <div className="flex justify-end">
-                    <Button isDisabled={isPendingScore || isPendingSopIk || timeDone} onPress={() => router.push(`/sopdanik/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
+                    <Button isDisabled={isPendingScore || isPendingSopIk || timeDone || score} onPress={() => router.push(`/post-test/kuis/start/${id}?number=1`)} className="bg-accent text-primary">Mulai</Button>
                 </div>
             </section>
             <section className="grid gap-5">

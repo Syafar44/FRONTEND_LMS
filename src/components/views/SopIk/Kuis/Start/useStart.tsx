@@ -9,7 +9,7 @@ import Swal from "sweetalert2"
 import { COUNTDOWN } from "../useKuis"
 
 const LOCAL_STORAGE_KEY = "jawaban_kuis"
-const TOTAL_TIME = 300 * 5
+const TOTAL_TIME = 300 * 6
 const TIMER_STORAGE_KEY = "kuis_timer_start"
 
 const useStart = () => {
@@ -132,7 +132,7 @@ const useStart = () => {
             const now = Date.now();
             localStorage.setItem(COUNTDOWN, now.toString());
             localStorage.removeItem(TIMER_STORAGE_KEY);
-            router.replace(`/sopdanik/kuis/recap/${id}`);
+            router.replace(`/post-test/kuis/recap/${id}`);
         } catch (error) {
             console.error("Gagal menyelesaikan recap:", error);
         } finally {

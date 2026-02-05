@@ -98,7 +98,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
             aria-label="Kelas Kompetensi"
             title={
               <p className="flex items-center text-sm">
-                SOP & IK
+                SOP & IK RGP
               </p>
             }
             startContent={<PiIdentificationBadge size={25} />}

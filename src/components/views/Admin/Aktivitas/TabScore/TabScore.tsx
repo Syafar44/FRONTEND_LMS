@@ -5,9 +5,8 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import { COLUMN_LISTS } from "./TabScore.constants";
 import useTabScore from "./useTabScore";
 import { convertTime } from "@/utils/date";
-import { IProfile, } from "@/types/Auth";
-import { Button, Input, Select, SelectItem } from "@heroui/react";
-import { ICompetency, ISubCompetency } from "@/types/Competency";
+import { Button, Select, SelectItem } from "@heroui/react";
+import { ISopIk } from "@/types/SopIk";
 
 const TabScore = () => {
   const { push, isReady, query } = useRouter();
@@ -36,11 +35,8 @@ const TabScore = () => {
 
   interface ScoreType {
     createdAt?: string;
-    bySubCompetency?: {
+    bySopIk?: {
       title?: string;
-      byCompetency?: {
-        title?: string;
-      };
     };
     total_score?: number;
     total_question?: number;
@@ -86,7 +82,7 @@ const TabScore = () => {
         <div className="flex flex-col sm:flex-row gap-2 w-[400px]">
           <Select
             className="max-w-xl"
-            placeholder="Pilih Kompetensi"
+            placeholder="Pilih Post Test"
             selectedKeys={sopik ? new Set([sopik]) : new Set()}
             variant="bordered"
             onSelectionChange={(keys) => {
@@ -94,8 +90,8 @@ const TabScore = () => {
               setSopik(value);
             }}
           >
-            {listCompetency.map((competency: ICompetency) => (
-              <SelectItem key={competency._id}>{competency.title}</SelectItem>
+            {listCompetency.map((post_test: ISopIk) => (
+              <SelectItem key={post_test._id}>{post_test.title}</SelectItem>
             ))}
           </Select>
         </div>
@@ -112,7 +108,7 @@ const TabScore = () => {
         <DataTable
           columns={COLUMN_LISTS}
           data={dataScore?.data || []}
-          emptyContent="Score is empty"
+          emptyContent="Post test is empty"
           isLoading={isPendingScore || isRefetchingScore || isPendingSopIk }
           renderCell={renderCell}
           totalPages={dataScore?.pagination?.totalPages}

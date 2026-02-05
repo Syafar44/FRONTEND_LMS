@@ -4,8 +4,8 @@ import DetailIk from "@/components/views/Admin/DetailIk";
 const DetailAdminSopIkPage = () => {
     return (
         <DashboardLayout
-            title="Detail SOP & IK LMS Panglima"
-            description="Ini adalah halaman untuk mengedit SOP & IK kepada pengguna"
+            title="Detail POST TEST MINGGUAN"
+            description="Ini adalah halaman untuk mengedit POST TEST MINGGUAN kepada pengguna"
             type="admin"
         >
             <DetailIk />

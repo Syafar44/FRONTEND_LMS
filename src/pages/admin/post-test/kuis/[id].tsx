@@ -4,8 +4,8 @@ import KuisSopIk from "@/components/views/Admin/KuisSopIk";
 const AdminKuisSopIkPage = () => {
   return (
     <DashboardLayout
-      title="Kuis SOP & IK LMS Panglima"
-      description="Ini adalah halaman untuk menambahkan Kuis SOP & IK kepada pengguna"
+      title="Kuis POST TEST MINGGUAN"
+      description="Ini adalah halaman untuk menambahkan Kuis POST TEST MINGGUAN kepada pengguna"
       type="admin"
     >
       <KuisSopIk />

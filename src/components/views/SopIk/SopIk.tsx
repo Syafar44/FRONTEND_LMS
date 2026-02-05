@@ -4,13 +4,15 @@ import useSopIk from "./useSopIk"
 import useChangeUrl from "@/hooks/useChangeUrl"
 import { useRouter } from "next/router"
 import { useEffect } from "react";
-import { ISopIk } from "@/types/SopIk"
+import { IScoreSopIk, ISopIk } from "@/types/SopIk"
 import Link from "next/link"
 
 const SopIk = () => {
     const {
         dataSopIk,
         isPendingSopIk,
+        dataScore,
+        isPendingScore,
         router,
     } = useSopIk()
     
@@ -30,7 +32,7 @@ const SopIk = () => {
         }
     }, [isReady]);
     
-    const isPending = isPendingSopIk
+    const isPending = isPendingSopIk || isPendingScore
 
     return (
         <div className="grid gap-5">
@@ -48,9 +50,15 @@ const SopIk = () => {
                     dataSopIk?.data?.length > 0 ? (
                         <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-4">
                             {dataSopIk?.data.map((sopik: ISopIk) => {
+                                const score = dataScore?.data?.some(
+                                    (item: IScoreSopIk) =>
+                                        item.bySopIk === sopik._id &&
+                                        (item.total_score / item.total_question) * 100 >= 80
+                                    ) || false;
+                                // const isPass = 
                                 return (
-                                    <Link key={sopik.slug} href={`/sopdanik/kuis/${sopik.slug}`}>
-                                        <Card onPress={() => router.push(`/sopdanik/${sopik.slug}`)}>
+                                    <Link key={sopik.slug} href={`/post-test/kuis/${sopik.slug}`}>
+                                        <Card onPress={() => router.push(`/post-test/${sopik.slug}`)}>
                                             <CardHeader className="p-0">
                                                 <div className="bg-primary w-full h-10" />
                                             </CardHeader>
@@ -61,6 +69,9 @@ const SopIk = () => {
                                                 <p className="text-sm text-secondary/80 line-clamp-6">
                                                     {sopik.description}
                                                 </p>
+                                                <span className="flex justify-end mt-5">
+                                                    {score ? <p className="text-green-600">Selesai</p> : <p className="text-red-600">Belum Selesai</p> }
+                                                </span>
                                             </CardBody>
                                         </Card>
                                     </Link>

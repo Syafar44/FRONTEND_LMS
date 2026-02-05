@@ -18,6 +18,9 @@ const Recap = () => {
     
     const isPending = isPendingScore || isPendingSub || isPendingCompetency
 
+    console.log("dataSub", dataScore)
+    console.log("dataCompetency", dataCompetency)
+
     return (
         <div className="mx-auto max-w-[600px]">
             {!isPending ? (
@@ -60,7 +63,7 @@ const Recap = () => {
                     </section>
                     <div className="flex justify-end">
                         <Button
-                            onPress={() => window.location.href = `/kelas-kompetensi/core/${dataCompetency?._id}?sub=${dataSub?._id}`}
+                            onPress={() => window.location.href = totalScore >= 80 ? `/kelas-kompetensi/${dataCompetency.main_competency}/${dataCompetency?._id}?sub=${dataSub?._id}` : `/kuis/${dataSub?._id}?sub=${dataSub?._id}`}
                             className="bg-primary text-black px-10">
                             Kembali
                         </Button>

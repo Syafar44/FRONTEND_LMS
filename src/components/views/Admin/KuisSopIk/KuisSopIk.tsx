@@ -59,7 +59,7 @@ const KuisSopIk = () => {
             <DropdownAction
               hideButtonUpdate={true}
               onPressButtonDetail={() =>
-                push(`/admin/sopdanik/kuis/update/${kuis._id}`)
+                push(`/admin/post-test/kuis/update/${kuis._id}`)
               }
               onPressButtonDelete={() => {
                 setSelectedId(`${kuis._id}`);
@@ -78,7 +78,7 @@ const KuisSopIk = () => {
     <section>
       {Object.keys(query).length > 0 && (
         <DataTable
-          buttonTopContentLabel="Create Kuis SOP & IK"
+          buttonTopContentLabel="Create Kuis POST TEST MINGGUAN"
           columns={COLUMN_LISTS}
           data={dataKuis?.data || []}
           emptyContent="Kuis is empty"

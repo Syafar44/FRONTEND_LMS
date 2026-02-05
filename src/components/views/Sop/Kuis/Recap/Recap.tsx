@@ -58,7 +58,7 @@ const Recap = () => {
                     </section>
                     <div className="flex justify-end">
                         <Button
-                            onPress={() => window.location.href = `/sop/kuis/${dataSub?.slug}`}
+                            onPress={() => window.location.href = totalScore >= 80 ? '/sop' : `/sop/kuis/${dataSub?.slug}`}
                             className="bg-primary text-black px-10">
                             Kembali
                         </Button>

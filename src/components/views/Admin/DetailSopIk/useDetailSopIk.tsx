@@ -44,7 +44,7 @@ const useDetailSopIk = () => {
       refetchSopIk();
       setToaster({
         type: "success",
-        message: "Success update SOP & IK",
+        message: "Success update POST TEST MINGGUAN",
       });
     },
   });

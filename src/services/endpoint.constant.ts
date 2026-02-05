@@ -1,5 +1,9 @@
 const endpoint = {
   AUTH: "/auth",
+  ASESMEN: "/asesmen",
+  KUIS_ASESMEN: "/kuisasesmen",
+  PART_ASESMEN: "/partasesmen",
+  RET_ASESMEN: "/retasesmen",
   CATEGORY: "/category",
   CERTIFICATE: "/certification",
   COMPETENCY: "/competency",

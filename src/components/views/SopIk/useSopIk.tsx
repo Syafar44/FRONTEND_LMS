@@ -28,10 +28,24 @@ const useSopIk = () => {
         enabled: !!router.isReady
     })
 
+    const getAllScore = async() => {
+        const res = await scoreSopIkServices.getScoreAllByUser()
+        const { data } = res
+        return data
+    }
+    
+    const { data: dataScore, isPending: isPendingScore } = useQuery({
+        queryKey: ["getAllScore", router.isReady],
+        queryFn: getAllScore,
+        enabled: !!router.isReady
+    })
+
     return {
         dataSopIk,
         isPendingSopIk,
         refetchSopIk,
+        dataScore,
+        isPendingScore,
         router,
     }
 }

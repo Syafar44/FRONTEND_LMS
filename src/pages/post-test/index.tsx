@@ -3,7 +3,7 @@ import SopIk from "@/components/views/SopIk"
 
 const SopIkPage = () => {
     return (
-        <DashboardLayout title="SOP & IK" type="user">
+        <DashboardLayout title="POST TEST MINGGUAN" type="user">
             <SopIk />
         </DashboardLayout>
     )

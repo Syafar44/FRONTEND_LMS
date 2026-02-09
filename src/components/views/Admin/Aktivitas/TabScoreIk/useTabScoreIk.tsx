@@ -11,7 +11,7 @@ const useTabScoreIk = () => {
   const router = useRouter();
 
   const { currentLimit, currentPage} = useChangeUrl();
-  const [ik, setik] = useState<string | undefined>(undefined);
+  const [ik, setIk] = useState<string | undefined>(undefined);
 
   const getScore = async () => {
     let params = `limit=${currentLimit}&page=${currentPage}`;
@@ -29,7 +29,7 @@ const useTabScoreIk = () => {
     isRefetching: isRefetchingScore,
     refetch: refetchScore
   } = useQuery({
-    queryKey: ["ScoreIK", currentPage, currentLimit, ik],
+    queryKey: ["ScoreIk", currentPage, currentLimit, ik],
     queryFn: () => getScore(),
     enabled: !!router.isReady && !!currentPage && !!currentLimit,
   });
@@ -64,20 +64,12 @@ const useTabScoreIk = () => {
     data: dataExport,
     refetch: refetchExport,
   } = useQuery({
-    queryKey: ["EXPORT", ik],
+    queryKey: ["EXPORT_IK", ik],
     queryFn: () => getScoreExport(),
     enabled: !!router.isReady,
   });
 
-  const getScoreFinal = async () => {
-    let params = "limit=9999&page=1";
-    if (ik) {
-      params += `&ikId=${ik}`;
-    }
-    const res = await scoreIkServices.getScoreFinal(params)
-    const { data } = res;
-    return data.data;
-  }
+  console.log("data export ik", dataExport);
 
   useEffect(() => {
     if (isRefetchingIk) {
@@ -97,10 +89,12 @@ const useTabScoreIk = () => {
             ? (Number(score.total_score) / Number(score.total_question)) * 100
             : 0;
 
+        console.log(score.IkData?.title);
+
         return {
           USER: user.fullName || "-",
           DEPARTMENT: user.department || "-",
-          "IK": score.IkData?.title || "-", // disesuaikan dengan field hasil aggregate kamu
+          "IK": score.ikData?.title || "-", 
           POIN: Number.isFinite(poin) ? poin.toFixed(0) : "0",
           STATUS: score.isPass ? "Lulus" : "Tidak Lulus",
           PUBLISH: score.createdAt
@@ -142,7 +136,7 @@ const useTabScoreIk = () => {
     handleDownloadExcel,
 
     ik,
-    setik,
+    setIk,
   };
 };
 

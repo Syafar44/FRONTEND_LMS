@@ -21,7 +21,7 @@ const TabScoreIk = () => {
 
     handleDownloadExcel,
     ik,
-    setik,
+    setIk,
   } = useTabScoreIk()
   
   const { 
@@ -91,7 +91,7 @@ const TabScoreIk = () => {
             variant="bordered"
             onSelectionChange={(keys) => {
               const value = Array.from(keys)[0] as string; 
-              setik(value);
+              setIk(value);
             }}
           >
             {listCompetency.map((competency: ICompetency) => (

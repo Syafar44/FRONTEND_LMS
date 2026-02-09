@@ -64,20 +64,12 @@ const useTabScoreSop = () => {
     data: dataExport,
     refetch: refetchExport,
   } = useQuery({
-    queryKey: ["EXPORT", sop],
+    queryKey: ["EXPORT_SOP", sop],
     queryFn: () => getScoreExport(),
     enabled: !!router.isReady,
   });
 
-  const getScoreFinal = async () => {
-    let params = "limit=9999&page=1";
-    if (sop) {
-      params += `&sopId=${sop}`;
-    }
-    const res = await scoreSopServices.getScoreFinal(params)
-    const { data } = res;
-    return data.data;
-  }
+  console.log("data export sop", dataExport);
 
   useEffect(() => {
     if (isRefetchingSop) {
@@ -97,10 +89,12 @@ const useTabScoreSop = () => {
             ? (Number(score.total_score) / Number(score.total_question)) * 100
             : 0;
 
+        console.log(score.sopData?.title);
+
         return {
           USER: user.fullName || "-",
           DEPARTMENT: user.department || "-",
-          "SOP": score.sopData?.title || "-", // disesuaikan dengan field hasil aggregate kamu
+          "SOP": score.sopData?.title || "-", 
           POIN: Number.isFinite(poin) ? poin.toFixed(0) : "0",
           STATUS: score.isPass ? "Lulus" : "Tidak Lulus",
           PUBLISH: score.createdAt
